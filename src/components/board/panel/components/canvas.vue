@@ -1,10 +1,10 @@
 <template>
-  <div>home</div>
+  <div>canvas</div>
 </template>
 
 <script>
   export default {
-    name: 'home'
+    name: 'BCanvas'
   }
 </script>
 

@@ -2,8 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 // import store from './store'
+import BinUI from 'bin-ui'
+import 'bin-ui/lib/styles/index.css'
 
-Vue.config.productionTip = false
+Vue.use(BinUI)
 
 new Vue({
   router,
