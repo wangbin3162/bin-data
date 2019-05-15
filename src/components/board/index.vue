@@ -1,38 +1,33 @@
 <template>
   <div :class="[prefixCls+'-layout']">
     <!--顶部操作栏-->
-    <slot name="header" v-if="config.UI.header.enable">
-      <board-header :config="config.UI.header"></board-header>
-    </slot>
+    <board-header :config="config.header" v-if="config.header.enable"></board-header>
     <!--中间工作区-->
     <div class="center-box" flex>
       <!--左侧控制栏-->
-      <board-control :config="config.UI.control" v-if="config.UI.control.enable"></board-control>
+      <board-control :config="config.control" v-if="config.control.enable">
+        <slot name="control"></slot>
+      </board-control>
       <!--中间画板区域-->
       <div class="board-center" :style="centerStyle">
-        <board-panel :config="config.UI.board" v-if="config.UI.board.enable"></board-panel>
+        <canvas-main :config="config.canvas"></canvas-main>
       </div>
       <!--右侧的参数配置页面-->
-      <board-options v-if="config.UI.options.enable"
-                     :config="config.UI.options" :is-expand="optionsExpand"
+      <board-options v-if="config.options.enable"
+                     :config="config.options" :is-expand="optionsExpand"
                      @on-toggle="handleOptionsExpand"
       ></board-options>
     </div>
-    <!--底部的操作栏-->
-    <slot name="footer" v-if="config.UI.footer.enable">
-      <board-footer :config="config.UI.footer" :style="centerStyle"></board-footer>
-    </slot>
   </div>
 </template>
 
 <script>
   // 默认配置信息
-  import config from './config'
+  import config from '../../config/board'
   import BoardHeader from './header/index'
-  import BoardFooter from './footer/index'
   import BoardControl from './control/index'
   import BoardOptions from './options/index'
-  import BoardPanel from './panel/index'
+  import CanvasMain from './canvas'
 
   const prefixCls = 'board'
   export default {
@@ -47,7 +42,7 @@
     computed: {
       centerStyle () {
         return {
-          marginRight: this.optionsExpand ? this.config.UI.options.style.width : '0'
+          right: this.optionsExpand ? this.config.options.style.width : '0'
         }
       }
     },
@@ -56,7 +51,7 @@
         this.optionsExpand = !this.optionsExpand
       }
     },
-    components: { BoardPanel, BoardFooter, BoardControl, BoardHeader, BoardOptions }
+    components: { CanvasMain, BoardControl, BoardHeader, BoardOptions }
   }
 </script>
 
@@ -77,11 +72,14 @@
     .center-box {
       position: relative;
       height: 100%;
-      padding: 38px 0 30px 0;
+      padding-top: 38px;
       .board-center {
-        width: 100%;
-        transition: margin-right .3s;
-        text-align: right;
+        position: absolute;
+        top: 38px;
+        left: 200px;
+        right: 300px;
+        bottom: 0;
+        transition: right .3s;
       }
     }
   }

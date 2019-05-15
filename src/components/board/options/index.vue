@@ -1,7 +1,9 @@
 <template>
   <div :class="{'board-options': true, 'is-expand': isExpand}"
        :style="config.style">
-    <div class="options-header">参数设置</div>
+    <div class="header-title" v-if="config.title&&config.title.enable">
+      {{ config.title.text }}
+    </div>
     <div class="options-body">
       参数内容-预留
     </div>
@@ -34,7 +36,7 @@
     position: absolute;
     top: 38px;
     right: 0;
-    bottom: 30px;
+    bottom: 0;
     box-sizing: border-box;
     border-left: 1px solid #dddddd;
     z-index: 2000;
@@ -42,7 +44,7 @@
     box-shadow: -2px 0 2px 0 rgba(0, 0, 0, 0.1);
     transition: all .3s;
     transform: translate3d(100%, 0, 0)
-    .options-header {
+    .header-title {
       height: 28px;
       line-height: 28px;
       text-align: center;

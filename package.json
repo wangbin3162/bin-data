@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "description": "大数据基础框架",
   "keywords": [
-  "bin-ui",
-  "bin",
-  "ui",
-  "vue",
-  "vue",
-  "components"
-],
+    "bin-ui",
+    "bin",
+    "ui",
+    "vue",
+    "vue",
+    "components"
+  ],
   "author": "wang bin",
   "files": [
     "lib",
@@ -25,6 +25,9 @@
   "dependencies": {
     "bin-ui": "^1.4.4",
     "core-js": "^2.6.5",
+    "element-ui": "^2.8.2",
+    "lodash": "^4.17.11",
+    "lowdb": "^1.0.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
