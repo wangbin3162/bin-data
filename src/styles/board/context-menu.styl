@@ -1,0 +1,30 @@
+@import "../common/var.styl"
+.dv-context-menu {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  z-index: 9999;
+  background: $color-admin-context-menu;
+  color: $color-admin-context-menu-color;
+  user-select: none;
+  .context-menu-item {
+    padding: 0 6px;
+    line-height: 28px;
+    height: 28px;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+    overflow: hidden;
+    padding-right: 3em;
+    display: flex;
+    .iconfont {
+      margin-right: 3px;
+      line-height: 28px;
+      width: 16px;
+    }
+    &:hover {
+      background-color: #1d262e;
+      color: #00baff;
+      border-left: 2px solid #00baff;
+    }
+  }
+}

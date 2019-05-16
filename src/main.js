@@ -8,6 +8,9 @@ import './styles/index.styl'
 
 Vue.use(BinUI)
 
+// 注册全局通信
+Vue.prototype.$EventBus = new Vue()
+
 new Vue({
   router,
   // store,

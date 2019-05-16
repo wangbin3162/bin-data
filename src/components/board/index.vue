@@ -18,6 +18,8 @@
                      @on-toggle="handleOptionsExpand"
       ></board-options>
     </div>
+    <!--右键菜单-->
+    <context-menu></context-menu>
   </div>
 </template>
 
@@ -28,6 +30,7 @@
   import BoardControl from './control/index'
   import BoardOptions from './options/index'
   import CanvasMain from './canvas'
+  import ContextMenu from './context-menu/index'
 
   const prefixCls = 'board'
   export default {
@@ -52,6 +55,6 @@
         this.optionsExpand = !this.optionsExpand
       }
     },
-    components: { CanvasMain, BoardControl, BoardHeader, BoardOptions }
+    components: { ContextMenu, CanvasMain, BoardControl, BoardHeader, BoardOptions }
   }
 </script>

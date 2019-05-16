@@ -4,7 +4,9 @@
     <div class="canvas-panel-wrap" :style="wrapStyle">
       <b-scrollbar style="height:100%;">
         <div class="screen-shot" :style="screenStyle" ref="screenInner">
-          <div class="canvas-panel" :style="canvasPanelStyle"></div>
+          <div class="canvas-panel" :style="canvasPanelStyle">
+            <drop-panel></drop-panel>
+          </div>
         </div>
       </b-scrollbar>
     </div>
@@ -15,6 +17,7 @@
 <script>
   import EditSlider from './components/edit-slider'
   import { addResizeListener, removeResizeListener } from 'bin-ui/src/utils/resize-event'
+  import DropPanel from '../../drop/drop-panel'
 
   export default {
     name: 'CanvasMain',
@@ -73,6 +76,6 @@
         }, this.config.style)
       }
     },
-    components: { EditSlider }
+    components: { DropPanel, EditSlider }
   }
 </script>
