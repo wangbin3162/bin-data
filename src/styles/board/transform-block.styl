@@ -1,0 +1,62 @@
+@import "../common/var.styl"
+.dv-transform {
+  position: absolute;
+  will-change: transform;
+  .dv-com {
+    outline: 0;
+    transform-origin: 50% 50%;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box
+    &.hovered {
+      background: rgba(0, 231, 255, .11);
+    }
+  }
+  .transform-handler {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    cursor: move;
+  }
+  &.selected {
+    z-index: 1;
+  }
+}
+//  导航线条
+.navigator-line {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  box-sizing: content-box;
+  .navigator-line-left {
+    position: absolute;
+    border-top: 1px dashed $color-navigator-line;
+    height: 0;
+    top: 0;
+    transform: translateX(-100%);
+  }
+  .navigator-line-top {
+    position: absolute;
+    border-left: 1px dashed $color-navigator-line;
+    width: 0;
+    left: 0;
+    transform: translateY(-100%);
+  }
+  .navigator-line-account {
+    position: absolute;
+    transform: translate(-100%, -100%);
+    color: $color-navigator-line;
+    text-shadow: 1px 1px 1px #222;
+    white-space: nowrap;
+  }
+}
+//  scale-面板
+.dv-scale {
+  transform-origin: 0 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}

@@ -4,7 +4,8 @@
     <div class="canvas-panel-wrap" :style="wrapStyle">
       <b-scrollbar style="height:100%;">
         <div class="screen-shot" :style="screenStyle" ref="screenInner">
-          <div class="canvas-panel" :style="canvasPanelStyle">
+          <div class="canvas-panel" :style="canvasPanelStyle"
+               :data-spm-anchor-id="$route.params.id">
             <drop-panel></drop-panel>
           </div>
         </div>

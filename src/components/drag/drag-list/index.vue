@@ -41,7 +41,7 @@
         let nodeInfo = {
           // 唯一标识
           id: 'node-' + ((new Date()).getTime()),
-          component: component,
+          components: component,
           props: {},
           slots: {},
           options: {},
