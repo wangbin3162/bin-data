@@ -1,0 +1,79 @@
+@import "../common/var.styl"
+// 右侧参数配置页面
+.board-options {
+  position: absolute;
+  top: 38px;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  z-index: 2000;
+  background: #ffffff;
+  box-shadow: -2px 0 2px 0 rgba(0, 0, 0, 0.1);
+  transition: all .3s;
+  transform: translate3d(100%, 0, 0)
+  .header-title {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: $color-admin-ctrl-header;
+  }
+  .options-body {
+    background: $color-admin-main;
+    height: calc(100% - 30px);
+    padding: 10px;
+    text-align: center;
+  }
+
+  .expand-hover {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 16px;
+    height: 160px;
+    margin-top: -80px;
+    margin-left: -16px;
+    cursor: pointer;
+    .inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: $color-admin-options-hover;
+      opacity: 0;
+      transition: all .2s;
+      i {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
+        top: 50%;
+        margin-top: -9px;
+        &:hover {
+          color: #2d8cf0;
+        }
+      }
+      &:before, &:after {
+        content: ''
+        position: absolute
+        left: 0;
+      }
+      &:before {
+        top: 0;
+        margin-top: -16px;
+        border-top: 16px solid transparent;
+        border-right: 16px solid $color-admin-options-hover;
+      }
+      &:after {
+        bottom: 0;
+        margin-bottom: -16px;
+        border-left: 16px solid transparent;
+        border-top: 16px solid $color-admin-options-hover;
+      }
+    }
+    &:hover .inner {
+      opacity: 1;
+    }
+  }
+  &.is-expand {
+    transform: translate3d(0, 0, 0)
+  }
+}

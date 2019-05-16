@@ -55,37 +55,3 @@
     }
   }
 </script>
-
-<style scoped lang="stylus">
-  .drag-list-menu {
-    padding: 5px;
-    .list-group {
-      margin-bottom: 10px;
-      .list-group-header {
-        line-height: 30px;
-        font-size: 14px;
-        padding-left: 28px;
-        color: #999;
-      }
-      .list-group-body {
-        .list-item {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          padding: 14px 24px 14px 34px;
-          position: relative;
-          cursor: pointer;
-          transition: all 0.2s ease-in-out;
-          span {
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: 5px;
-          }
-          &:hover {
-            background: #f3f3f3;
-          }
-        }
-      }
-    }
-  }
-</style>

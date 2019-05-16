@@ -1,0 +1,49 @@
+@import "../common/var.styl"
+.dv-home {
+  header {
+    height: 60px;
+    line-height: 60px;
+    box-sizing: border-box;
+    padding: 0 30px;
+    border-bottom: 1px solid $color-blue;
+    background: linear-gradient(180deg, transparent, #171b22);
+    .head-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: $color-blue;
+      background-image: -webkit-gradient(linear, left 0, right 0, from($color-primary), to($color-blue));
+      -webkit-background-clip: text;
+    }
+  }
+  .dv-container {
+    width: 100%;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    .dv-ctrl {
+      padding: 40px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 184px;
+        width: 258px;
+        margin: 16px;
+        border: 1px solid #00baff;
+        font-size: 18px;
+        color: #8eeeff;
+        text-decoration: none;
+        transition: all .3s;
+        background-image: linear-gradient(-90deg, rgba(0, 222, 255, .39) 0, rgba(0, 174, 255, .19) 100%);
+        box-shadow: 0 0 10px 0 rgba(55, 224, 255, .3);
+        cursor: pointer;
+        &:hover {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}

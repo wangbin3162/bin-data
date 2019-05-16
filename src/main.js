@@ -4,6 +4,7 @@ import router from './router'
 // import store from './store'
 import BinUI from 'bin-ui'
 import 'bin-ui/lib/styles/index.css'
+import './styles/index.styl'
 
 Vue.use(BinUI)
 

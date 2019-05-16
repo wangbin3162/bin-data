@@ -1,9 +1,10 @@
 <template>
   <div class="canvas-main" ref="canvasMain">
+    <div style="position: absolute;">{{range}}</div>
     <div class="canvas-panel-wrap" :style="wrapStyle">
       <b-scrollbar style="height:100%;">
         <div class="screen-shot" :style="screenStyle" ref="screenInner">
-          <div class="canvas-panel" :style="canvasPanelStyle">{{range}}</div>
+          <div class="canvas-panel" :style="canvasPanelStyle"></div>
         </div>
       </b-scrollbar>
     </div>
@@ -67,6 +68,7 @@
         return Object.assign({
           width: this.config.width + 'px',
           height: this.config.height + 'px',
+          top: this.optionsExpand ? '60px' : '30px',
           transform: `scale(${this.range}) translate(0px, 0px)`
         }, this.config.style)
       }
@@ -74,43 +76,3 @@
     components: { EditSlider }
   }
 </script>
-
-<style scoped lang="stylus">
-  .canvas-main {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    user-select: none;
-    background-image: linear-gradient(45deg, #f5f5f5 25%, transparent 0, transparent 75%, #f5f5f5 0),
-      linear-gradient(45deg, #f5f5f5 25%, transparent 0, transparent 75%, #f5f5f5 0);
-    background-position: 0 0, 10px 10px;
-    background-size: 20px 20px;
-    .canvas-panel-wrap {
-      width: 100%;
-      height: calc(100% - 30px);
-      overflow: hidden;
-      position: relative;
-      .screen-shot {
-        position: relative;
-        .canvas-panel {
-          position: absolute;
-          transform-origin: 0 0;
-          top: 60px;
-          left: 60px;
-          transition: .2s all ease-in-out;
-          background-size: cover, contain;
-          background-position: center, right bottom;
-          background-repeat: no-repeat, no-repeat;
-          box-shadow: rgba(0, 0, 0, .5) 0 0 30px 0;
-        }
-      }
-    }
-  }
-</style>
-
-<style>
-  .canvas-panel-wrap .bin-scrollbar__wrap {
-    overflow-x: hidden;
-  }
-</style>

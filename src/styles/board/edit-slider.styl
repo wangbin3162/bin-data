@@ -1,0 +1,46 @@
+@import "../common/var.styl"
+// 下方缩放条
+.board-edit-slider {
+  background: $color-admin-main;
+  height: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  .data-slider {
+    display: flex;
+    right: 4px;
+    align-items: center;
+    .input-range {
+      cursor: pointer;
+      height: 2px;
+      -webkit-appearance: none;
+      box-sizing: border-box;
+      outline: 0;
+      margin: 0;
+      display: inline-block;
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none; /*清除系统默认样式*/
+        height: 12px; /*拖动块高度*/
+        width: 12px; /*拖动块宽度*/
+        background: #fff; /*拖动块背景*/
+        border: solid 1px #202020; /*设置边框*/
+      }
+    }
+    .iconfont {
+      color: $color-text-info;
+      font-size: 18px;
+      margin: 0 8px;
+      &.zoom-out {
+        cursor: zoom-out;
+      }
+      &.zoom-in {
+        cursor: zoom-in;
+      }
+    }
+  }
+}

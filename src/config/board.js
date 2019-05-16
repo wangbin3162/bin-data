@@ -7,7 +7,7 @@ export default {
     // 标题配置
     title: {
       enable: true,
-      text: '顶栏标题'
+      text: '当前工作空间'
     },
     // 该功能数据源
     data: [],
@@ -21,7 +21,7 @@ export default {
     // 标题配置
     title: {
       enable: true,
-      text: '资源列表'
+      text: '图层资源'
     },
     // 该功能数据源
     data: [],
@@ -29,8 +29,8 @@ export default {
     initData: [],
     // 样式
     style: {
-      width: '200px',
-      flex: '0 0 200px'
+      width: '180px',
+      flex: '0 0 180px'
     }
   },
   // 画布参数配置
@@ -39,7 +39,7 @@ export default {
     width: 1920,
     height: 1080,
     style: {
-      backgroundColor: '#fff'
+      backgroundColor: '#0d2a42'
     }
   },
   // 表单元素配置组件
