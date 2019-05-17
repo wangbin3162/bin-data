@@ -6,7 +6,9 @@
         <div class="screen-shot" :style="screenStyle" ref="screenInner">
           <div class="canvas-panel" :style="canvasPanelStyle"
                :data-spm-anchor-id="$route.params.id">
-            <drop-panel></drop-panel>
+            <drop-panel>
+              <slot></slot>
+            </drop-panel>
           </div>
         </div>
       </b-scrollbar>
@@ -16,9 +18,10 @@
 </template>
 
 <script>
-  import EditSlider from './components/edit-slider'
   import { addResizeListener, removeResizeListener } from 'bin-ui/src/utils/resize-event'
+  import EditSlider from './components/edit-slider'
   import DropPanel from '../../drop/drop-panel'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     name: 'CanvasMain',
@@ -26,10 +29,6 @@
       config: {
         type: Object,
         required: true
-      },
-      optionsExpand: {
-        type: Boolean,
-        default: true
       }
     },
     data () {
@@ -47,6 +46,7 @@
       removeResizeListener(this.$refs.canvasMain, this._calcStyle)
     },
     methods: {
+      ...mapActions(['SetCanvasRange']),
       _calcStyle () {
         const wrap = this.$refs.canvasMain
         if (!wrap) return
@@ -56,7 +56,12 @@
           height: (wrap.clientHeight - 30) + 'px'
         }
         // 计算缩放比例
-        this.range = ((wrap.clientWidth - 120) / this.config.width)
+        let range = ((wrap.clientWidth - 120) / this.config.width)
+        range = Math.round(range * 100) / 100
+        if (range < 0.3) {
+          range = 0.3
+        }
+        this.range = range
       }
     },
     watch: {
@@ -65,9 +70,11 @@
           width: `${this.config.width * val + 120}px`,
           height: `${this.config.height * val + 120}px`
         }
+        this.SetCanvasRange(this.range)
       }
     },
     computed: {
+      ...mapGetters(['optionsExpand']),
       canvasPanelStyle () {
         return Object.assign({
           width: this.config.width + 'px',

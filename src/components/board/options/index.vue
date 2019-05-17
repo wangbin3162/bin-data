@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'board-options': true, 'is-expand': isExpand}"
+  <div :class="{'board-options': true, 'is-expand': optionsExpand}"
        :style="config.style">
     <div class="header-title" v-if="config.title&&config.title.enable">
       {{ config.title.text }}
@@ -9,24 +9,25 @@
     </div>
     <div class="expand-hover" @click="$emit('on-toggle')">
       <div class="inner">
-        <b-icon :name="isExpand?'ios-arrow-forward':'ios-arrow-back'"></b-icon>
+        <b-icon :name="optionsExpand?'ios-arrow-forward':'ios-arrow-back'"></b-icon>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'BoardOptions',
     props: {
       config: {
         type: Object,
         required: true
-      },
-      isExpand: {
-        type: Boolean,
-        required: true
       }
+    },
+    computed: {
+      ...mapGetters(['optionsExpand'])
     }
   }
 </script>

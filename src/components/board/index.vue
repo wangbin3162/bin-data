@@ -1,21 +1,25 @@
 <template>
   <div class="board-layout">
     <!--顶部操作栏-->
-    <board-header :config="config.header" v-if="config.header.enable"></board-header>
+    <board-header :config="config.header" v-if="config.header">
+      <slot name="headerBox"></slot>
+    </board-header>
     <!--中间工作区-->
     <div class="center-box" flex>
-      <!--左侧控制栏-->
-      <board-control :config="config.control" v-if="config.control.enable">
-        <slot name="control"></slot>
-      </board-control>
+      <!--左侧图层列表-->
+      <board-coverage :config="config.coverage" v-if="config.coverage">
+        <slot name="coverage"></slot>
+      </board-coverage>
       <!--中间画板区域-->
       <div class="board-center" :style="centerStyle">
-        <canvas-main :config="config.canvas" :options-expand="optionsExpand"></canvas-main>
+        <canvas-main :config="config.canvas">
+          <slot name="canvas"></slot>
+        </canvas-main>
       </div>
       <!--右侧的参数配置页面-->
-      <board-options v-if="config.options.enable"
-                     :config="config.options" :is-expand="optionsExpand"
-                     @on-toggle="handleOptionsExpand"
+      <board-options v-if="config.options"
+                     :config="config.options"
+                     @on-toggle="ToggleOptionsExpand"
       ></board-options>
     </div>
     <!--右键菜单-->
@@ -27,10 +31,11 @@
   // 默认配置信息
   import config from '../../config/board'
   import BoardHeader from './header/index'
-  import BoardControl from './control/index'
+  import BoardCoverage from './coverage/index'
   import BoardOptions from './options/index'
   import CanvasMain from './canvas'
   import ContextMenu from './context-menu/index'
+  import { mapGetters, mapActions } from 'vuex'
 
   const prefixCls = 'board'
   export default {
@@ -38,23 +43,21 @@
     data () {
       return {
         prefixCls: prefixCls,
-        config: config,
-        optionsExpand: true
+        config: config
       }
     },
     computed: {
+      ...mapGetters(['optionsExpand']),
       centerStyle () {
         return {
-          left: this.config.control.style.width,
+          left: this.config.coverage.style.width,
           right: this.optionsExpand ? this.config.options.style.width : '0'
         }
       }
     },
     methods: {
-      handleOptionsExpand () {
-        this.optionsExpand = !this.optionsExpand
-      }
+      ...mapActions(['ToggleOptionsExpand'])
     },
-    components: { ContextMenu, CanvasMain, BoardControl, BoardHeader, BoardOptions }
+    components: { ContextMenu, CanvasMain, BoardCoverage, BoardHeader, BoardOptions }
   }
 </script>

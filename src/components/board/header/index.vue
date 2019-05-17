@@ -4,12 +4,10 @@
       <b-tooltip content="返回" placement="right">
         <b-icon name="ios-arrow-back" @click.native="$router.push('/home')"></b-icon>
       </b-tooltip>
-      <span v-if="config.title.enable">{{ config.title.text }}</span>
+      <span v-if="config.title">{{ config.title.text }}</span>
     </div>
     <div class="control" flex-box="1">
-      <b-icon name="ios-add-circle-outline"></b-icon>
-      <b-icon name="ios-apps"></b-icon>
-      <b-icon name="ios-cog"></b-icon>
+      <slot>control box</slot>
     </div>
     <div class="right-box">
       <b-tooltip content="预览" placement="bottom">

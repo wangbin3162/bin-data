@@ -18,13 +18,13 @@
     data () {
       return {
         min: 0.3,
-        max: 1.3,
+        max: 1,
         range: this.value
       }
     },
     computed: {
       rangeStyle () {
-        let percent = (this.range - 0.3) * 100
+        let percent = (this.range - 0.3) * 140
         return `background: linear-gradient(to right, rgb(0, 251, 255), rgb(0, 176, 255) ${percent}%, rgb(38, 42, 53) ${percent}%, rgb(38, 42, 53));`
       }
     },

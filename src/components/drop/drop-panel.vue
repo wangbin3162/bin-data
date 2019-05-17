@@ -5,28 +5,14 @@
        @contextmenu.stop.prevent
        @drop.stop.prevent="handleDropOnCanvas($event)"
        @dragover.stop.prevent>
-    <!--区块样式编辑回头注释掉-->
-    <drag-item></drag-item>
-    <!--动态组件-->
-    <template v-for="block in canvasMap">
-      <drag-item :key="block.id">
-        dv-transform
-      </drag-item>
-    </template>
+    <slot>
+    </slot>
   </div>
 </template>
 
 <script>
-  import DragItem from '../drag/drag-item/DragItem'
-
   export default {
     name: 'DropPanel',
-    components: { DragItem },
-    data () {
-      return {
-        canvasMap: []
-      }
-    },
     methods: {
       // 画布单机事件
       handleClickCanvas () {
@@ -56,15 +42,15 @@
         }
         console.log(nodeInfo)
         // 获取drop事件
-        let offsetX = event.offsetX
-        let offsetY = event.offsetY
-        let style = {
-          position: 'absolute',
-          left: offsetX + 'px',
-          top: offsetY + 'px'
-        }
-        console.log('style', style)
-        this.canvasMap.push(nodeInfo)
+        // let offsetX = event.offsetX
+        // let offsetY = event.offsetY
+        // let style = {
+        //   position: 'absolute',
+        //   left: offsetX + 'px',
+        //   top: offsetY + 'px'
+        // }
+        // console.log('style', style)
+        this.$store.dispatch('AddCanvasMap', nodeInfo)
       }
     }
   }
