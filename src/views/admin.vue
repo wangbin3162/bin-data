@@ -1,6 +1,7 @@
 <template>
   <div class="dv-admin">
     <board>
+      <!--头部嵌套可拖拽物品-->
       <template v-slot:headerBox>
         <drag-list :drag-list="navigate"></drag-list>
       </template>

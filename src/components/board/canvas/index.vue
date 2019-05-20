@@ -80,7 +80,7 @@
           width: this.config.width + 'px',
           height: this.config.height + 'px',
           top: this.optionsExpand ? '60px' : '30px',
-          transform: `scale(${this.range}) translate(0px, 0px)`
+          transform: `scale(${this.range}) translate3d(0px, 0px, 0)`
         }, this.config.style)
       }
     },

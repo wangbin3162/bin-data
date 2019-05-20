@@ -1,4 +1,7 @@
 @import "../common/var.styl"
+* {
+  outline: 0;
+}
 .dv-transform {
   position: absolute;
   will-change: transform;
@@ -10,6 +13,9 @@
     box-sizing: border-box
     &.hovered {
       background: rgba(0, 231, 255, .11);
+    }
+    .dv-wrapper {
+      pointer-events: none !important;
     }
   }
   .transform-handler {
@@ -49,14 +55,18 @@
     border-top: 1px dashed $color-navigator-line;
     height: 0;
     top: 0;
+    font-size: 12px;
     transform: translateX(-100%);
+    box-sizing: border-box;
   }
   .navigator-line-top {
     position: absolute;
     border-left: 1px dashed $color-navigator-line;
     width: 0;
     left: 0;
+    font-size: 12px;
     transform: translateY(-100%);
+    box-sizing: border-box;
   }
   .navigator-line-account {
     position: absolute;
@@ -72,4 +82,238 @@
   width: 100%;
   height: 100%;
   position: absolute;
+}
+
+.dv-wrapper {
+  box-sizing: border-box;
+}
+
+//resize-bar
+.dv-transform.selected .transform-handler .bottom-handler,
+.dv-transform.selected .transform-handler .left-handler,
+.dv-transform.selected .transform-handler .right-handler,
+.dv-transform.selected .transform-handler .top-handler {
+  display: flex !important;
+}
+.transform-handler {
+  .top-handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -5px;
+    width: 100%;
+    height: 11px;
+    .control-point {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      z-index: 2;
+      &::after {
+        content: '';
+        height: 6px;
+        width: 6px;
+        border-radius: 100%;
+        background: #fff;
+      }
+    }
+    &::after {
+      content: "";
+      height: 1px;
+      background: #05ddff;
+      width: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .bottom-handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: -5px;
+    width: 100%;
+    height: 11px;
+    .control-point {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      z-index: 2;
+      &::after {
+        content: '';
+        height: 6px;
+        width: 6px;
+        border-radius: 100%;
+        background: #fff;
+      }
+    }
+    &::after {
+      content: "";
+      height: 1px;
+      background: #05ddff;
+      width: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .left-handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 11px;
+    height: 100%;
+    .control-point {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      z-index: 2;
+      &::after {
+        content: '';
+        height: 6px;
+        width: 6px;
+        border-radius: 100%;
+        background: #fff;
+      }
+    }
+    &::after {
+      content: "";
+      width: 1px;
+      background: #05ddff;
+      height: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .right-handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: -5px;
+    width: 11px;
+    height: 100%;
+    .control-point {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      z-index: 2;
+      &::after {
+        content: '';
+        height: 6px;
+        width: 6px;
+        border-radius: 100%;
+        background: #fff;
+      }
+    }
+    &::after {
+      content: "";
+      width: 1px;
+      background: #05ddff;
+      height: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .bottom-right-handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    height: 11px;
+    width: 11px;
+    .control-point {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 20px;
+      width: 20px;
+      z-index: 2;
+      &::after {
+        content: '';
+        height: 6px;
+        width: 6px;
+        border-radius: 100%;
+        background: #fff;
+      }
+    }
+  }
+}
+
+.transform-handler.hide > .transform-bg,
+.transform-handler.hide > i[class$="-handler"],
+.transform-handler.hide > i[class$="-handler"] .control-point {
+  display: none;
+}
+
+// 悬停显示
+.dv-com.hovered {
+  .transform-handler > i[class$="-handler"] {
+    display: flex !important;
+  }
+  .transform-handler > i[class$="-handler"] .control-point {
+    display: none;
+  }
+  .top-handler {
+    &::after {
+      content: "";
+      height: 1px;
+      background: #05ddff;
+      width: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .bottom-handler {
+    &::after {
+      content: "";
+      height: 1px;
+      background: #05ddff;
+      width: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .left-handler {
+    &::after {
+      content: "";
+      width: 1px;
+      background: #05ddff;
+      height: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .right-handler {
+    &::after {
+      content: "";
+      width: 1px;
+      background: #05ddff;
+      height: 100%;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+}
+
+//  选中显示
+.dv-transform.selected {
+  .dv-com {
+    .transform-handler > i[class$="-handler"] .control-point {
+      display: flex !important;
+    }
+  }
 }

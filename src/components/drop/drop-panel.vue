@@ -11,12 +11,14 @@
 </template>
 
 <script>
+  import eventMap from '../../utils/eventBusMap'
+
   export default {
     name: 'DropPanel',
     methods: {
       // 画布单机事件
       handleClickCanvas () {
-        this.$EventBus.$emit('on-toggle-context-menu', { x: 0, y: 0, isShow: false })
+        this.$EventBus.$emit(eventMap.contentMenu, { x: 0, y: 0, isShow: false })
       },
       // 画布右键点击
       handleRightClickOnCanvas (event) {
@@ -26,7 +28,7 @@
           y: event.pageY + 20,
           isShow: true
         }
-        this.$EventBus.$emit('on-toggle-context-menu', contextMenuInfo)
+        this.$EventBus.$emit(eventMap.contentMenu, contextMenuInfo)
       },
       // 元素drop
       handleDropOnCanvas: function (event) {

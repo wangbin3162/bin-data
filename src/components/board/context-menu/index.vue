@@ -16,6 +16,8 @@
 </template>
 
 <script>
+  import eventMap from '../../../utils/eventBusMap'
+
   export default {
     name: 'ContextMenu',
     data () {
@@ -59,7 +61,7 @@
       }
     },
     created () {
-      this.$EventBus.$on('on-toggle-context-menu', (val) => {
+      this.$EventBus.$on(eventMap.contentMenu, (val) => {
         if (val) {
           this.contextMenuInfo = val
         }
@@ -77,7 +79,7 @@
       }
     },
     beforeDestroy () {
-      this.$EventBus.$off('on-toggle-context-menu')
+      this.$EventBus.$off(eventMap.contentMenu)
     }
   }
 </script>
