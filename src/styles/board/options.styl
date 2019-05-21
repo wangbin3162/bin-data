@@ -20,7 +20,6 @@
   .options-body {
     background: $color-admin-main;
     height: calc(100% - 30px);
-    padding: 10px;
     text-align: center;
   }
 
@@ -76,4 +75,58 @@
   &.is-expand {
     transform: translate3d(0, 0, 0)
   }
+}
+// 页面设置
+.page-config {
+  padding-top: 10px;
+  .gui-field {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px 6px 13px;
+    min-height: 24px;
+    color: $color-text-info;
+    font-size: 12px;
+    .gui-field-name {
+      padding-right: 5px;
+      line-height: 24px;
+    }
+    .gui-field-container {
+      min-height: 24px;
+      width: 175px;
+      font-size: 12px;
+      display: flex;
+      .gui-field-number {
+        display: inline-block;
+        width: 50%;
+        .label {
+          padding-left: 5px;
+          color: #647279;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 12px;
+          line-height: 18px;
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+
+
+// 需要覆盖bin-ui的样式
+.options-body .bin-scrollbar__wrap {
+  overflow-x: hidden;
+}
+// 输入框样式覆盖
+.options-body .bin-input-number-input {
+  background-color: $color-admin-options-dark;
+  color: $color-text-info;
+}
+.options-body .bin-input-number-handler-wrap {
+  background-color: $color-admin-options-dark;
+}
+
+.options-body .el-color-picker__trigger {
+  border: none;
 }

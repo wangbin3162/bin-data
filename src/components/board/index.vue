@@ -12,7 +12,7 @@
       </board-coverage>
       <!--中间画板区域-->
       <div class="board-center" :style="centerStyle">
-        <canvas-main :config="config.canvas">
+        <canvas-main>
           <slot name="canvas"></slot>
         </canvas-main>
       </div>

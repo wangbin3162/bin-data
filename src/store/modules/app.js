@@ -1,16 +1,11 @@
-import NodeInfo from '../nodeInfo'
-
-const testMap = new NodeInfo({
-  id: 'node-test', // 唯一标识
-  type: 'transform-block', // 类型
-  innerHTML: '拖拽区块' // 描述
-})
-
 const app = {
   state: {
-    canvasRange: 1, // 画布缩放,
-    gridStep: 8, // 画布移动间距
-    canvasMap: [testMap], // 画布中的组件，默认插入一个用于调试可动态添加，暂时写死，后期用lowdb缓存
+    // 需要进行db的数据
+    canvasPanel: { width: 1920, height: 1080 }, // 全局面包的宽高
+    backgroundColor: '#0d2a42', // 背景颜色
+    gridStep: 8, // 栅格间距
+    // 状态数据
+    canvasRange: 0, // 画布缩放
     optionsExpand: true // 参数面板打开关闭
   },
   mutations: {
@@ -20,8 +15,8 @@ const app = {
     SET_OPTIONS_EXPAND: (state) => {
       state.optionsExpand = !state.optionsExpand
     },
-    ADD_CANVAS_MAP: (state, nodeInfo) => {
-      state.canvasMap.push(nodeInfo)
+    SET_GRID_STEP: (state, val) => {
+      state.gridStep = val
     }
   },
   actions: {
@@ -31,8 +26,8 @@ const app = {
     ToggleOptionsExpand: ({ commit }) => {
       commit('SET_OPTIONS_EXPAND')
     },
-    AddCanvasMap: ({ commit }, nodeInfo) => {
-      commit('ADD_CANVAS_MAP', nodeInfo)
+    SetGridStep: ({ commit }, val) => {
+      commit('SET_GRID_STEP', val)
     }
   }
 }

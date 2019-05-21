@@ -24,12 +24,6 @@
 
   export default {
     name: 'CanvasMain',
-    props: {
-      config: {
-        type: Object,
-        required: true
-      }
-    },
     data () {
       return {
         wrapStyle: {},
@@ -55,7 +49,7 @@
           height: (wrap.clientHeight - 30) + 'px'
         }
         // 计算缩放比例
-        let range = ((wrap.clientWidth - 120) / this.config.width)
+        let range = ((wrap.clientWidth - 120) / this.canvasPanel.width)
         range = Math.round(range * 100) / 100
         if (range < 0.3) {
           range = 0.3
@@ -66,21 +60,22 @@
     watch: {
       range (val) {
         this.screenStyle = {
-          width: `${this.config.width * val + 120}px`,
-          height: `${this.config.height * val + 120}px`
+          width: `${this.canvasPanel.width * val + 120}px`,
+          height: `${this.canvasPanel.height * val + 120}px`
         }
         this.SetCanvasRange(this.range)
       }
     },
     computed: {
-      ...mapGetters(['optionsExpand']),
+      ...mapGetters(['canvasPanel', 'backgroundColor', 'canvasRange']),
+      // 画布面板的样式
       canvasPanelStyle () {
-        return Object.assign({
-          width: this.config.width + 'px',
-          height: this.config.height + 'px',
-          top: this.optionsExpand ? '60px' : '30px',
-          transform: `scale(${this.range}) translate3d(0px, 0px, 0)`
-        }, this.config.style)
+        return {
+          width: `${this.canvasPanel.width}px`,
+          height: `${this.canvasPanel.height}px`,
+          transform: `scale(${this.canvasRange}) translate3d(0px, 0px, 0)`,
+          backgroundColor: this.backgroundColor
+        }
       }
     },
     components: { DropPanel, EditSlider }

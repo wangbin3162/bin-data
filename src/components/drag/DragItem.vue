@@ -66,7 +66,7 @@
     data () {
       return {
         transformData: { width: 800, height: 500, x: 560, y: 290 },
-        selected: true,
+        selected: false,
         comHover: false,
         dragData: {
           dragX: 0, // 缓存鼠标单次滑动的x
@@ -81,7 +81,11 @@
       }
     },
     computed: {
-      ...mapGetters(['canvasRange', 'mouseMoveStep']),
+      ...mapGetters(['canvasRange', 'gridStep']),
+      // 鼠标移动根据栅格间距的值
+      mouseMoveStep () {
+        return this.canvasRange * this.gridStep
+      },
       lineLeft () {
         return {
           width: this.transformData.x + 60 / this.canvasRange + 'px'
@@ -173,8 +177,8 @@
           y: Math.floor((distance.y - this.dragData.dragY) / this.mouseMoveStep) * this.mouseMoveStep
         }
         // 计算间距需要除以缩放比例否则移动像素对不齐
-        this.transformData.x = this.dragData.startX + Math.floor(diffDistance.x / this.canvasRange)
-        this.transformData.y = this.dragData.startY + Math.floor(diffDistance.y / this.canvasRange)
+        this.transformData.x = this.dragData.startX + Math.round(diffDistance.x / this.canvasRange)
+        this.transformData.y = this.dragData.startY + Math.round(diffDistance.y / this.canvasRange)
       },
       handleMoveEnd () {
         this.dragData.dragging = false
@@ -216,8 +220,8 @@
         }
         // 换算实际transform宽高
         const transform = {
-          w: Math.floor(diffDistance.x / this.canvasRange),
-          h: Math.floor(diffDistance.y / this.canvasRange)
+          w: Math.round(diffDistance.x / this.canvasRange),
+          h: Math.round(diffDistance.y / this.canvasRange)
         }
         this.resizeWidth(this.resizeType, transform.w, transform.h)
       },

@@ -26,21 +26,12 @@ export default {
       flex: '0 0 180px'
     }
   },
-  // 画布参数配置
-  canvas: {
-    // 必须配置画布基本参数
-    width: 1920,
-    height: 1080,
-    style: {
-      backgroundColor: '#0d2a42'
-    }
-  },
   // 表单元素配置组件
   options: {
     // 标题配置
     title: {
       enable: true,
-      text: '参数设置'
+      text: '页面设置'
     },
     style: {
       width: '300px'

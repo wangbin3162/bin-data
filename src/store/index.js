@@ -1,19 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import app from './modules/app'
+import canvasMaps from './modules/canvasMaps'
+import getters from './getters'
 
 Vue.use(Vuex)
 
-const getters = {
-  canvasRange: state => state.app.canvasRange,
-  canvasMap: state => state.app.canvasMap,
-  optionsExpand: state => state.app.optionsExpand,
-  mouseMoveStep: state => state.app.canvasRange * state.app.gridStep
-}
-
 export default new Vuex.Store({
   modules: {
-    app
+    app, canvasMaps
   },
   getters
 })
