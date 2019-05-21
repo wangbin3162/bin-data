@@ -6,7 +6,7 @@
       <div class="navigator-line-left" :style="lineLeft"></div>
       <div class="navigator-line-top" :style="lineTop"></div>
       <div class="navigator-line-account" :style="lineAccountStyle">
-        {{ dragData.x + ',' + dragData.y }}
+        {{ transformData.x + ',' + transformData.y }}
       </div>
     </div>
     <div class="dv-scale">
@@ -20,17 +20,30 @@
           </div>
           <!--缩放辅助条-->
           <i class="top-handler">
-            <span class="control-point" :style="controlPointStyleBottom"></span>
+            <span class="control-point" :style="controlPointStyleBottom"
+                  @mousedown.stop.prevent="handleResizeMoveStart"></span></i>
+          <i class="left-handler">
+            <span class="control-point" :style="controlPointStyleRight"
+                  @mousedown.stop.prevent="handleResizeMoveStart"></span>
           </i>
           <i class="bottom-handler">
             <span class="control-point" :style="controlPointStyleBottom"
                   @mousedown.stop.prevent="handleResizeMoveStart"></span>
           </i>
-          <i class="left-handler">
-            <span class="control-point" :style="controlPointStyleRight"></span>
-          </i>
           <i class="right-handler">
             <span class="control-point" :style="controlPointStyleRight"
+                  @mousedown.stop.prevent="handleResizeMoveStart"></span>
+          </i>
+          <i class="top-left-handler">
+            <span class="control-point" :style="controlPointStyleTopLeft"
+                  @mousedown.stop.prevent="handleResizeMoveStart"></span>
+          </i>
+          <i class="top-right-handler">
+            <span class="control-point" :style="controlPointStyleTopRight"
+                  @mousedown.stop.prevent="handleResizeMoveStart"></span>
+          </i>
+          <i class="bottom-left-handler">
+            <span class="control-point" :style="controlPointStyleBottomLeft"
                   @mousedown.stop.prevent="handleResizeMoveStart"></span>
           </i>
           <i class="bottom-right-handler">
@@ -45,43 +58,38 @@
 
 <script>
   // 引入两个注册和取消注册的事件
-  import { on, off, hasClass } from 'bin-ui/src/utils/dom'
+  import { on, off } from 'bin-ui/src/utils/dom'
   import { mapGetters } from 'vuex'
 
   export default {
     name: 'DragItem',
     data () {
       return {
-        transformStyle: { width: 800, height: 592, top: 0, left: 0 },
+        transformData: { width: 800, height: 500, x: 560, y: 290 },
         selected: true,
         comHover: false,
         dragData: {
-          x: 500,
-          y: 200,
-          dragX: 0,
-          dragY: 0,
-          startX: 0,
-          startY: 0,
+          dragX: 0, // 缓存鼠标单次滑动的x
+          dragY: 0, // 缓存鼠标单次滑动的y
+          startX: 0, // 记录开始位置x
+          startY: 0, // 记录开始位置y
+          startWidth: 0, // 记录开始缩放的宽度
+          startHeight: 0, // 记录开始缩放的高度
           dragging: false
         },
-        cursorMapPos: {
-          'nwse-resize': 'bottomRight',
-          'ew-resize': 'right',
-          'ns-resize': 'bottom'
-        },
-        resizeType: 'normal'
+        resizeType: 'none'
       }
     },
     computed: {
-      ...mapGetters(['canvasRange']),
+      ...mapGetters(['canvasRange', 'mouseMoveStep']),
       lineLeft () {
         return {
-          width: this.dragData.x + 60 / this.canvasRange + 'px'
+          width: this.transformData.x + 60 / this.canvasRange + 'px'
         }
       },
       lineTop () {
         return {
-          height: this.dragData.y + 60 / this.canvasRange + 'px'
+          height: this.transformData.y + 60 / this.canvasRange + 'px'
         }
       },
       lineAccountStyle () {
@@ -94,18 +102,18 @@
       },
       contentStyles () {
         return {
-          width: this.transformStyle.width + 'px',
-          height: this.transformStyle.height + 'px',
-          top: this.transformStyle.top + 'px',
-          left: this.transformStyle.left + 'px',
-          transform: `translate3d(${this.dragData.x}px,${this.dragData.y}px,0)`
+          width: this.transformData.width + 'px',
+          height: this.transformData.height + 'px',
+          top: this.transformData.top + 'px',
+          left: this.transformData.left + 'px',
+          transform: `translate3d(${this.transformData.x}px,${this.transformData.y}px,0)`
         }
       },
       dvWrapperStyles () {
         return {
           transform: 'translateZ(0)',
-          width: this.transformStyle.width + 'px',
-          height: this.transformStyle.height + 'px',
+          width: this.transformData.width + 'px',
+          height: this.transformData.height + 'px',
           opacity: 1,
           padding: '10px 0'
         }
@@ -116,22 +124,23 @@
       controlPointStyleRight () {
         return `cursor: ew-resize; transform: scale(${1 / this.canvasRange});`
       },
+      controlPointStyleTopLeft () {
+        return `cursor: nwse-resize; transform: scale(${1 / this.canvasRange});`
+      },
+      controlPointStyleTopRight () {
+        return `cursor: nesw-resize; transform: scale(${1 / this.canvasRange});`
+      },
+      controlPointStyleBottomLeft () {
+        return `cursor: nesw-resize; transform: scale(${1 / this.canvasRange});`
+      },
       controlPointStyleBottomRight () {
         return `cursor: nwse-resize; transform: scale(${1 / this.canvasRange});`
       }
-    },
-    mounted () {
-      on(document.body, 'click', this.handleWindowClick)
     },
     methods: {
       // transform点击事件
       handleSelected () {
         this.selected = true
-      },
-      // 其他区域点击事件
-      handleWindowClick (event) {
-        // 暂时监听body的点击事件用于取消选中后期追加到nodeinfo中用于联动控制
-        this.selected = hasClass(event.target, 'transform-handler')
       },
       // 鼠标拖动事件函数
       handleMoveStart (event) {
@@ -145,8 +154,8 @@
         this.dragData.dragX = distance.x
         this.dragData.dragY = distance.y
         // 记录开始的xy
-        this.dragData.startX = this.dragData.x
-        this.dragData.startY = this.dragData.y
+        this.dragData.startX = this.transformData.x
+        this.dragData.startY = this.transformData.y
 
         this.dragData.dragging = true
         on(window, 'mousemove', this.handleMoveMove)
@@ -160,13 +169,12 @@
         }
         // 鼠标走的像素数需要换算成缩放画布的实际移动数
         const diffDistance = {
-          x: (distance.x - this.dragData.dragX),
-          y: (distance.y - this.dragData.dragY)
+          x: Math.floor((distance.x - this.dragData.dragX) / this.mouseMoveStep) * this.mouseMoveStep,
+          y: Math.floor((distance.y - this.dragData.dragY) / this.mouseMoveStep) * this.mouseMoveStep
         }
-        // console.log(diffDistance)
         // 计算间距需要除以缩放比例否则移动像素对不齐
-        this.dragData.x = this.dragData.startX + Math.floor(diffDistance.x / this.canvasRange)
-        this.dragData.y = this.dragData.startY + Math.floor(diffDistance.y / this.canvasRange)
+        this.transformData.x = this.dragData.startX + Math.floor(diffDistance.x / this.canvasRange)
+        this.transformData.y = this.dragData.startY + Math.floor(diffDistance.y / this.canvasRange)
       },
       handleMoveEnd () {
         this.dragData.dragging = false
@@ -175,8 +183,7 @@
       },
       // 鼠标拖动缩放事件函数
       handleResizeMoveStart (event) {
-        this.resizeType = this.cursorMapPos[event.target.style.cursor]
-        console.log(this.resizeType)
+        this.resizeType = event.target.parentElement.className
         if (!this.selected) return
         // 计算鼠标的相对位置
         const distance = {
@@ -186,6 +193,12 @@
         // 缓存鼠标点击位置，会事实更新
         this.dragData.dragX = distance.x
         this.dragData.dragY = distance.y
+        // 记录开始的xy
+        this.dragData.startX = this.transformData.x
+        this.dragData.startY = this.transformData.y
+        // 记录开始的width height
+        this.dragData.startWidth = this.transformData.width
+        this.dragData.startHeight = this.transformData.height
         this.dragData.dragging = true
         on(window, 'mousemove', this.handleResizeMoveMove)
         on(window, 'mouseup', this.handleResizeMoveEnd)
@@ -196,51 +209,63 @@
           x: event.clientX,
           y: event.clientY
         }
+        // 鼠标走的像素数需要换算成缩放画布的实际移动数
         const diffDistance = {
-          x: distance.x - this.dragData.dragX,
-          y: distance.y - this.dragData.dragY
+          x: Math.floor((distance.x - this.dragData.dragX) / this.mouseMoveStep) * this.mouseMoveStep,
+          y: Math.floor((distance.y - this.dragData.dragY) / this.mouseMoveStep) * this.mouseMoveStep
         }
-        this.dragData.dragX = distance.x
-        this.dragData.dragY = distance.y
-        // 计算间距需要除以缩放比例否则移动像素对不齐
-        // 缩放不需要移动位置只是改变原本的宽高
-        // this.dragData.x += diffDistance.x / this.canvasRange | 0
-        // this.dragData.y += diffDistance.y / this.canvasRange | 0
-        // this.transformStyle.width += (diffDistance.x / this.canvasRange)
-        // this.transformStyle.height += (diffDistance.y / this.canvasRange)
-        this.resizeWidth(this.resizeType, (diffDistance.x / this.canvasRange), (diffDistance.y / this.canvasRange))
+        // 换算实际transform宽高
+        const transform = {
+          w: Math.floor(diffDistance.x / this.canvasRange),
+          h: Math.floor(diffDistance.y / this.canvasRange)
+        }
+        this.resizeWidth(this.resizeType, transform.w, transform.h)
       },
       handleResizeMoveEnd () {
         this.dragData.dragging = false
-        this.resizeType = 'normal'
-        const box = {
-          w: this.transformStyle.width | 0,
-          h: this.transformStyle.height | 0
-        }
-        this.transformStyle.width = box.w
-        this.transformStyle.height = box.h
-
+        this.resizeType = 'none'
         off(window, 'mousemove', this.handleResizeMoveMove)
         off(window, 'mouseup', this.handleResizeMoveEnd)
       },
       // 根据缩放类型来调节宽高
       resizeWidth (type, w, h) {
         switch (type) {
-          case 'right':
-            this.transformStyle.width += w
+          case 'top-handler': // 上面需要更新位置pos
+            this.transformData.height = this.dragData.startHeight - h
+            this.transformData.y = this.dragData.startY + h
             break
-          case 'bottom':
-            this.transformStyle.height += h
+          case 'left-handler': // 左边也需要更新位置pos
+            this.transformData.width = this.dragData.startWidth - w
+            this.transformData.x = this.dragData.startX + w
             break
-          default:
-            this.transformStyle.width += w
-            this.transformStyle.height += h
+          case 'bottom-handler': // 下面
+            this.transformData.height = this.dragData.startHeight + h
+            break
+          case 'right-handler': // 右边
+            this.transformData.width = this.dragData.startWidth + w
+            break
+          case 'top-left-handler': // 左上角也需要更新位置pos
+            this.transformData.width = this.dragData.startWidth - w
+            this.transformData.x = this.dragData.startX + w
+            this.transformData.height = this.dragData.startHeight - h
+            this.transformData.y = this.dragData.startY + h
+            break
+          case 'top-right-handler': // 右上角也需要更新位置pos
+            this.transformData.width = this.dragData.startWidth + w
+            this.transformData.height = this.dragData.startHeight - h
+            this.transformData.y = this.dragData.startY + h
+            break
+          case 'bottom-left-handler': // 左下角
+            this.transformData.x = this.dragData.startX + w
+            this.transformData.width = this.dragData.startWidth - w
+            this.transformData.height = this.dragData.startHeight + h
+            break
+          case 'bottom-right-handler': // 右下角
+            this.transformData.width = this.dragData.startWidth + w
+            this.transformData.height = this.dragData.startHeight + h
             break
         }
       }
-    },
-    beforeDestroy () {
-      off(document.body, 'click', this.handleWindowClick)
     }
   }
 </script>

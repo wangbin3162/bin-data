@@ -8,7 +8,8 @@ const testMap = new NodeInfo({
 
 const app = {
   state: {
-    canvasRange: 0, // 画布缩放
+    canvasRange: 1, // 画布缩放,
+    gridStep: 8, // 画布移动间距
     canvasMap: [testMap], // 画布中的组件，默认插入一个用于调试可动态添加，暂时写死，后期用lowdb缓存
     optionsExpand: true // 参数面板打开关闭
   },

@@ -1,5 +1,6 @@
 <template>
   <div class="board-edit-slider">
+    <div class="label">{{ range }}</div>
     <div class="data-slider">
       <b-icon name="ios-remove-circle-outline" class="zoom-out" @click.native="changeRange(-1)"></b-icon>
       <input type="range" :min="min" :max="max" class="input-range" step="0.05"
@@ -37,7 +38,6 @@
         if (this.range < this.min) {
           this.range = this.min
         }
-        console.log(this.range)
       }
     },
     watch: {

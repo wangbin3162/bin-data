@@ -1,6 +1,5 @@
 <template>
   <div class="canvas-main" ref="canvasMain">
-    <div style="position: absolute;">{{range}}</div>
     <div class="canvas-panel-wrap" :style="wrapStyle">
       <b-scrollbar style="height:100%;">
         <div class="screen-shot" :style="screenStyle" ref="screenInner">
