@@ -1,3 +1,7 @@
+import { getPageSettings } from '../../api/app/appRequest'
+
+let debug = process.env.NODE_ENV !== 'production'
+
 const app = {
   state: {
     // 需要进行db的数据
@@ -15,8 +19,10 @@ const app = {
     SET_OPTIONS_EXPAND: (state) => {
       state.optionsExpand = !state.optionsExpand
     },
-    SET_GRID_STEP: (state, val) => {
-      state.gridStep = val
+    SET_PAGE_SETTING: (state, setting) => {
+      state.canvasPanel = setting.canvasPanel
+      state.backgroundColor = setting.backgroundColor
+      state.gridStep = setting.gridStep
     }
   },
   actions: {
@@ -26,9 +32,38 @@ const app = {
     ToggleOptionsExpand: ({ commit }) => {
       commit('SET_OPTIONS_EXPAND')
     },
-    SetGridStep: ({ commit }, val) => {
-      commit('SET_GRID_STEP', val)
+    GetPageSettings: ({ commit, dispatch }) => {
+      return new Promise((resolve, reject) => {
+        dispatch('dataStore/get', { key: 'app' }).then(response => {
+          commit('SET_PAGE_SETTING', response.data)
+          resolve(response)
+        }).catch(error => reject(error))
+        // 请求页面参数设置暂时跳过
+        if (debug) return
+        getPageSettings().then(response => {
+          resolve(response)
+        }).catch(error => reject(error))
+      })
+    },
+    SetPageSettings: ({ commit, dispatch }, setting) => {
+      return new Promise((resolve, reject) => {
+        dispatch('dataStore/set', { key: 'app', value: setting }).then(response => {
+          commit('SET_PAGE_SETTING', response.data)
+          resolve(response)
+        }).catch(error => reject(error))
+        // 请求页面参数设置暂时跳过
+      })
+    },
+    ResetDataBase: ({ commit, dispatch }) => {
+      return new Promise((resolve, reject) => {
+        dispatch('dataStore/resetDataBase', { key: 'app' }).then(response => {
+          commit('SET_PAGE_SETTING', response.data)
+          resolve(response)
+        }).catch(error => reject(error))
+        // 请求页面参数设置暂时跳过
+      })
     }
   }
 }
+
 export default app

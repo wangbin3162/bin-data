@@ -30,8 +30,14 @@
             <div class="gui-field-name">栅格间距</div>
             <div class="gui-field-container">
               <div class="gui-field-number">
-                <b-input-number v-model="step" size="small" :min="1" :max="20" @on-change="stepChange"></b-input-number>
+                <b-input-number v-model="step" size="small" :min="2" :max="20" @on-change="stepChange"></b-input-number>
               </div>
+            </div>
+          </div>
+          <div class="gui-field">
+            <div class="gui-field-name">重置</div>
+            <div class="gui-field-container">
+              <b-button type="primary" size="small" v-waves @click="resetSetting">恢复默认配置</b-button>
             </div>
           </div>
         </div>
@@ -46,7 +52,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'BoardOptions',
@@ -64,16 +70,33 @@
         step: 1
       }
     },
-    created () {
+    mounted () {
       this.canvasWidth = this.canvasPanel.width
       this.canvasHeight = this.canvasPanel.height
       this.bgColor = this.backgroundColor
       this.step = this.gridStep
     },
     methods: {
-      ...mapActions(['SetGridStep']),
-      stepChange (val) {
-        this.SetGridStep(val)
+      stepChange () {
+        this.setPageSetting()
+      },
+      setPageSetting () {
+        this.$store.dispatch('SetPageSettings', {
+          canvasPanel: {
+            width: this.canvasWidth,
+            height: this.canvasHeight
+          },
+          backgroundColor: this.bgColor,
+          gridStep: this.step
+        })
+      },
+      resetSetting () {
+        this.$store.dispatch('ResetDataBase').then(res => {
+          this.canvasWidth = this.canvasPanel.width
+          this.canvasHeight = this.canvasPanel.height
+          this.bgColor = this.backgroundColor
+          this.step = this.gridStep
+        })
       }
     },
     computed: {

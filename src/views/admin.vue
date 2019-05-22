@@ -14,12 +14,12 @@
         </template>
       </template>
       <template v-slot:canvas>
-          <!--动态组件-->
-          <template v-for="transform in canvasMap">
-            <drag-item :key="transform.id">
-              {{transform.innerHTML}}
-            </drag-item>
-          </template>
+        <!--动态组件-->
+        <template v-for="transform in canvasMap">
+          <drag-item :key="transform.id">
+            {{transform.innerHTML}}
+          </drag-item>
+        </template>
       </template>
     </board>
   </div>
