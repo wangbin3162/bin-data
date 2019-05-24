@@ -23,7 +23,7 @@
           <div class="gui-field">
             <div class="gui-field-name">背景颜色</div>
             <div class="gui-field-container">
-              <el-color-picker v-model="bgColor" size="small" show-alpha @change="setPageSetting"></el-color-picker>
+              <el-color-picker v-model="bgColor" size="mini" show-alpha @change="setPageSetting"></el-color-picker>
             </div>
           </div>
           <div class="gui-field">
@@ -38,7 +38,7 @@
           <div class="gui-field">
             <div class="gui-field-name">重置</div>
             <div class="gui-field-container">
-              <b-button type="primary" size="small" v-waves @click="resetSetting">恢复默认配置</b-button>
+              <b-button type="primary" size="mini" v-waves @click="resetSetting">恢复默认配置</b-button>
             </div>
           </div>
         </div>
