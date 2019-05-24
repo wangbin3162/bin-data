@@ -1,6 +1,5 @@
 <template>
   <div class="dv-transform" :class="{'selected':selected}" :style="contentStyles" ref="dvTransform"
-       @click.stop.prevent="handleSelected"
        @mousedown="handleMoveStart">
     <div class="navigator-line" v-show="selected">
       <div class="navigator-line-left" :style="lineLeft"></div>
@@ -67,6 +66,9 @@
         type: Object,
         required: true
       },
+      selected: {
+        type: Boolean
+      },
       comHover: {
         type: Boolean
       }
@@ -74,7 +76,6 @@
     data () {
       return {
         transformData: { width: 800, height: 500, x: 560, y: 290 },
-        selected: false,
         dragData: {
           dragX: 0, // 缓存鼠标单次滑动的x
           dragY: 0, // 缓存鼠标单次滑动的y
@@ -155,10 +156,6 @@
       },
       handleNoHover () {
         this.comHover = false
-      },
-      // transform点击事件
-      handleSelected () {
-        this.selected = true
       },
       // 鼠标拖动事件函数
       handleMoveStart (event) {

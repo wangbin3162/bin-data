@@ -7,7 +7,12 @@
       </template>
       <template v-slot:coverage>
         <template v-for="transform in canvasMap">
-          <div class="list-item" :key="transform.id">
+          <div class="list-item" :key="transform.id"
+               :class="[{'hovered':hoverItem===transform.id},{'selected':currentSelected&&currentSelected.id===transform.id},]"
+               :selected="currentSelected&&currentSelected.id===transform.id"
+               @click.stop.prevent="handleSelected(transform)"
+               @mouseenter="handleHover(transform)"
+               @mouseleave="handleNoHover()">
             <b-icon v-if="transform.icon" :name="transform.icon"></b-icon>
             <span> {{ transform.innerHTML }}</span>
           </div>
@@ -17,8 +22,11 @@
         <!--动态组件-->
         <template v-for="transform in canvasMap">
           <drag-item :key="transform.id" :item="transform"
-                     :com-hover="comHover"
-                     @mouseenter.native="handleHover" @mouseleave.native="handleNoHover">
+                     :com-hover="hoverItem===transform.id"
+                     :selected="currentSelected&&currentSelected.id===transform.id"
+                     @click.native.stop.prevent="handleSelected(transform)"
+                     @mouseenter.native="handleHover(transform)"
+                     @mouseleave.native="handleNoHover()">
             {{transform.innerHTML}}
           </drag-item>
         </template>
@@ -39,21 +47,23 @@
     data () {
       return {
         navigate: navigateList,
-        comHover: null
+        hoverItem: null
       }
     },
     computed: {
-      ...mapGetters(['canvasMap'])
+      ...mapGetters(['canvasMap', 'currentSelected'])
     },
     methods: {
       // 悬停事件
-      handleHover () {
-        this.comHover = true
-        console.log('hovered')
+      handleHover (item) {
+        this.hoverItem = item.id
       },
       handleNoHover () {
-        this.comHover = false
-        console.log('no-hovered')
+        this.hoverItem = null
+      },
+      // transform点击事件
+      handleSelected (item) {
+        this.$store.dispatch('SingleSelected', item)
       }
     },
     components: { DragItem, DragList, Board }

@@ -1,9 +1,11 @@
 <template>
   <div class="canvas-main" ref="canvasMain">
-    <div class="canvas-panel-wrap" :style="wrapStyle">
+    <div class="canvas-panel-wrap" :style="wrapStyle"
+         @click.stop.prevent="cancelSelected">
       <b-scrollbar style="height:100%;">
         <div class="screen-shot" :style="screenStyle" ref="screenInner">
           <div class="canvas-panel" :style="canvasPanelStyle"
+               @click.stop.prevent="cancelSelected"
                :data-spm-anchor-id="$route.params.id">
             <drop-panel>
               <slot></slot>
@@ -55,6 +57,10 @@
           range = 0.3
         }
         this.range = range
+      },
+      // transform点击事件
+      cancelSelected () {
+        this.$store.dispatch('SingleSelected', null)
       }
     },
     watch: {

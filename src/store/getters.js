@@ -10,7 +10,9 @@ const getters = {
   // 参数面板展开
   optionsExpand: state => state.app.optionsExpand,
   // 画布映射数组
-  canvasMap: state => state.canvasMaps.canvasMap
+  canvasMap: state => state.canvasMaps.canvasMap,
+  // 当前选中的
+  currentSelected: state => state.canvasMaps.singleSelected
 }
 
 export default getters
