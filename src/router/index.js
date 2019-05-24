@@ -20,7 +20,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   BinUI.LoadingBar.start()
   // 拉取页面配置信息
-  store.dispatch('GetPageSettings').then(res => console.log(res))
+  store.dispatch('GetPageSettings')
   next()
 })
 router.afterEach(() => {

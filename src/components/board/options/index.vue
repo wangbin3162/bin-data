@@ -11,11 +11,11 @@
             <div class="gui-field-name">屏幕大小</div>
             <div class="gui-field-container">
               <div class="gui-field-number">
-                <b-input-number v-model="canvasWidth" size="small"></b-input-number>
+                <b-input-number v-model="canvasWidth" size="small" @on-change="setPageSetting"></b-input-number>
                 <div class="label">宽度</div>
               </div>
               <div class="gui-field-number">
-                <b-input-number v-model="canvasHeight" size="small"></b-input-number>
+                <b-input-number v-model="canvasHeight" size="small" @on-change="setPageSetting"></b-input-number>
                 <div class="label">高度</div>
               </div>
             </div>
@@ -23,14 +23,15 @@
           <div class="gui-field">
             <div class="gui-field-name">背景颜色</div>
             <div class="gui-field-container">
-              <el-color-picker v-model="bgColor" size="small" show-alpha></el-color-picker>
+              <el-color-picker v-model="bgColor" size="small" show-alpha @change="setPageSetting"></el-color-picker>
             </div>
           </div>
           <div class="gui-field">
             <div class="gui-field-name">栅格间距</div>
             <div class="gui-field-container">
               <div class="gui-field-number">
-                <b-input-number v-model="step" size="small" :min="2" :max="20" @on-change="stepChange"></b-input-number>
+                <b-input-number v-model="step" size="small" :min="2" :max="20"
+                                @on-change="setPageSetting"></b-input-number>
               </div>
             </div>
           </div>
@@ -71,15 +72,9 @@
       }
     },
     mounted () {
-      this.canvasWidth = this.canvasPanel.width
-      this.canvasHeight = this.canvasPanel.height
-      this.bgColor = this.backgroundColor
-      this.step = this.gridStep
+      this.updateStoreData()
     },
     methods: {
-      stepChange () {
-        this.setPageSetting()
-      },
       setPageSetting () {
         this.$store.dispatch('SetPageSettings', {
           canvasPanel: {
@@ -92,11 +87,14 @@
       },
       resetSetting () {
         this.$store.dispatch('ResetDataBase').then(res => {
-          this.canvasWidth = this.canvasPanel.width
-          this.canvasHeight = this.canvasPanel.height
-          this.bgColor = this.backgroundColor
-          this.step = this.gridStep
+          this.updateStoreData()
         })
+      },
+      updateStoreData () {
+        this.canvasWidth = this.canvasPanel.width
+        this.canvasHeight = this.canvasPanel.height
+        this.bgColor = this.backgroundColor
+        this.step = this.gridStep
       }
     },
     computed: {
