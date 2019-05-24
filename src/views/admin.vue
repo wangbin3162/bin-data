@@ -16,7 +16,9 @@
       <template v-slot:canvas>
         <!--动态组件-->
         <template v-for="transform in canvasMap">
-          <drag-item :key="transform.id">
+          <drag-item :key="transform.id" :item="transform"
+                     :com-hover="comHover"
+                     @mouseenter.native="handleHover" @mouseleave.native="handleNoHover">
             {{transform.innerHTML}}
           </drag-item>
         </template>
@@ -36,11 +38,23 @@
     name: 'Admin',
     data () {
       return {
-        navigate: navigateList
+        navigate: navigateList,
+        comHover: null
       }
     },
     computed: {
       ...mapGetters(['canvasMap'])
+    },
+    methods: {
+      // 悬停事件
+      handleHover () {
+        this.comHover = true
+        console.log('hovered')
+      },
+      handleNoHover () {
+        this.comHover = false
+        console.log('no-hovered')
+      }
     },
     components: { DragItem, DragList, Board }
   }

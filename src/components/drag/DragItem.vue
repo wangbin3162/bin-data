@@ -10,8 +10,7 @@
       </div>
     </div>
     <div class="dv-scale">
-      <div class="dv-com" :class="{'hovered':comHover}" style="transform: rotate(0deg);"
-           @mouseenter="comHover=true" @mouseleave="comHover=false">
+      <div class="dv-com" :class="{'hovered':comHover}" style="transform: rotate(0deg);">
         <div class="transform-handler" :class="{'hide':!comHover&&!selected}">
           <div class="dv-wrapper" :style="dvWrapperStyles">
             <div style="font-size: 22px;padding: 0 20px;">
@@ -63,11 +62,19 @@
 
   export default {
     name: 'DragItem',
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      comHover: {
+        type: Boolean
+      }
+    },
     data () {
       return {
         transformData: { width: 800, height: 500, x: 560, y: 290 },
         selected: false,
-        comHover: false,
         dragData: {
           dragX: 0, // 缓存鼠标单次滑动的x
           dragY: 0, // 缓存鼠标单次滑动的y
@@ -142,6 +149,13 @@
       }
     },
     methods: {
+      // 悬停事件
+      handleHover () {
+        this.comHover = true
+      },
+      handleNoHover () {
+        this.comHover = false
+      },
       // transform点击事件
       handleSelected () {
         this.selected = true

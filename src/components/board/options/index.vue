@@ -76,6 +76,7 @@
     },
     methods: {
       setPageSetting () {
+        this.$loading.start()
         this.$store.dispatch('SetPageSettings', {
           canvasPanel: {
             width: this.canvasWidth,
@@ -83,11 +84,13 @@
           },
           backgroundColor: this.bgColor,
           gridStep: this.step
-        })
+        }).then(() => this.$loading.done())
       },
       resetSetting () {
-        this.$store.dispatch('ResetDataBase').then(res => {
+        this.$loading.start()
+        this.$store.dispatch('ResetDataBase').then(() => {
           this.updateStoreData()
+          this.$loading.done()
         })
       },
       updateStoreData () {
