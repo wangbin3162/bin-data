@@ -46,7 +46,6 @@ const canvasMaps = {
     ContextMenuCommand ({ commit, state }, order) {
       console.log(`执行${order}命令删除${state.singleSelected.id}`)
       commit('SET_CONTEXT_MENU_INFO', { x: 0, y: 0, isShow: false })
-
       // 如果是删除
       if (order === 'remove') {
         commit('REMOVE_CANVAS_MAP')

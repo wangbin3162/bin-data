@@ -32,6 +32,15 @@
         </template>
       </template>
     </board>
+    <b-modal v-model="deleteDialog" :styles="{top: '300px',width:'350px'}"
+             class-name="delete-dialog" @on-ok="deleteOne">
+      <div class="delete-dialog-inner">
+        <div>
+          <b-icon name="ios-warning" size="40"></b-icon>
+        </div>
+        <p>是否删除选中的1个组件</p>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -41,18 +50,22 @@
   import DragList from '../components/drag/DragList'
   import DragItem from '../components/drag/DragItem'
   import { mapGetters } from 'vuex'
-  import eventMap from '../utils/eventBusMap'
+  import { on, off } from 'bin-ui/src/utils/dom'
 
   export default {
     name: 'Admin',
     data () {
       return {
         navigate: navigateList,
-        hoverItem: null
+        hoverItem: null,
+        deleteDialog: false
       }
     },
     computed: {
       ...mapGetters(['canvasMap', 'currentSelected'])
+    },
+    mounted () {
+      on(document, 'keyup', this.handleKeyup)
     },
     methods: {
       // 悬停事件
@@ -75,8 +88,23 @@
       // 外层区域关闭右键菜单
       hideContextMenu () {
         this.$store.dispatch('ToggleContextMenu')
+      },
+      handleKeyup (event) {
+        let e = event || window.event
+        let k = e.keyCode || e.which
+        if (k === 8 || k === 46) {
+          if (this.currentSelected) {
+            this.deleteDialog = true
+          }
+        }
+      },
+      deleteOne () {
+        this.$store.dispatch('ContextMenuCommand', 'remove')
       }
     },
-    components: { DragItem, DragList, Board }
+    components: { DragItem, DragList, Board },
+    beforeDestroy () {
+      off(document, 'keyup', this.handleKeyup)
+    }
   }
 </script>
