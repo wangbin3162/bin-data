@@ -1,4 +1,4 @@
 const eventMaps = {
-  contentMenu: 'on-toggle-context-menu'
+  contentMenu: 'context-menu'
 }
 export default eventMaps

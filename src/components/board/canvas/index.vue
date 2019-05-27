@@ -1,5 +1,6 @@
 <template>
-  <div class="canvas-main" ref="canvasMain">
+  <div class="canvas-main" ref="canvasMain"
+       @contextmenu.stop.prevent="hideContextMenu">
     <div class="canvas-panel-wrap" :style="wrapStyle"
          @click.stop.prevent="cancelSelected">
       <b-scrollbar style="height:100%;">
@@ -60,7 +61,15 @@
       },
       // transform点击事件
       cancelSelected () {
+        if (this.contextMenuInfo.isShow) {
+          this.$store.dispatch('ToggleContextMenu')
+          return
+        }
         this.$store.dispatch('SingleSelected', null)
+      },
+      // 外层区域关闭右键菜单
+      hideContextMenu () {
+        this.$store.dispatch('ToggleContextMenu')
       }
     },
     watch: {
@@ -73,7 +82,7 @@
       }
     },
     computed: {
-      ...mapGetters(['canvasPanel', 'backgroundColor', 'canvasRange']),
+      ...mapGetters(['canvasPanel', 'backgroundColor', 'canvasRange', 'contextMenuInfo']),
       // 画布面板的样式
       canvasPanelStyle () {
         return {

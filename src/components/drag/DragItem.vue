@@ -89,7 +89,7 @@
       }
     },
     computed: {
-      ...mapGetters(['canvasRange', 'gridStep']),
+      ...mapGetters(['canvasRange', 'gridStep', 'contextMenuInfo']),
       // 鼠标移动根据栅格间距的值
       mouseMoveStep () {
         return this.canvasRange * this.gridStep
@@ -159,7 +159,7 @@
       },
       // 鼠标拖动事件函数
       handleMoveStart (event) {
-        if (!this.selected) return
+        if (!this.selected || this.contextMenuInfo.isShow) return
         // 计算鼠标的相对位置
         const distance = {
           x: event.clientX,

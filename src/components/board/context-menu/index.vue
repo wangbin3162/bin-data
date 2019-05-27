@@ -1,5 +1,5 @@
 <template>
-  <transition name="zoom-in-top">
+  <transition name="fade-in">
     <div class="dv-context-menu"
          v-if="contextMenuInfo.isShow"
          @mousedown.stop.prevent
@@ -16,28 +16,24 @@
 </template>
 
 <script>
-  import eventMap from '../../../utils/eventBusMap'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'ContextMenu',
     data () {
       return {
-        contextMenuInfo: {
-          x: 0,
-          y: 0,
-          isShow: false
-        },
         menuList: [
           { icon: 'ios-share', text: '置顶', order: 'top' },
           { icon: 'ios-download', text: '置底', order: 'bottom' },
           { icon: 'md-arrow-round-up', text: '上移一层', order: 'up' },
           { icon: 'md-arrow-round-down', text: '下移一层', order: 'down' },
           { icon: 'ios-copy', text: '复制', order: 'copy' },
-          { icon: 'ios-remove-circle', text: '删除', order: 'remove' }
+          { icon: 'ios-trash', text: '删除', order: 'remove' }
         ]
       }
     },
     computed: {
+      ...mapGetters(['contextMenuInfo']),
       contextMenuStyle () {
         let x = this.contextMenuInfo.x !== undefined ? (parseInt(this.contextMenuInfo.x) > 0 ? parseInt(this.contextMenuInfo.x) : 0) : 0
         let y = this.contextMenuInfo.y !== undefined ? (parseInt(this.contextMenuInfo.y) > 0 ? parseInt(this.contextMenuInfo.y) : 0) : 0
@@ -60,26 +56,12 @@
         return tmpObj
       }
     },
-    created () {
-      this.$EventBus.$on(eventMap.contentMenu, (val) => {
-        if (val) {
-          this.contextMenuInfo = val
-        }
-      })
-    },
     methods: {
       //  执行菜单命令
       handleCommand (order) {
-        this.contextMenuInfo = {
-          x: 0,
-          y: 0,
-          isShow: false
-        }
         this.$message(`执行${order}命令`)
+        this.$store.dispatch('ContextMenuCommand', order)
       }
-    },
-    beforeDestroy () {
-      this.$EventBus.$off(eventMap.contentMenu)
     }
   }
 </script>
