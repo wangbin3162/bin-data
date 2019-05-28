@@ -58,6 +58,7 @@
   // 引入两个注册和取消注册的事件
   import { on, off } from 'bin-ui/src/utils/dom'
   import { mapGetters } from 'vuex'
+  import { setBaseProperty } from '../../api/canvasMaps/canvas-maps-request'
 
   export default {
     name: 'DragItem',
@@ -75,7 +76,7 @@
     },
     data () {
       return {
-        transformData: { width: 800, height: 500, x: 560, y: 290 },
+        transformData: { width: 0, height: 0, x: 0, y: 0 },
         dragData: {
           dragX: 0, // 缓存鼠标单次滑动的x
           dragY: 0, // 缓存鼠标单次滑动的y
@@ -88,11 +89,19 @@
         resizeType: 'none'
       }
     },
+    created () {
+      this.transformData = { ...this.item.baseProperty }
+    },
+    watch: {
+      'item.baseProperty' (val) {
+        this.transformData = { ...val }
+      }
+    },
     computed: {
-      ...mapGetters(['canvasRange', 'gridStep', 'contextMenuInfo']),
+      ...mapGetters(['canvasRange', 'pageSettings', 'contextMenuInfo', 'currentSelected']),
       // 鼠标移动根据栅格间距的值
       mouseMoveStep () {
-        return this.canvasRange * this.gridStep
+        return this.canvasRange * this.pageSettings.gridStep
       },
       lineLeft () {
         return {
@@ -190,9 +199,12 @@
         // 计算间距需要除以缩放比例否则移动像素对不齐
         this.transformData.x = this.dragData.startX + Math.round(diffDistance.x / this.canvasRange)
         this.transformData.y = this.dragData.startY + Math.round(diffDistance.y / this.canvasRange)
+
+        this.$store.dispatch('SetBaseProperty', this.transformData)
       },
       handleMoveEnd () {
         this.dragData.dragging = false
+        this.setBaseProperty()
         off(window, 'mousemove', this.handleMoveMove)
         off(window, 'mouseup', this.handleMoveEnd)
       },
@@ -239,6 +251,7 @@
       handleResizeMoveEnd () {
         this.dragData.dragging = false
         this.resizeType = 'none'
+        this.setBaseProperty()
         off(window, 'mousemove', this.handleResizeMoveMove)
         off(window, 'mouseup', this.handleResizeMoveEnd)
       },
@@ -280,6 +293,10 @@
             this.transformData.height = this.dragData.startHeight + h
             break
         }
+        this.$store.dispatch('SetBaseProperty', this.transformData)
+      },
+      setBaseProperty () {
+        setBaseProperty(this.currentSelected)
       }
     }
   }

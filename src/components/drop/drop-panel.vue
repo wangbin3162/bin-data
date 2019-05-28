@@ -9,6 +9,8 @@
 </template>
 
 <script>
+  import { addCanvasMap } from '../../api/canvasMaps/canvas-maps-request'
+
   export default {
     name: 'DropPanel',
     methods: {
@@ -18,9 +20,6 @@
         let nodeInfo = JSON.parse(event.dataTransfer.getData('node'))
         nodeInfo = {
           id: '',
-          components: {},
-          props: {},
-          slots: {},
           innerHTML: '',
           ...nodeInfo
         }
@@ -33,7 +32,6 @@
         //   left: offsetX + 'px',
         //   top: offsetY + 'px'
         // }
-        // console.log('style', style)
         this.$store.dispatch('AddCanvasMap', nodeInfo)
       }
     }

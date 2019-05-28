@@ -17,7 +17,7 @@ let routes = [
     component: () => import('../views/admin')
   },
   {
-    path: '/screen',
+    path: '/screen/:id',
     name: 'screen',
     component: () => import('../views/screen')
   }

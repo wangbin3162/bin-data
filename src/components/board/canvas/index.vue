@@ -52,7 +52,7 @@
           height: (wrap.clientHeight - 30) + 'px'
         }
         // 计算缩放比例
-        let range = ((wrap.clientWidth - 120) / this.canvasPanel.width)
+        let range = ((wrap.clientWidth - 120) / this.pageSettings.width)
         range = Math.round(range * 100) / 100
         if (range < 0.3) {
           range = 0.3
@@ -75,21 +75,21 @@
     watch: {
       range (val) {
         this.screenStyle = {
-          width: `${this.canvasPanel.width * val + 120}px`,
-          height: `${this.canvasPanel.height * val + 120}px`
+          width: `${this.pageSettings.width * val + 120}px`,
+          height: `${this.pageSettings.height * val + 120}px`
         }
         this.SetCanvasRange(this.range)
       }
     },
     computed: {
-      ...mapGetters(['canvasPanel', 'backgroundColor', 'canvasRange', 'contextMenuInfo']),
+      ...mapGetters(['pageSettings', 'canvasRange', 'contextMenuInfo']),
       // 画布面板的样式
       canvasPanelStyle () {
         return {
-          width: `${this.canvasPanel.width}px`,
-          height: `${this.canvasPanel.height}px`,
+          width: `${this.pageSettings.width}px`,
+          height: `${this.pageSettings.height}px`,
           transform: `scale(${this.canvasRange}) translate3d(0px, 0px, 0)`,
-          backgroundColor: this.backgroundColor
+          backgroundColor: this.pageSettings.backgroundColor
         }
       }
     },

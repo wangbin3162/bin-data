@@ -51,6 +51,8 @@
   import DragItem from '../components/drag/DragItem'
   import { mapGetters } from 'vuex'
   import { on, off } from 'bin-ui/src/utils/dom'
+  import { getCanvasMaps } from '../api/canvasMaps/canvas-maps-request'
+  import { getPageSettings } from '../api/app/app-request'
 
   export default {
     name: 'Admin',
@@ -63,6 +65,16 @@
     },
     computed: {
       ...mapGetters(['canvasMap', 'currentSelected'])
+    },
+    created () {
+      // 拉取页面配置信息
+      getPageSettings().then(res => {
+        this.$store.dispatch('SetPageSettings', res.data)
+      })
+      // 拉取页面canvasMaps
+      getCanvasMaps().then(res => {
+        this.$store.dispatch('InitCanvasMaps', res.data)
+      })
     },
     mounted () {
       on(document, 'keyup', this.handleKeyup)
@@ -92,7 +104,7 @@
       handleKeyup (event) {
         let e = event || window.event
         let k = e.keyCode || e.which
-        if (k === 8 || k === 46) {
+        if (k === 46) {
           if (this.currentSelected) {
             this.deleteDialog = true
           }

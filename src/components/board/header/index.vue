@@ -11,7 +11,7 @@
     </div>
     <div class="right-box">
       <b-tooltip content="预览" placement="bottom">
-        <b-icon name="ios-eye"></b-icon>
+        <b-icon name="ios-eye" @click.native="openScreen"></b-icon>
       </b-tooltip>
       <b-tooltip content="发布" placement="bottom">
         <b-icon name="ios-paper-plane"></b-icon>
@@ -27,12 +27,20 @@
 </template>
 
 <script>
+
   export default {
     name: 'BoardHeader',
     props: {
       config: {
         type: Object,
         required: true
+      }
+    },
+    methods: {
+      openScreen () {
+        let url = `http://${window.location.host}/screen/${this.$route.params.id}`
+        this.$message(url)
+        this.$util.open(url)
       }
     }
   }

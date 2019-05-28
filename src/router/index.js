@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '../store/index'
 // 路由数据
 import routes from './routes'
 
@@ -19,8 +18,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   BinUI.LoadingBar.start()
-  // 拉取页面配置信息
-  store.dispatch('GetPageSettings')
   next()
 })
 router.afterEach(() => {

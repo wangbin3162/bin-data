@@ -59,7 +59,6 @@
     methods: {
       //  执行菜单命令
       handleCommand (order) {
-        this.$message(`执行${order}命令`)
         this.$store.dispatch('ContextMenuCommand', order)
       }
     }

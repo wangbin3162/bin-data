@@ -53,9 +53,7 @@
           // 唯一标识
           id: 'node-' + ((new Date()).getTime()),
           components: component,
-          props: {},
-          slots: {},
-          options: {},
+          baseProperty: { width: 300, height: 200, x: 810, y: 440 }, // 每个map对应的基础属性
           innerHTML: 'node'
         }
         event.dataTransfer.setData('node', JSON.stringify(nodeInfo))

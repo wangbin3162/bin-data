@@ -1,10 +1,5 @@
 const getters = {
-  // 画布面板
-  canvasPanel: state => state.app.canvasPanel,
-  // 画布背景色
-  backgroundColor: state => state.app.backgroundColor,
-  // 画布栅格间距
-  gridStep: state => state.app.gridStep,
+  pageSettings: state => state.app.pageSettings,
   // 画布缩放
   canvasRange: state => state.app.canvasRange,
   // 参数面板展开
