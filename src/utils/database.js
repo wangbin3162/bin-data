@@ -8,9 +8,22 @@ const database = {
   canvasMaps: [
     {
       id: 'node-test', // 唯一标识
-      type: 'transform-block', // 类型
-      innerHTML: '拖拽区块', // 描述
-      baseProperty: { width: 300, height: 200, x: 810, y: 440 } // 每个map对应的基础属性
+      packageJson: {
+        title: '基本折线图',
+        icon: 'ios-leaf',
+        name: 'v-line',
+        config: {
+          title: {
+            content: '主标题',
+            textStyle: {
+              color: 'rgba(255,255,255,0.6)',
+              fontSize: 20,
+              fontWeight: 'normal'
+            }
+          }
+        },
+        view: { width: 500, height: 400, x: 710, y: 340 }
+      }
     }
   ]
 }

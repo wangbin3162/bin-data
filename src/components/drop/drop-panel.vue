@@ -20,7 +20,6 @@
         let nodeInfo = JSON.parse(event.dataTransfer.getData('node'))
         nodeInfo = {
           id: '',
-          innerHTML: '',
           ...nodeInfo
         }
         console.log(nodeInfo)

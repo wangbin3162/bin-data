@@ -1,0 +1,93 @@
+{
+  "id": "ml-area-basic_rny2b",
+  "packageJson": {
+    "api_data": {
+      "source": [
+        {
+          "x": "2010/01/01 00:00:00",
+          "y": 666
+        },
+        {
+          "x": "2010/02/01 00:00:00",
+          "y": 200
+        },
+        {
+          "x": "2010/03/01 00:00:00",
+          "y": 555
+        },
+        {
+          "x": "2010/04/01 00:00:00",
+          "y": 190
+        },
+        {
+          "x": "2010/05/01 00:00:00",
+          "y": 90
+        },
+        {
+          "x": "2010/06/01 00:00:00",
+          "y": 237
+        }
+      ]
+    },
+    "apis": {
+      "source": {
+        "description": "区域图接口",
+        "fields": {
+          "s": {
+            "description": "系列(可选)",
+            "optional": true
+          },
+          "x": {
+            "description": "类目"
+          },
+          "y": {
+            "description": "值"
+          }
+        },
+        "handler": "render"
+      }
+    },
+    "cn_name": "区域图",
+    "config": {
+      "chart": {
+        "emptyData": true,
+        "fontFamily": "Microsoft Yahei",
+        "loadAmount": 2000,
+        "margin": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "title": {
+        "content": "主标题",
+        "textStyle": {
+          "color": "rgba(255,255,255,0.6)",
+          "fontSize": 20,
+          "fontWeight": "normal"
+        }
+      },
+      "animation": {
+        "animationDuration": 1000,
+        "animationDurationUpdate": 300,
+        "animationEasing": "cubicInOut",
+        "animationUpdateFromPrevious": true,
+        "show": true
+      }
+    },
+    "icon": "",
+    "level": 0,
+    "name": "ml-area-basic",
+    "protocol": 2,
+    "type": [
+      "regular_area"
+    ],
+    "validate": {},
+    "view": {
+      "height": 200,
+      "width": 300,
+      "zIndex": 1010
+    }
+  }
+}

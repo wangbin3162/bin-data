@@ -12,9 +12,7 @@
       <div class="dv-com" :class="{'hovered':comHover}" style="transform: rotate(0deg);">
         <div class="transform-handler" :class="{'hide':!comHover&&!selected}">
           <div class="dv-wrapper" :style="dvWrapperStyles">
-            <div style="font-size: 22px;padding: 0 20px;">
-              <slot>我是块的标题</slot>
-            </div>
+            <slot>我是块的标题</slot>
           </div>
           <!--缩放辅助条-->
           <i class="top-handler">
@@ -90,11 +88,16 @@
       }
     },
     created () {
-      this.transformData = { ...this.item.baseProperty }
+      this.transformData = { ...this.item.packageJson.view }
     },
     watch: {
-      'item.baseProperty' (val) {
-        this.transformData = { ...val }
+      item: {
+        handler (val) {
+          if (val) {
+            this.transformData = { ...val.packageJson.view }
+          }
+        },
+        deep: true
       }
     },
     computed: {

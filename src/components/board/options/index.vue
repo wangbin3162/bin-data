@@ -100,7 +100,7 @@
               </div>
             </div>
 
-            {{ currentSelected }}
+            {{ currentSelected.packageJson }}
           </div>
           <div v-else-if="tabsType===1">数据</div>
           <div v-else>交互</div>
@@ -160,8 +160,8 @@
     watch: {
       currentSelected: {
         handler (val) {
-          if (val) {
-            this.baseProperty = { ...val.baseProperty }
+          if (val && val.packageJson) {
+            this.baseProperty = { ...val.packageJson.view }
           }
         },
         deep: true

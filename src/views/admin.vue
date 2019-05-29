@@ -14,7 +14,7 @@
              @mouseenter="handleHover(transform)"
              @mouseleave="handleNoHover()">
           <b-icon v-if="transform.icon" :name="transform.icon"></b-icon>
-          <span> {{ transform.innerHTML }}</span>
+          <span> {{ transform.packageJson.title }}</span>
         </div>
       </template>
       <template v-slot:canvas>
@@ -27,7 +27,7 @@
                      @contextmenu.native.stop.prevent="handleRightClickOnCanvas(transform,$event)"
                      @mouseenter.native="handleHover(transform)"
                      @mouseleave.native="handleNoHover()">
-            {{transform.innerHTML}}
+            <v-line></v-line>
           </drag-item>
         </template>
       </template>
@@ -53,6 +53,7 @@
   import { on, off } from 'bin-ui/src/utils/dom'
   import { getCanvasMaps } from '../api/canvasMaps/canvas-maps-request'
   import { getPageSettings } from '../api/app/app-request'
+  import VLine from '../components/charts/VLine'
 
   export default {
     name: 'Admin',
@@ -73,6 +74,7 @@
       })
       // 拉取页面canvasMaps
       getCanvasMaps().then(res => {
+        console.log(res.data)
         this.$store.dispatch('InitCanvasMaps', res.data)
       })
     },
@@ -114,7 +116,7 @@
         this.$store.dispatch('ContextMenuCommand', 'remove')
       }
     },
-    components: { DragItem, DragList, Board },
+    components: { VLine, DragItem, DragList, Board },
     beforeDestroy () {
       off(document, 'keyup', this.handleKeyup)
     }

@@ -27,12 +27,12 @@ const canvasMaps = {
     },
     // 设置当前选中的基本属性
     SET_CURRENT_BASE_PROPERTY (state, transformData) {
-      state.singleSelected.baseProperty = { ...transformData }
+      state.singleSelected.packageJson.view = { ...transformData }
       let current = state.canvasMap.find(item => {
         return item.id === state.singleSelected.id
       })
       if (current) {
-        current.baseProperty = { ...transformData }
+        current.packageJson.view = { ...transformData }
       }
     }
   },

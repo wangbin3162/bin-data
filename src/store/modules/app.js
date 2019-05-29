@@ -14,7 +14,6 @@ const app = {
     },
     SET_PAGE_SETTING: (state, setting) => {
       state.pageSettings = { ...setting }
-      console.log(state.pageSettings)
     }
   },
   actions: {
