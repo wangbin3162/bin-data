@@ -8,7 +8,7 @@
         {{ transformData.x + ',' + transformData.y }}
       </div>
     </div>
-    <div class="dv-scale">
+    <div class="dv-scale" :style="dragScaleStyle">
       <div class="dv-com" :class="{'hovered':comHover}" style="transform: rotate(0deg);">
         <div class="transform-handler" :class="{'hide':!comHover&&!selected}">
           <div class="dv-wrapper" :style="dvWrapperStyles">
@@ -84,6 +84,7 @@
           startHeight: 0, // 记录开始缩放的高度
           dragging: false
         },
+        dragScale: null,
         resizeType: 'none'
       }
     },
@@ -125,6 +126,15 @@
         }
       },
       contentStyles () {
+        if (this.dragScale) {
+          return {
+            width: this.transformData.width / this.dragScale.x + 'px',
+            height: this.transformData.height / this.dragScale.y + 'px',
+            top: this.transformData.top + 'px',
+            left: this.transformData.left + 'px',
+            transform: `translate3d(${this.transformData.x}px,${this.transformData.y}px,0)`
+          }
+        }
         return {
           width: this.transformData.width + 'px',
           height: this.transformData.height + 'px',
@@ -134,6 +144,15 @@
         }
       },
       dvWrapperStyles () {
+        if (this.dragScale) {
+          return {
+            width: this.transformData.width / this.dragScale.x + 'px',
+            height: this.transformData.height / this.dragScale.y + 'px',
+            transform: 'translateZ(0)',
+            opacity: 1,
+            padding: '10px 0'
+          }
+        }
         return {
           transform: 'translateZ(0)',
           width: this.transformData.width + 'px',
@@ -159,6 +178,12 @@
       },
       controlPointStyleBottomRight () {
         return `cursor: nwse-resize; transform: scale(${1 / this.canvasRange});`
+      },
+      dragScaleStyle () {
+        if (this.dragScale) {
+          return `transform:scale(${this.dragScale.x},${this.dragScale.y})`
+        }
+        return ''
       }
     },
     methods: {
@@ -254,6 +279,8 @@
       handleResizeMoveEnd () {
         this.dragData.dragging = false
         this.resizeType = 'none'
+        this.dragScale = null
+        // resizeWidth 重置宽高
         this.setBaseProperty()
         off(window, 'mousemove', this.handleResizeMoveMove)
         off(window, 'mouseup', this.handleResizeMoveEnd)
@@ -295,6 +322,11 @@
             this.transformData.width = this.dragData.startWidth + w
             this.transformData.height = this.dragData.startHeight + h
             break
+        }
+        // 计算缩放比例
+        this.dragScale = {
+          x: this.transformData.width / this.dragData.startWidth,
+          y: this.transformData.height / this.dragData.startHeight
         }
         this.$store.dispatch('SetBaseProperty', this.transformData)
       },

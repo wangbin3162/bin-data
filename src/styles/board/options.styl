@@ -47,7 +47,6 @@
   .options-body {
     background: $color-admin-options-bg;
     height: calc(100% - 30px);
-    text-align: center;
   }
 
   .expand-hover {
@@ -115,7 +114,7 @@
     font-size: 12px;
     .gui-field-name {
       padding-right: 5px;
-      line-height: 24px;
+      line-height: 28px;
     }
     .gui-field-container {
       min-height: 24px;
@@ -160,14 +159,53 @@
       }
     }
   }
+  .group-title {
+    padding: 0 10px;
+  }
 }
-
 
 // 需要覆盖bin-ui的样式
 .options-body .bin-scrollbar__wrap {
   overflow-x: hidden;
 }
-// 输入框样式覆盖
+.options-body .bin-collapse-simple {
+  background-color: $color-admin-options-bg;
+}
+
+//  折叠菜单
+.options-body .bin-collapse > .bin-collapse-item > .bin-collapse-header {
+  color: #fff;
+  padding-left: 5px;
+  font-size: 12px;
+  i {
+    margin-right: 0;
+  }
+}
+.options-body .bin-collapse-content {
+  background-color: $color-admin-options-dark;
+  color: $color-text-info;
+  padding: 0;
+  .bin-collapse-content-box {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 12px;
+  }
+}
+
+.options-body .bin-collapse > .bin-collapse-item.bin-collapse-item-active > .bin-collapse-header {
+  border-bottom: 1px solid #282f3a;
+}
+.options-body .bin-collapse {
+  border-top: 1px solid #282f3a;
+  border-bottom: 1px solid #282f3a;
+}
+.options-body .bin-collapse > .bin-collapse-item {
+  border-top: 1px solid #282f3a;
+}
+.options-body .bin-collapse > .bin-collapse-item:first-child {
+  border-top: none;
+}
+// 数字输入框样式覆盖
 .options-body .bin-input-number-input {
   background-color: $color-admin-options-dark;
   color: $color-text-info;
@@ -175,3 +213,9 @@
 .options-body .bin-input-number-handler-wrap {
   background-color: $color-admin-options-dark;
 }
+// 输入框样式
+.options-body .bin-input {
+  background-color: $color-admin-options-dark;
+  color: $color-text-info;
+}
+

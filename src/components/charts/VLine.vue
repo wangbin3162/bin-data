@@ -1,6 +1,9 @@
 <template>
-  <div class="dv-line" :style="wrapStyle" ref="wrap">
-    <ve-line :data="chartData" :height="height"></ve-line>
+  <div class="dv-line" style="width: 100%;height:100%;" ref="wrap">
+    <div class="titles" ref="titles" v-if="config.title" style="padding: 0 15px;">
+      <span :style="titleStyle">{{ config.title.content }}</span>
+    </div>
+    <ve-line :data="chartData" :width="width" :height="height"></ve-line>
   </div>
 </template>
 
@@ -9,9 +12,15 @@
 
   export default {
     name: 'VLine',
+    props: {
+      config: {
+        type: Object
+      }
+    },
     data () {
       return {
         wrapStyle: {},
+        width: '500px',
         height: '400px',
         chartData: {
           columns: ['日期', '访问用户', '下单用户', '下单率'],
@@ -27,6 +36,7 @@
       }
     },
     mounted () {
+      console.log(this.config)
       this._calcStyle()
       addResizeListener(this.$refs.wrap, this._calcStyle)
     },
@@ -36,13 +46,22 @@
     methods: {
       _calcStyle () {
         const wrap = this.$refs.wrap
+        const title = this.$refs.titles
         if (!wrap) return
-
-        this.height = (this.$parent.$el.clientHeight - 20) + 'px'
-        // 计算wrap样式
-        this.wrapStyle = {
-          width: '100%',
-          height: this.height
+        let width = wrap.clientWidth
+        let height = wrap.clientHeight
+        if (this.config.title) {
+          height -= title.clientHeight
+        }
+        this.width = width + 'px'
+        this.height = height + 'px'
+      }
+    },
+    computed: {
+      titleStyle () {
+        return {
+          color: this.config.title.textStyle.color,
+          fontSize: this.config.title.textStyle.fontSize + 'px'
         }
       }
     }

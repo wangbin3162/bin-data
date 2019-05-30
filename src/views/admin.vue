@@ -27,7 +27,7 @@
                      @contextmenu.native.stop.prevent="handleRightClickOnCanvas(transform,$event)"
                      @mouseenter.native="handleHover(transform)"
                      @mouseleave.native="handleNoHover()">
-            <v-line></v-line>
+            <v-line :config="transform.packageJson.config"></v-line>
           </drag-item>
         </template>
       </template>

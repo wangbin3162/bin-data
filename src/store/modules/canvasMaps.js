@@ -34,6 +34,16 @@ const canvasMaps = {
       if (current) {
         current.packageJson.view = { ...transformData }
       }
+    },
+    // 设置当前选中的自有属性
+    SET_CURRENT_SELF_PROPERTY (state, config) {
+      state.singleSelected.packageJson.config = { ...config }
+      let current = state.canvasMap.find(item => {
+        return item.id === state.singleSelected.id
+      })
+      if (current) {
+        current.packageJson.config = { ...config }
+      }
     }
   },
   actions: {
@@ -64,6 +74,11 @@ const canvasMaps = {
     SetBaseProperty ({ commit, state }, transformData) {
       if (state.singleSelected) {
         commit('SET_CURRENT_BASE_PROPERTY', transformData)
+      }
+    },
+    SetSelfProperty ({ commit, state }, config) {
+      if (state.singleSelected) {
+        commit('SET_CURRENT_SELF_PROPERTY', config)
       }
     }
   }

@@ -16,13 +16,12 @@ const database = {
           title: {
             content: '主标题',
             textStyle: {
-              color: 'rgba(255,255,255,0.6)',
-              fontSize: 20,
-              fontWeight: 'normal'
+              color: '#ffffff',
+              fontSize: 20
             }
           }
         },
-        view: { width: 500, height: 400, x: 710, y: 340 }
+        view: { width: 500, height: 400, x: 100, y: 100 } // 710,340为中间
       }
     }
   ]
