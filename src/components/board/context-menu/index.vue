@@ -59,7 +59,10 @@
     methods: {
       //  执行菜单命令
       handleCommand (order) {
-        this.$store.dispatch('ContextMenuCommand', order)
+        this.$store.dispatch('HideContextMenu')
+        if (order === 'remove') {
+          this.$EventBus.$emit('context/menu/delete')
+        }
       }
     }
   }

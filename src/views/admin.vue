@@ -80,6 +80,7 @@
     },
     mounted () {
       on(document, 'keyup', this.handleKeyup)
+      this.$EventBus.$on('context/menu/delete', this.deleteDialogShow)
     },
     methods: {
       // 悬停事件
@@ -108,9 +109,12 @@
         let k = e.keyCode || e.which
         if (k === 46) {
           if (this.currentSelected) {
-            this.deleteDialog = true
+            this.deleteDialogShow()
           }
         }
+      },
+      deleteDialogShow () {
+        this.deleteDialog = true
       },
       deleteOne () {
         this.$store.dispatch('ContextMenuCommand', 'remove')
@@ -119,6 +123,7 @@
     components: { VLine, DragItem, DragList, Board },
     beforeDestroy () {
       off(document, 'keyup', this.handleKeyup)
+      this.$EventBus.$off('context/menu/delete', this.deleteDialogShow)
     }
   }
 </script>

@@ -62,6 +62,9 @@ const canvasMaps = {
       let menuInfo = info ? Object.assign({}, info, { isShow: true }) : { x: 0, y: 0, isShow: false }
       commit('SET_CONTEXT_MENU_INFO', menuInfo)
     },
+    HideContextMenu ({ commit }) {
+      commit('SET_CONTEXT_MENU_INFO', { x: 0, y: 0, isShow: false })
+    },
     ContextMenuCommand ({ commit, state }, order) {
       commit('SET_CONTEXT_MENU_INFO', { x: 0, y: 0, isShow: false })
       // 如果是删除

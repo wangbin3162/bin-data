@@ -15,6 +15,8 @@ Vue.component(ColorPicker.name, ColorPicker)
 Vue.use(BinUI)
 Vue.use(VCharts)
 
+Vue.prototype.$EventBus = new Vue()
+
 new Vue({
   router,
   store,
