@@ -48,7 +48,6 @@
     background: $color-admin-options-bg;
     height: calc(100% - 30px);
   }
-
   .expand-hover {
     position: absolute;
     top: 50%;
@@ -118,13 +117,13 @@
     }
     .gui-field-container {
       min-height: 24px;
+      display: flex;
       width: 175px;
       font-size: 12px;
-      display: flex;
-      .gui-field-number {
+      align-items: center;
+      .gui-inline {
         display: inline-block;
         width: 50%;
-        text-align: left;
         .label {
           padding-left: 5px;
           color: #647279;
@@ -134,6 +133,9 @@
           font-size: 12px;
           line-height: 18px;
           text-align: left;
+        }
+        &:last-child {
+          padding-left: 7px;
         }
       }
     }
@@ -218,4 +220,22 @@
   background-color: $color-admin-options-dark;
   color: $color-text-info;
 }
+
+
+//  覆盖element-ui
+.options-body {
+  .el-color-picker {
+    vertical-align: middle;
+    height: 26px;
+    .el-color-picker__trigger {
+      height: 26px;
+      width: 26px;
+    }
+  }
+
+  .el-input__inner {
+    background-color: $color-admin-options-dark;
+  }
+}
+
 

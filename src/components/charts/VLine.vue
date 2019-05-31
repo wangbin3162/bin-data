@@ -3,7 +3,9 @@
     <div class="titles" ref="titles" v-if="config.title" style="padding: 0 15px;">
       <span :style="titleStyle">{{ config.title.content }}</span>
     </div>
-    <ve-line :data="chartData" :width="width" :height="height"></ve-line>
+    <ve-line :data="chartData" :width="width" :height="height" ref="chart"
+             :legend-visible="legendVisible" log
+             :extend="chartExtend" :options="chartOptions" :settings="chartSettings"></ve-line>
   </div>
 </template>
 
@@ -23,20 +25,36 @@
         width: '500px',
         height: '400px',
         chartData: {
-          columns: ['日期', '访问用户', '下单用户', '下单率'],
+          columns: ['日期', '访问用户', '下单用户'],
           rows: [
-            { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
-            { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
-            { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
-            { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
-            { '日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
-            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }
+            { '日期': '1/1', '访问用户': 1393, '下单用户': 1093 },
+            { '日期': '1/2', '访问用户': 3530, '下单用户': 3230 },
+            { '日期': '1/3', '访问用户': 2923, '下单用户': 2623 },
+            { '日期': '1/4', '访问用户': 1723, '下单用户': 1423 },
+            { '日期': '1/5', '访问用户': 3792, '下单用户': 3492 },
+            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293 }
           ]
-        }
+        },
+        tooltipVisible: true,
+        legendVisible: true,
+        // chart扩展配置项
+        chartExtend: {},
+        chartOptions: {},
+        chartSettings: {}
+      }
+    },
+    watch: {
+      config: {
+        handler (val) {
+          if (val) {
+            this.setOptions()
+          }
+        },
+        deep: true,
+        immediate: true
       }
     },
     mounted () {
-      console.log(this.config)
       this._calcStyle()
       addResizeListener(this.$refs.wrap, this._calcStyle)
     },
@@ -55,6 +73,16 @@
         }
         this.width = width + 'px'
         this.height = height + 'px'
+      },
+      setOptions () {
+        // 图例
+        // this.legendVisible = false
+        // this.$nextTick(() => {
+        this.legendVisible = this.config.legend.show
+        this.chartExtend = { ...this.config }
+        // })
+        console.log(this.chartExtend)
+        console.log(this.chartOptions)
       }
     },
     computed: {

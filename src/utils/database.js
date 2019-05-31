@@ -19,9 +19,66 @@ const database = {
               color: '#ffffff',
               fontSize: 20
             }
+          },
+          grid: {
+            left: 20,
+            top: 60,
+            right: 20,
+            bottom: 30
+          },
+          legend: {
+            show: true,
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            itemGap: 12,
+            icon: '',
+            position: 'top-center'
+          },
+          xAxis: {
+            show: true,
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#fff'
+              }
+            },
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#fff'
+              }
+            }
+          },
+          yAxis: {
+            show: true,
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#fff'
+              }
+            },
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: '#fff'
+              }
+            }
+          },
+          series: {
+            smooth: true
           }
         },
-        view: { width: 500, height: 400, x: 100, y: 100 } // 710,340为中间
+        view: { width: 500, height: 400, x: 400, y: 100 } // 710,340为中间
       }
     }
   ]
