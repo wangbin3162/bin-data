@@ -78,7 +78,7 @@
               <!--grid-->
               <template v-if="selfConfig.grid">
                 <b-collapse-panel title="全局样式" name="grid">
-                  <gui-field label="边距">
+                  <gui-field label="上下边距">
                     <gui-inline label="顶部">
                       <b-input-number v-model="selfConfig.grid.top" size="small"
                                       :min="0" :max="60" @on-change="setSelfProperty"></b-input-number>
@@ -88,7 +88,7 @@
                                       :min="0" :max="60" @on-change="setSelfProperty"></b-input-number>
                     </gui-inline>
                   </gui-field>
-                  <gui-field label="边距">
+                  <gui-field label="左右边距">
                     <gui-inline label="左侧">
                       <b-input-number v-model="selfConfig.grid.left" size="small"
                                       :min="0" :max="60" @on-change="setSelfProperty"></b-input-number>
@@ -97,6 +97,9 @@
                       <b-input-number v-model="selfConfig.grid.right" size="small"
                                       :min="0" :max="60" @on-change="setSelfProperty"></b-input-number>
                     </gui-inline>
+                  </gui-field>
+                  <gui-field label="平滑曲线">
+                    <b-switch v-model="selfConfig.series.smooth" size="small" @on-change="setSelfProperty"></b-switch>
                   </gui-field>
                 </b-collapse-panel>
               </template>
@@ -235,9 +238,7 @@
               <!--数据系列-->
               <template v-if="selfConfig.series">
                 <b-collapse-panel title="数据系列" name="series">
-                  <gui-field label="平滑曲线">
-                    <b-switch v-model="selfConfig.series.smooth" size="small" @on-change="setSelfProperty"></b-switch>
-                  </gui-field>
+                  系列1
                 </b-collapse-panel>
               </template>
             </b-collapse>

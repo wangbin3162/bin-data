@@ -15,6 +15,9 @@
   export default {
     name: 'VLine',
     props: {
+      apiData: {
+        type: Object
+      },
       config: {
         type: Object
       }
@@ -25,15 +28,8 @@
         width: '500px',
         height: '400px',
         chartData: {
-          columns: ['日期', '访问用户', '下单用户'],
-          rows: [
-            { '日期': '1/1', '访问用户': 1393, '下单用户': 1093 },
-            { '日期': '1/2', '访问用户': 3530, '下单用户': 3230 },
-            { '日期': '1/3', '访问用户': 2923, '下单用户': 2623 },
-            { '日期': '1/4', '访问用户': 1723, '下单用户': 1423 },
-            { '日期': '1/5', '访问用户': 3792, '下单用户': 3492 },
-            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293 }
-          ]
+          columns: ['x', '系列1'],
+          rows: [{ x: 'x', '系列1': 100 }]
         },
         tooltipVisible: true,
         legendVisible: true,
@@ -48,6 +44,26 @@
         handler (val) {
           if (val) {
             this.setOptions()
+          }
+        },
+        deep: true,
+        immediate: true
+      },
+      apiData: {
+        handler (val) {
+          if (val) {
+            if (val.columns) {
+              this.chartData.columns = [...val.columns]
+            }
+            if (val.source) {
+              this.chartData.rows = [...val.source]
+            }
+            if (val.labelMap) {
+              this.chartSettings = { ...val.labelMap }
+              console.log('======chartSettings======')
+              console.log(this.chartSettings)
+            }
+            console.log(val)
           }
         },
         deep: true,
