@@ -243,8 +243,28 @@
               </template>
             </b-collapse>
           </div>
-          <div v-else-if="tabsType===1">数据</div>
-          <div v-else>交互</div>
+          <div v-else-if="tabsType===1">
+            <gui-group group-name="数据映射">
+              <gui-field label="x">
+                <b-input v-model="apis.labelMap.x" size="mini" @on-change="setApiLabelMap"></b-input>
+              </gui-field>
+              <gui-field label="y">
+                <b-input v-model="apis.labelMap.y" size="mini" @on-change="setApiLabelMap"></b-input>
+              </gui-field>
+              <gui-field label="s">
+                <b-input v-model="apis.labelMap.s" size="mini" @on-change="setApiLabelMap"></b-input>
+              </gui-field>
+            </gui-group>
+            <gui-group group-name="数据源">
+              <div style="padding: 6px;">
+                <b-input v-model="dataSource" type="textarea" @on-keyup.delete.stop autosize
+                         placeholder="enter json data..." @on-change="dataSourceChange"></b-input>
+              </div>
+            </gui-group>
+          </div>
+          <div v-else>
+            <div flex="main:center">暂无交互事件</div>
+          </div>
         </div>
       </b-scrollbar>
     </div>
@@ -279,6 +299,9 @@
         baseProperty: { width: 0, height: 0, x: 0, y: 0 }, // 配置-基础属性,
         collapseActive: '',
         selfConfig: {},
+        apiData: {},
+        apis: {},
+        dataSource: '',
         legendPosOptions: [
           { value: 'top-center', label: 'top' },
           { value: 'bottom-center', label: 'bottom' }
@@ -311,6 +334,12 @@
         // 发送请求来保存数据
         setBaseProperty(this.currentSelected)
       },
+      // 设置数据映射
+      setApiLabelMap () {
+        this.$store.dispatch('SetApis', this.apis)
+        // 发送请求来保存数据
+        setBaseProperty(this.currentSelected)
+      },
       // 重置全局配置
       resetSetting () {
         this.$loading.start()
@@ -319,6 +348,7 @@
           this.$loading.done()
         })
       },
+      // 图例位置改变事件
       legendPosChange (val) {
         this.selfConfig.legend.top = 'auto'
         this.selfConfig.legend.bottom = 'auto'
@@ -331,6 +361,18 @@
             break
         }
         this.setSelfProperty()
+      },
+      // 数据源改变事件
+      dataSourceChange () {
+        try {
+          let source = JSON.parse(this.dataSource)
+          this.apiData.source = [...source]
+          this.$store.dispatch('SetSelfDataSource', this.apiData)
+          // 发送请求来保存数据
+          setBaseProperty(this.currentSelected)
+        } catch (e) {
+          console.warn('source is not a json string')
+        }
       }
     },
     watch: {
@@ -339,6 +381,9 @@
           if (val && val.packageJson) {
             this.baseProperty = { ...val.packageJson.view }
             this.selfConfig = Object.assign(this.selfConfig, val.packageJson.config)
+            this.apiData = Object.assign(this.apiData, val.packageJson.api_data)
+            this.apis = Object.assign(this.apis, val.packageJson.apis)
+            this.dataSource = JSON.stringify(this.apiData.source)
           }
         },
         deep: true

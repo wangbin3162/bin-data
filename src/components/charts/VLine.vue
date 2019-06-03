@@ -4,18 +4,22 @@
       <span :style="titleStyle">{{ config.title.content }}</span>
     </div>
     <ve-line :data="chartData" :width="width" :height="height" ref="chart"
-             :legend-visible="legendVisible" log
+             :legend-visible="legendVisible"
              :extend="chartExtend" :options="chartOptions" :settings="chartSettings"></ve-line>
   </div>
 </template>
 
 <script>
   import { addResizeListener, removeResizeListener } from 'bin-ui/src/utils/resize-event'
+  import { formatData } from '../../utils/formatData'
 
   export default {
     name: 'VLine',
     props: {
       apiData: {
+        type: Object
+      },
+      apis: {
         type: Object
       },
       config: {
@@ -28,8 +32,8 @@
         width: '500px',
         height: '400px',
         chartData: {
-          columns: ['x', '系列1'],
-          rows: [{ x: 'x', '系列1': 100 }]
+          columns: ['x', 'y'],
+          rows: [{ x: 'x', y: 100 }]
         },
         tooltipVisible: true,
         legendVisible: true,
@@ -43,7 +47,13 @@
       config: {
         handler (val) {
           if (val) {
-            this.setOptions()
+            // 图例
+            this.legendVisible = val.legend.show
+            this.chartExtend = { ...val }
+            this.$log.primary('========>chartExtend')
+            this.$print(this.chartExtend)
+            this.$log.primary('========>chartOptions')
+            this.$print(this.chartOptions)
           }
         },
         deep: true,
@@ -52,18 +62,24 @@
       apiData: {
         handler (val) {
           if (val) {
-            if (val.columns) {
-              this.chartData.columns = [...val.columns]
-            }
             if (val.source) {
-              this.chartData.rows = [...val.source]
+              let data = formatData(val.source)
+              this.chartData.columns = [...data.columns]
+              this.chartData.rows = [...data.rows]
+              this.$log.primary('========>chartData')
+              this.$print(this.chartData)
             }
-            if (val.labelMap) {
-              this.chartSettings = { ...val.labelMap }
-              console.log('======chartSettings======')
-              console.log(this.chartSettings)
-            }
-            console.log(val)
+          }
+        },
+        deep: true,
+        immediate: true
+      },
+      apis: {
+        handler (val) {
+          if (val && val.labelMap) {
+            this.chartSettings = { labelMap: val.labelMap }
+            this.$log.primary('========>chartSettings')
+            this.$print(this.chartSettings)
           }
         },
         deep: true,
@@ -89,16 +105,6 @@
         }
         this.width = width + 'px'
         this.height = height + 'px'
-      },
-      setOptions () {
-        // 图例
-        // this.legendVisible = false
-        // this.$nextTick(() => {
-        this.legendVisible = this.config.legend.show
-        this.chartExtend = { ...this.config }
-        // })
-        console.log(this.chartExtend)
-        console.log(this.chartOptions)
       }
     },
     computed: {

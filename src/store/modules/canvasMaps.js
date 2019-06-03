@@ -36,13 +36,14 @@ const canvasMaps = {
       }
     },
     // 设置当前选中的自有属性
-    SET_CURRENT_SELF_PROPERTY (state, config) {
-      state.singleSelected.packageJson.config = { ...config }
+    SET_CURRENT_SELF (state, { data, property }) {
+      state.singleSelected.packageJson[property] = { ...data }
       let current = state.canvasMap.find(item => {
         return item.id === state.singleSelected.id
       })
       if (current) {
-        current.packageJson.config = { ...config }
+        console.log('property:' + property)
+        current.packageJson[property] = { ...data }
       }
     }
   },
@@ -81,7 +82,17 @@ const canvasMaps = {
     },
     SetSelfProperty ({ commit, state }, config) {
       if (state.singleSelected) {
-        commit('SET_CURRENT_SELF_PROPERTY', config)
+        commit('SET_CURRENT_SELF', { data: config, property: 'config' })
+      }
+    },
+    SetApis ({ commit, state }, apis) {
+      if (state.singleSelected) {
+        commit('SET_CURRENT_SELF', { data: apis, property: 'apis' })
+      }
+    },
+    SetSelfDataSource ({ commit, state }, source) {
+      if (state.singleSelected) {
+        commit('SET_CURRENT_SELF', { data: source, property: 'api_data' })
       }
     }
   }
