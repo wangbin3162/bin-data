@@ -41,10 +41,8 @@
                              @change="setPageSetting"></el-color-picker>
           </gui-field>
           <gui-field label="栅格间距">
-            <div class="gui-inline">
-              <b-input-number v-model="globalSettings.gridStep" size="small" :min="2" :max="20"
-                              @on-change="setPageSetting"></b-input-number>
-            </div>
+            <b-input-number v-model="globalSettings.gridStep" size="small" :min="2" :max="20"
+                            @on-change="setPageSetting"></b-input-number>
           </gui-field>
           <gui-field label="重置">
             <b-button type="primary" size="mini" v-waves @click="resetSetting">恢复默认配置</b-button>
@@ -78,29 +76,24 @@
               <!--grid-->
               <template v-if="selfConfig.grid">
                 <b-collapse-panel title="全局样式" name="grid">
-                  <gui-field label="上下边距">
-                    <gui-inline label="顶部">
+                  <gui-wrap label="边距" :value="true" simple>
+                    <gui-field label="顶部">
                       <b-input-number v-model="selfConfig.grid.top" size="small"
                                       :min="0" :max="60" @on-change="setSelfProperty"></b-input-number>
-                    </gui-inline>
-                    <gui-inline label="底部">
+                    </gui-field>
+                    <gui-field label="底部">
                       <b-input-number v-model="selfConfig.grid.bottom" size="small"
                                       :min="0" :max="60" @on-change="setSelfProperty"></b-input-number>
-                    </gui-inline>
-                  </gui-field>
-                  <gui-field label="左右边距">
-                    <gui-inline label="左侧">
+                    </gui-field>
+                    <gui-field label="左侧">
                       <b-input-number v-model="selfConfig.grid.left" size="small"
                                       :min="0" :max="60" @on-change="setSelfProperty"></b-input-number>
-                    </gui-inline>
-                    <gui-inline label="右侧">
+                    </gui-field>
+                    <gui-field label="右侧">
                       <b-input-number v-model="selfConfig.grid.right" size="small"
                                       :min="0" :max="60" @on-change="setSelfProperty"></b-input-number>
-                    </gui-inline>
-                  </gui-field>
-                  <gui-field label="平滑曲线">
-                    <b-switch v-model="selfConfig.series.smooth" size="small" @on-change="setSelfProperty"></b-switch>
-                  </gui-field>
+                    </gui-field>
+                  </gui-wrap>
                 </b-collapse-panel>
               </template>
               <!--标题-->
@@ -116,7 +109,7 @@
                     </gui-inline>
                     <gui-inline label="颜色">
                       <el-color-picker v-model="selfConfig.title.textStyle.color"
-                                       show-alpha @change="setSelfProperty"></el-color-picker>
+                                       @change="setSelfProperty"></el-color-picker>
                     </gui-inline>
                   </gui-field>
                 </b-collapse-panel>
@@ -124,25 +117,21 @@
               <!--图例-->
               <template v-if="selfConfig.legend">
                 <b-collapse-panel title="图例" name="legend">
-                  <gui-field label="是否显示">
-                    <b-switch v-model="selfConfig.legend.show" size="small" @on-change="setSelfProperty"></b-switch>
-                  </gui-field>
-                  <gui-field label="文本">
-                    <gui-inline label="字号">
-                      <b-input-number v-model="selfConfig.legend.textStyle.fontSize" size="small"
-                                      :min="12" :max="40" @on-change="setSelfProperty"></b-input-number>
-                    </gui-inline>
-                    <gui-inline label="颜色">
-                      <el-color-picker v-model="selfConfig.legend.textStyle.color"
-                                       show-alpha @change="setSelfProperty"></el-color-picker>
-                    </gui-inline>
-                  </gui-field>
-                  <gui-field label="间距">
-                    <b-input-number v-model="selfConfig.legend.itemGap" size="small"
-                                    :min="0" :max="50" @on-change="setSelfProperty"></b-input-number>
-                  </gui-field>
-                  <gui-field label="图例">
-                    <gui-inline label="位置">
+                  <gui-wrap label="图例" v-model="selfConfig.legend.show" @on-change="setSelfProperty">
+                    <gui-field label="文本">
+                      <gui-inline label="字号">
+                        <b-input-number v-model="selfConfig.legend.textStyle.fontSize" size="small"
+                                        :min="12" :max="40" @on-change="setSelfProperty"></b-input-number>
+                      </gui-inline>
+                      <gui-inline label="颜色">
+                        <el-color-picker v-model="selfConfig.legend.textStyle.color" @change="setSelfProperty"></el-color-picker>
+                      </gui-inline>
+                    </gui-field>
+                    <gui-field label="间距">
+                      <b-input-number v-model="selfConfig.legend.itemGap" size="small"
+                                      :min="0" :max="50" @on-change="setSelfProperty"></b-input-number>
+                    </gui-field>
+                    <gui-field label="位置">
                       <el-select v-model="selfConfig.legend.position" size="mini"
                                  @change="legendPosChange" :value="selfConfig.legend.position">
                         <el-option
@@ -152,8 +141,8 @@
                           :value="item.value">
                         </el-option>
                       </el-select>
-                    </gui-inline>
-                    <gui-inline label="样式">
+                    </gui-field>
+                    <gui-field label="样式">
                       <el-select v-model="selfConfig.legend.icon" size="mini"
                                  @change="setSelfProperty" :value="selfConfig.legend.icon">
                         <el-option
@@ -163,8 +152,8 @@
                           :value="item.value">
                         </el-option>
                       </el-select>
-                    </gui-inline>
-                  </gui-field>
+                    </gui-field>
+                  </gui-wrap>
                 </b-collapse-panel>
               </template>
               <!--x轴-->
@@ -180,25 +169,25 @@
                     </gui-inline>
                     <gui-inline label="颜色">
                       <el-color-picker v-model="selfConfig.xAxis.axisLabel.color"
-                                       show-alpha @change="setSelfProperty"></el-color-picker>
+                                       @change="setSelfProperty"></el-color-picker>
                     </gui-inline>
                   </gui-field>
-                  <gui-field label="轴线">
-                    <b-switch v-model="selfConfig.xAxis.axisLine.show" size="small"
-                              @on-change="setSelfProperty"></b-switch>
+                  <gui-field label="倾斜角度">
+                    <b-input-number v-model="selfConfig.xAxis.axisLabel.rotate" size="small"
+                                    :min="0" :max="90" @on-change="setSelfProperty"></b-input-number>
                   </gui-field>
-                  <gui-field label="轴线颜色" v-if="selfConfig.xAxis.axisLine.show">
-                    <el-color-picker v-model="selfConfig.xAxis.axisLine.lineStyle.color"
-                                     show-alpha @change="setSelfProperty"></el-color-picker>
-                  </gui-field>
-                  <gui-field label="网格线">
-                    <b-switch v-model="selfConfig.xAxis.splitLine.show" size="small"
-                              @on-change="setSelfProperty"></b-switch>
-                  </gui-field>
-                  <gui-field label="网格线颜色" v-if="selfConfig.xAxis.splitLine.show">
-                    <el-color-picker v-model="selfConfig.xAxis.splitLine.lineStyle.color"
-                                     show-alpha @change="setSelfProperty"></el-color-picker>
-                  </gui-field>
+                  <gui-wrap label="轴线" v-model="selfConfig.xAxis.axisLine.show" @on-change="setSelfProperty">
+                    <gui-field label="轴线颜色">
+                      <el-color-picker v-model="selfConfig.xAxis.axisLine.lineStyle.color"
+                                       show-alpha @change="setSelfProperty"></el-color-picker>
+                    </gui-field>
+                  </gui-wrap>
+                  <gui-wrap label="网格线" v-model="selfConfig.xAxis.splitLine.show" @on-change="setSelfProperty">
+                    <gui-field label="网格线颜色">
+                      <el-color-picker v-model="selfConfig.xAxis.splitLine.lineStyle.color"
+                                       show-alpha @change="setSelfProperty"></el-color-picker>
+                    </gui-field>
+                  </gui-wrap>
                 </b-collapse-panel>
               </template>
               <!--y轴-->
@@ -214,31 +203,58 @@
                     </gui-inline>
                     <gui-inline label="颜色">
                       <el-color-picker v-model="selfConfig.xAxis.axisLabel.color"
-                                       show-alpha @change="setSelfProperty"></el-color-picker>
+                                       @change="setSelfProperty"></el-color-picker>
                     </gui-inline>
                   </gui-field>
-                  <gui-field label="轴线">
-                    <b-switch v-model="selfConfig.yAxis.axisLine.show" size="small"
-                              @on-change="setSelfProperty"></b-switch>
-                  </gui-field>
-                  <gui-field label="轴线颜色" v-if="selfConfig.yAxis.axisLine.show">
-                    <el-color-picker v-model="selfConfig.yAxis.axisLine.lineStyle.color"
-                                     show-alpha @change="setSelfProperty"></el-color-picker>
-                  </gui-field>
-                  <gui-field label="网格线">
-                    <b-switch v-model="selfConfig.yAxis.splitLine.show" size="small"
-                              @on-change="setSelfProperty"></b-switch>
-                  </gui-field>
-                  <gui-field label="网格线颜色" v-if="selfConfig.yAxis.splitLine.show">
-                    <el-color-picker v-model="selfConfig.yAxis.splitLine.lineStyle.color"
-                                     show-alpha @change="setSelfProperty"></el-color-picker>
-                  </gui-field>
+                  <gui-wrap label="轴线" v-model="selfConfig.yAxis.axisLine.show" @on-change="setSelfProperty">
+                    <gui-field label="轴线颜色">
+                      <el-color-picker v-model="selfConfig.yAxis.axisLine.lineStyle.color"
+                                       show-alpha @change="setSelfProperty"></el-color-picker>
+                    </gui-field>
+                  </gui-wrap>
+                  <gui-wrap label="网格线" v-model="selfConfig.yAxis.splitLine.show" @on-change="setSelfProperty">
+                    <gui-field label="网格线颜色">
+                      <el-color-picker v-model="selfConfig.yAxis.splitLine.lineStyle.color"
+                                       show-alpha @change="setSelfProperty"></el-color-picker>
+                    </gui-field>
+                  </gui-wrap>
                 </b-collapse-panel>
               </template>
               <!--数据系列-->
               <template v-if="selfConfig.series">
                 <b-collapse-panel title="数据系列" name="series">
-                  系列1
+                  <gui-field label="近似曲线">
+                    <b-switch v-model="selfConfig.series.smooth" size="small" @on-change="setSelfProperty"></b-switch>
+                  </gui-field>
+                  <gui-wrap label="指标"
+                            v-model="selfConfig.series.label.normal.show" @on-change="setSelfProperty">
+                    <gui-field label="指标文本">
+                      <gui-inline label="字号">
+                        <b-input-number v-model="selfConfig.series.label.normal.fontSize" size="small"
+                                        :min="12" :max="40" @on-change="setSelfProperty"></b-input-number>
+                      </gui-inline>
+                      <gui-inline label="颜色">
+                        <el-color-picker v-model="selfConfig.series.label.normal.color"
+                                         @change="setSelfProperty"></el-color-picker>
+                      </gui-inline>
+                    </gui-field>
+                  </gui-wrap>
+                  <gui-wrap label="区域渐变" :value="true" simple>
+                    <gui-field label="区域透明度">
+                      <b-input-number v-model="selfConfig.series.areaStyle.opacity" size="small"
+                                      :max="1" :step="0.1" @on-change="setSelfProperty"></b-input-number>
+                    </gui-field>
+                  </gui-wrap>
+                </b-collapse-panel>
+              </template>
+              <template v-if="selfConfig.colors">
+                <b-collapse-panel title="颜色数组" name="colors">
+                  <div style="padding: 5px 13px;">
+                    <gui-colors v-for="(c,index) of selfConfig.colors" :key="index+c">
+                      <el-color-picker v-model="selfConfig.colors[index]" :predefine="predefineColors"
+                                       @change="setSelfProperty"></el-color-picker>
+                    </gui-colors>
+                  </div>
                 </b-collapse-panel>
               </template>
             </b-collapse>
@@ -281,8 +297,11 @@
   import { setBaseProperty } from '../../../api/canvasMaps/canvas-maps-request'
   import { resetPageSettings, setPageSettings } from '../../../api/app/app-request'
   import GuiGroup from './gui-group'
+  import GuiWrap from './gui-wrap'
   import GuiField from './gui-field'
   import GuiInline from './gui-inline'
+  import GuiColors from './gui-colors'
+  import { DEFAULT_COLORS } from '../../../utils/defaultColors'
 
   export default {
     name: 'BoardOptions',
@@ -301,6 +320,7 @@
         selfConfig: {},
         apiData: {},
         apis: {},
+        predefineColors: DEFAULT_COLORS,
         dataSource: '',
         legendPosOptions: [
           { value: 'top-center', label: 'top' },
@@ -400,6 +420,6 @@
     computed: {
       ...mapGetters(['pageSettings', 'canvasRange', 'optionsExpand', 'currentSelected'])
     },
-    components: { GuiGroup, GuiField, GuiInline }
+    components: { GuiGroup, GuiField, GuiInline, GuiColors, GuiWrap }
   }
 </script>

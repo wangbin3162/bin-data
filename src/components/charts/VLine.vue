@@ -4,7 +4,7 @@
       <span :style="titleStyle">{{ config.title.content }}</span>
     </div>
     <ve-line :data="chartData" :width="width" :height="height" ref="chart"
-             :legend-visible="legendVisible"
+             :legend-visible="legendVisible" :colors="colors"
              :extend="chartExtend" :options="chartOptions" :settings="chartSettings"></ve-line>
   </div>
 </template>
@@ -17,13 +17,16 @@
     name: 'VLine',
     props: {
       apiData: {
-        type: Object
+        type: Object,
+        required: true
       },
       apis: {
-        type: Object
+        type: Object,
+        required: true
       },
       config: {
-        type: Object
+        type: Object,
+        required: true
       }
     },
     data () {
@@ -40,7 +43,8 @@
         // chart扩展配置项
         chartExtend: {},
         chartOptions: {},
-        chartSettings: {}
+        chartSettings: {},
+        colors: []
       }
     },
     watch: {
@@ -50,10 +54,9 @@
             // 图例
             this.legendVisible = val.legend.show
             this.chartExtend = { ...val }
+            this.colors = [...val.colors]
             this.$log.primary('========>chartExtend')
             this.$print(this.chartExtend)
-            this.$log.primary('========>chartOptions')
-            this.$print(this.chartOptions)
           }
         },
         deep: true,

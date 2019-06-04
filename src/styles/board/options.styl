@@ -140,6 +140,49 @@
       }
     }
   }
+  .gui-wrap {
+    position: relative;
+    padding-left: 13px;
+    &.disable {
+      color: #647279;
+    }
+    .wrap-name {
+      line-height: 40px;
+      span {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .wrap-arrow {
+        transition: .3s
+        &.show {
+          transform: rotate(90deg)
+        }
+        &.simple {
+          cursor: pointer;
+        }
+      }
+      .wrap-label {
+        padding: 0 5px 0 2px;
+      }
+      .wrap-toggle {
+        cursor: pointer;
+      }
+      .iconfont {
+        line-height: normal;
+      }
+    }
+    .gui-field {
+      padding-left: 18px;
+    }
+    &:after {
+      content: ''
+      position: absolute;
+      top: 40px;
+      left: 18px;
+      bottom: 0;
+      border-left: 1px solid #282f3a;
+    }
+  }
   .gui-group {
     .gui-group-name {
       border-bottom: 1px solid #282f3a;
@@ -160,6 +203,10 @@
         padding-left: 20px;
       }
     }
+  }
+  .gui-color {
+    display: inline-block;
+    margin: 0 4px 4px 0
   }
   .group-title {
     padding: 0 10px;
@@ -230,6 +277,11 @@
     .el-color-picker__trigger {
       height: 26px;
       width: 26px;
+      padding: 2px;
+    }
+    .el-color-picker__color {
+      overflow: hidden;
+      border: none;
     }
   }
 

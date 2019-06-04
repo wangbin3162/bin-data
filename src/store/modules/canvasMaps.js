@@ -42,7 +42,6 @@ const canvasMaps = {
         return item.id === state.singleSelected.id
       })
       if (current) {
-        console.log('property:' + property)
         current.packageJson[property] = { ...data }
       }
     }
@@ -88,6 +87,11 @@ const canvasMaps = {
     SetApis ({ commit, state }, apis) {
       if (state.singleSelected) {
         commit('SET_CURRENT_SELF', { data: apis, property: 'apis' })
+      }
+    },
+    SetColors ({ commit, state }, colors) {
+      if (state.singleSelected) {
+        commit('SET_CURRENT_SELF', { data: colors, property: 'colors' })
       }
     },
     SetSelfDataSource ({ commit, state }, source) {

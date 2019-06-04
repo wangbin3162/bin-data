@@ -1,3 +1,5 @@
+import { DEFAULT_COLORS } from './defaultColors'
+
 const database = {
   app: {
     width: 1920,
@@ -63,7 +65,8 @@ const database = {
             },
             axisLabel: {
               color: '#ffffff',
-              fontSize: 12
+              fontSize: 12,
+              rotate: 0
             },
             splitLine: {
               show: false,
@@ -92,8 +95,19 @@ const database = {
             }
           },
           series: {
-            smooth: true
-          }
+            smooth: true,
+            label: {
+              normal: {
+                show: false,
+                color: '#fff',
+                fontSize: 12
+              }
+            },
+            areaStyle: {
+              opacity: 0
+            }
+          },
+          colors: DEFAULT_COLORS
         },
         view: { width: 500, height: 400, x: 400, y: 100 } // 710,340为中间
       }
