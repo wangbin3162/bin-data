@@ -1,4 +1,4 @@
-import { addCanvasMap, removeCanvasMap } from '../../api/canvasMaps/canvas-maps-request'
+import { addCanvasMap, copyCanvasMap, removeCanvasMap } from '../../api/canvasMaps/canvas-maps-request'
 
 const canvasMaps = {
   state: {
@@ -67,11 +67,23 @@ const canvasMaps = {
     },
     ContextMenuCommand ({ commit, state }, order) {
       commit('SET_CONTEXT_MENU_INFO', { x: 0, y: 0, isShow: false })
-      // 如果是删除
-      if (order === 'remove') {
-        removeCanvasMap(state.singleSelected).then(res => {
-          commit('SET_CANVAS_MAPS', res.data)
-        })
+      console.log(order)
+      switch (order) {
+        case 'copy':
+          // 如果是复制操作，则传入当前选中的值
+          copyCanvasMap(state.singleSelected).then(res => {
+            let last = res.data[res.data.length - 1]
+            commit('SET_CANVAS_MAPS', res.data)
+            commit('SINGLE_SELECT', last)
+          })
+          break
+        case 'remove':
+          // 如果是删除操作，则需要删除并更新当前的canvasMaps，并默认设置当前选中为空
+          removeCanvasMap(state.singleSelected).then(res => {
+            commit('SET_CANVAS_MAPS', res.data)
+            commit('SINGLE_SELECT', null)
+          })
+          break
       }
     },
     SetBaseProperty ({ commit, state }, transformData) {
@@ -87,11 +99,6 @@ const canvasMaps = {
     SetApis ({ commit, state }, apis) {
       if (state.singleSelected) {
         commit('SET_CURRENT_SELF', { data: apis, property: 'apis' })
-      }
-    },
-    SetColors ({ commit, state }, colors) {
-      if (state.singleSelected) {
-        commit('SET_CURRENT_SELF', { data: colors, property: 'colors' })
       }
     },
     SetSelfDataSource ({ commit, state }, source) {

@@ -59,9 +59,11 @@
     methods: {
       //  执行菜单命令
       handleCommand (order) {
-        this.$store.dispatch('HideContextMenu')
-        if (order === 'remove') {
+        if (order === 'remove') { // 如果是删除操作则弹出一个对话框来确认
+          this.$store.dispatch('HideContextMenu')
           this.$EventBus.$emit('context/menu/delete')
+        } else {
+          this.$store.dispatch('ContextMenuCommand', order)
         }
       }
     }

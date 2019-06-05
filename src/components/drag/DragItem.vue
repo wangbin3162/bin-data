@@ -130,16 +130,12 @@
           return {
             width: this.transformData.width / this.dragScale.x + 'px',
             height: this.transformData.height / this.dragScale.y + 'px',
-            top: this.transformData.top + 'px',
-            left: this.transformData.left + 'px',
             transform: `translate3d(${this.transformData.x}px,${this.transformData.y}px,0)`
           }
         }
         return {
           width: this.transformData.width + 'px',
           height: this.transformData.height + 'px',
-          top: this.transformData.top + 'px',
-          left: this.transformData.left + 'px',
           transform: `translate3d(${this.transformData.x}px,${this.transformData.y}px,0)`
         }
       },
@@ -149,7 +145,6 @@
             width: this.transformData.width / this.dragScale.x + 'px',
             height: this.transformData.height / this.dragScale.y + 'px',
             transform: 'translateZ(0)',
-            opacity: 1,
             padding: '10px 0'
           }
         }
@@ -157,7 +152,6 @@
           transform: 'translateZ(0)',
           width: this.transformData.width + 'px',
           height: this.transformData.height + 'px',
-          opacity: 1,
           padding: '10px 0'
         }
       },
