@@ -10,6 +10,31 @@
     font-size: 12px;
     color: $color-text-info;
   }
+  .control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    border-bottom: 2px solid #282f3a;
+    opacity: .3;
+    .iconfont {
+      padding: 2px;
+      font-size: 14px;
+      background-color: #282f3a;
+      color: #8cc7ff;
+      margin: 0 8px;
+    }
+    &.selected {
+      opacity: 1;
+      .iconfont {
+        cursor: pointer;
+        &:hover {
+          color: #fff;
+          background-color: #2d8cf0;
+        }
+      }
+    }
+  }
   .control-body {
     width: 100%;
     height: 100%;

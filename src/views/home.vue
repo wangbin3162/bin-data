@@ -4,15 +4,41 @@
     <header><span class="head-title">bin-data</span></header>
     <div class="dv-container">
       <div class="dv-ctrl">
-        <router-link :to="{ name: 'admin', params: { id: 'dv1e443967LZP2Dj' }}" class="btn">进入ADMIN</router-link>
-        <router-link to="/screen" class="btn">预览页面</router-link>
+        <a href="" class="btn" @click.stop.prevent="openAdmin">进入ADMIN</a>
+        <a href="" class="btn" @click.stop.prevent="openScreen">预览页面</a>
+        <a href="" class="btn" @click.stop.prevent="resetLocalData">初始化本地数据</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import { initLocalData } from '../api/app/app-request'
+
   export default {
-    name: 'home'
+    name: 'home',
+    data () {
+      return {
+        userId: ''
+      }
+    },
+    created () {
+      this.userId = 'dv1e443967LZP2Dj'
+    },
+    methods: {
+      openAdmin () {
+        let url = `http://${window.location.host}/admin/${this.userId}`
+        this.$util.open(url)
+      },
+      openScreen () {
+        let url = `http://${window.location.host}/screen/${this.userId}`
+        this.$util.open(url)
+      },
+      resetLocalData () {
+        initLocalData().then(res => {
+          this.$message({ type: 'success', content: res.message })
+        })
+      }
+    }
   }
 </script>

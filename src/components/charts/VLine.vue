@@ -55,8 +55,8 @@
             this.legendVisible = val.legend.show
             this.chartExtend = { ...val }
             this.colors = [...val.colors]
-            this.$log.primary('========>chartExtend')
-            this.$print(this.chartExtend)
+            // this.$log.primary('========>chartExtend')
+            // this.$print(this.chartExtend)
           }
         },
         deep: true,
@@ -69,8 +69,8 @@
               let data = formatData(val.source)
               this.chartData.columns = [...data.columns]
               this.chartData.rows = [...data.rows]
-              this.$log.primary('========>chartData')
-              this.$print(this.chartData)
+              // this.$log.primary('========>chartData')
+              // this.$print(this.chartData)
             }
           }
         },
@@ -81,8 +81,8 @@
         handler (val) {
           if (val && val.labelMap) {
             this.chartSettings = { labelMap: val.labelMap }
-            this.$log.primary('========>chartSettings')
-            this.$print(this.chartSettings)
+            // this.$log.primary('========>chartSettings')
+            // this.$print(this.chartSettings)
           }
         },
         deep: true,

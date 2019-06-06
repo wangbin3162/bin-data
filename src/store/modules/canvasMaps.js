@@ -1,4 +1,10 @@
-import { addCanvasMap, copyCanvasMap, removeCanvasMap } from '../../api/canvasMaps/canvas-maps-request'
+import {
+  addCanvasMap,
+  bottomCanvasMap,
+  copyCanvasMap, downCanvasMap,
+  removeCanvasMap,
+  topCanvasMap, upCanvasMap
+} from '../../api/canvasMaps/canvas-maps-request'
 
 const canvasMaps = {
   state: {
@@ -67,8 +73,29 @@ const canvasMaps = {
     },
     ContextMenuCommand ({ commit, state }, order) {
       commit('SET_CONTEXT_MENU_INFO', { x: 0, y: 0, isShow: false })
-      console.log(order)
       switch (order) {
+        case 'top':
+          // 如果是置顶
+          topCanvasMap(state.singleSelected).then(res => {
+            commit('SET_CANVAS_MAPS', res.data)
+          })
+          break
+        case 'bottom':
+          // 如果是置顶
+          bottomCanvasMap(state.singleSelected).then(res => {
+            commit('SET_CANVAS_MAPS', res.data)
+          })
+          break
+        case 'up':
+          upCanvasMap(state.singleSelected).then(res => {
+            commit('SET_CANVAS_MAPS', res.data)
+          })
+          break
+        case 'down':
+          downCanvasMap(state.singleSelected).then(res => {
+            commit('SET_CANVAS_MAPS', res.data)
+          })
+          break
         case 'copy':
           // 如果是复制操作，则传入当前选中的值
           copyCanvasMap(state.singleSelected).then(res => {

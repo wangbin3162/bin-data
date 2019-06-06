@@ -21,6 +21,26 @@ export function addCanvasMap (map) {
   return api.addCanvasMap(map)
 }
 
+// 置顶一个canvasmap
+export function topCanvasMap (map) {
+  return api.topCanvasMap(map)
+}
+
+// 置底一个canvasmap
+export function bottomCanvasMap (map) {
+  return api.bottomCanvasMap(map)
+}
+
+// 置底一个canvasmap
+export function upCanvasMap (map) {
+  return api.upCanvasMap(map)
+}
+
+// 置底一个canvasmap
+export function downCanvasMap (map) {
+  return api.downCanvasMap(map)
+}
+
 // copy一个canvasmap
 export function copyCanvasMap (map) {
   let newMap = deepClone(map)// 深拷贝一个对象并修改默认信息，

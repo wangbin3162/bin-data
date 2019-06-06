@@ -19,3 +19,8 @@ export function setPageSettings (setting) {
 export function resetPageSettings () {
   return api.resetPageSettings()
 }
+
+// 初始化所有参数配置
+export function initLocalData () {
+  return api.initLocalData()
+}

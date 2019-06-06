@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
 // 路由数据
 import routes from './routes'
 
@@ -18,6 +19,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   BinUI.LoadingBar.start()
+  store.dispatch('SingleSelected', null)
   next()
 })
 router.afterEach(() => {

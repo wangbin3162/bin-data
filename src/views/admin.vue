@@ -7,14 +7,15 @@
         <drag-list :drag-list="navigate"></drag-list>
       </template>
       <template v-slot:coverage>
-        <div class="list-item" :key="transform.id" v-for="transform in canvasMap"
+        <div class="list-item" :key="transform.id" v-for="transform in coverageMaps"
              :class="[{'hovered':hoverItem===transform.id},{'selected':currentSelected&&currentSelected.id===transform.id},]"
              :selected="currentSelected&&currentSelected.id===transform.id"
              @click.stop.prevent="handleSelected(transform)"
              @mouseenter="handleHover(transform)"
              @mouseleave="handleNoHover()">
           <b-icon v-if="transform.icon" :name="transform.icon"></b-icon>
-          <span> {{ transform.packageJson.title }}</span>
+          <!--transform.packageJson.title-->
+          <span :title="transform.id"> {{ transform.id }}</span>
         </div>
       </template>
       <template v-slot:canvas>
@@ -67,7 +68,11 @@
       }
     },
     computed: {
-      ...mapGetters(['canvasMap', 'currentSelected'])
+      ...mapGetters(['canvasMap', 'currentSelected']),
+      coverageMaps () {
+        let maps = [...this.canvasMap]
+        return maps.reverse()
+      }
     },
     created () {
       // 拉取页面配置信息
@@ -96,6 +101,7 @@
       // transform点击事件
       handleSelected (item) {
         this.$store.dispatch('SingleSelected', item)
+        this.$store.dispatch('ToggleContextMenu')
       },
       // transform点击事件右键点击
       handleRightClickOnCanvas (item, event) {
