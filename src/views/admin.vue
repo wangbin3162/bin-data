@@ -14,8 +14,11 @@
              @mouseenter="handleHover(transform)"
              @mouseleave="handleNoHover()">
           <b-icon v-if="transform.icon" :name="transform.icon"></b-icon>
-          <!--transform.packageJson.title-->
-          <span :title="transform.id"> {{ transform.id }}</span>
+          <!---->
+          <span v-if="transform.packageJson.config&&transform.packageJson.config.title.content">
+            {{ transform.packageJson.config.title.content}}
+          </span>
+          <span v-else> {{ transform.packageJson.title }}</span>
         </div>
       </template>
       <template v-slot:canvas>
@@ -28,9 +31,10 @@
                      @contextmenu.native.stop.prevent="handleRightClickOnCanvas(transform,$event)"
                      @mouseenter.native="handleHover(transform)"
                      @mouseleave.native="handleNoHover()">
-            <v-line :config="transform.packageJson.config"
-                    :api-data="transform.packageJson.api_data"
-                    :apis="transform.packageJson.apis"></v-line>
+            <charts-factory :type-name="transform.packageJson.name"
+                            :config="transform.packageJson.config"
+                            :api-data="transform.packageJson.api_data"
+                            :apis="transform.packageJson.apis"></charts-factory>
           </drag-item>
         </template>
       </template>
@@ -56,7 +60,7 @@
   import { on, off } from 'bin-ui/src/utils/dom'
   import { getCanvasMaps } from '../api/canvasMaps/canvas-maps-request'
   import { getPageSettings } from '../api/app/app-request'
-  import VLine from '../components/charts/VLine'
+  import ChartsFactory from '../components/charts/charts-factory'
 
   export default {
     name: 'Admin',
@@ -129,7 +133,7 @@
         this.$store.dispatch('ContextMenuCommand', 'remove')
       }
     },
-    components: { VLine, DragItem, DragList, Board },
+    components: { ChartsFactory, DragItem, DragList, Board },
     beforeDestroy () {
       off(document, 'keyup', this.handleKeyup)
       this.$EventBus.$off('context/menu/delete', this.deleteDialogShow)

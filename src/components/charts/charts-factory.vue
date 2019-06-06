@@ -1,11 +1,12 @@
 <template>
-  <div class="dv-line" style="width: 100%;height:100%;" ref="wrap">
+  <div class="dv-charts" style="width: 100%;height:100%;" ref="wrap">
     <div class="titles" ref="titles" v-if="config.title" style="padding: 0 15px;">
       <span :style="titleStyle">{{ config.title.content }}</span>
     </div>
-    <ve-line :data="chartData" :width="width" :height="height" ref="chart"
-             :legend-visible="legendVisible" :colors="colors"
-             :extend="chartExtend" :options="chartOptions" :settings="chartSettings"></ve-line>
+    <component v-bind:is="typeName"
+               :data="chartData" :width="width" :height="height" ref="chart"
+               :legend-visible="legendVisible" :colors="colors"
+               :extend="chartExtend" :options="chartOptions" :settings="chartSettings"></component>
   </div>
 </template>
 
@@ -14,8 +15,12 @@
   import { formatData } from '../../utils/formatData'
 
   export default {
-    name: 'VLine',
+    name: 'ChartsFactory',
     props: {
+      typeName: {
+        type: String,
+        required: true
+      },
       apiData: {
         type: Object,
         required: true

@@ -4,11 +4,13 @@
       <div class="canvas-panel" :style="canvasPanelStyle">
         <template v-for="transform in canvasMap">
           <preview-box :key="transform.id" :item="transform">
-            <v-line :config="transform.packageJson.config"
+            <charts-factory :type-name="transform.packageJson.name"
+                    :config="transform.packageJson.config"
                     :api-data="transform.packageJson.api_data"
-                    :apis="transform.packageJson.apis"></v-line>
+                    :apis="transform.packageJson.apis"></charts-factory>
           </preview-box>
-        </template></div>
+        </template>
+      </div>
     </b-scrollbar>
   </div>
 </template>
@@ -17,12 +19,12 @@
   import { mapGetters } from 'vuex'
   import { getPageSettings } from '../api/app/app-request'
   import { getCanvasMaps } from '../api/canvasMaps/canvas-maps-request'
-  import VLine from '../components/charts/VLine'
+  import ChartsFactory from '../components/charts/charts-factory'
   import PreviewBox from '../components/preview/preview-box'
 
   export default {
     name: 'screen',
-    components: { VLine, PreviewBox },
+    components: { ChartsFactory, PreviewBox },
     data () {
       return {}
     },

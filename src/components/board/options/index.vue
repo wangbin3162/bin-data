@@ -124,7 +124,8 @@
                                         :min="12" :max="40" @on-change="setSelfProperty"></b-input-number>
                       </gui-inline>
                       <gui-inline label="颜色">
-                        <el-color-picker v-model="selfConfig.legend.textStyle.color" @change="setSelfProperty"></el-color-picker>
+                        <el-color-picker v-model="selfConfig.legend.textStyle.color"
+                                         @change="setSelfProperty"></el-color-picker>
                       </gui-inline>
                     </gui-field>
                     <gui-field label="间距">
@@ -132,25 +133,20 @@
                                       :min="0" :max="50" @on-change="setSelfProperty"></b-input-number>
                     </gui-field>
                     <gui-field label="位置">
-                      <el-select v-model="selfConfig.legend.position" size="mini"
+                      <el-select v-model="selfConfig.legend.position" size="mini" style="width:80%;"
                                  @change="legendPosChange" :value="selfConfig.legend.position">
-                        <el-option
-                          v-for="item in legendPosOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
+                        <el-option label="top" value="top-center"></el-option>
+                        <el-option label="bottom" value="bottom-center"></el-option>
                       </el-select>
                     </gui-field>
                     <gui-field label="样式">
-                      <el-select v-model="selfConfig.legend.icon" size="mini"
+                      <el-select v-model="selfConfig.legend.icon" size="mini" style="width:80%;"
                                  @change="setSelfProperty" :value="selfConfig.legend.icon">
-                        <el-option
-                          v-for="item in legendIconOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                        </el-option>
+                        <el-option label="normal" value=""></el-option>
+                        <el-option label="circle" value="circle"></el-option>
+                        <el-option label="rect" value="rect"></el-option>
+                        <el-option label="roundRect" value="roundRect"></el-option>
+                        <el-option label="diamond" value="diamond"></el-option>
                       </el-select>
                     </gui-field>
                   </gui-wrap>
@@ -223,30 +219,42 @@
               <!--数据系列-->
               <template v-if="selfConfig.series">
                 <b-collapse-panel title="数据系列" name="series">
-                  <gui-field label="近似曲线">
-                    <b-switch v-model="selfConfig.series.smooth" size="small" @on-change="setSelfProperty"></b-switch>
-                  </gui-field>
                   <gui-wrap label="指标"
-                            v-model="selfConfig.series.label.normal.show" @on-change="setSelfProperty">
+                            v-model="selfConfig.series.label.show" @on-change="setSelfProperty">
                     <gui-field label="指标文本">
                       <gui-inline label="字号">
-                        <b-input-number v-model="selfConfig.series.label.normal.fontSize" size="small"
+                        <b-input-number v-model="selfConfig.series.label.fontSize" size="small"
                                         :min="12" :max="40" @on-change="setSelfProperty"></b-input-number>
                       </gui-inline>
                       <gui-inline label="颜色">
-                        <el-color-picker v-model="selfConfig.series.label.normal.color"
+                        <el-color-picker v-model="selfConfig.series.label.color"
                                          @change="setSelfProperty"></el-color-picker>
                       </gui-inline>
                     </gui-field>
+                    <gui-field label="指标位置">
+                      <el-select v-model="selfConfig.series.label.position" size="mini" style="width:80%;"
+                                 @change="setSelfProperty" :value="selfConfig.series.label.position">
+                        <el-option label="top" value="top"></el-option>
+                        <el-option label="inside" value="inside"></el-option>
+                      </el-select>
+                    </gui-field>
                   </gui-wrap>
-                  <gui-wrap label="区域渐变" :value="true" simple>
+                  <gui-wrap label="区域渐变" :value="true" simple v-if="selfConfig.series.areaStyle">
                     <gui-field label="区域透明度">
                       <b-input-number v-model="selfConfig.series.areaStyle.opacity" size="small"
                                       :max="1" :step="0.1" @on-change="setSelfProperty"></b-input-number>
                     </gui-field>
                   </gui-wrap>
+                  <gui-field label="近似曲线" v-if="chartType==='ve-line'">
+                    <b-switch v-model="selfConfig.series.smooth" size="small" @on-change="setSelfProperty"></b-switch>
+                  </gui-field>
+                  <gui-field label="柱条宽度" v-if="chartType==='ve-histogram'">
+                    <b-input style="width: 80%;" size="small" @on-change="setSelfProperty"
+                             v-model="selfConfig.series.barWidth" clearable></b-input>
+                  </gui-field>
                 </b-collapse-panel>
               </template>
+              <!--颜色数组-->
               <template v-if="selfConfig.colors">
                 <b-collapse-panel title="颜色数组" name="colors">
                   <div style="padding: 5px 13px;">
@@ -302,6 +310,7 @@
   import GuiInline from './gui-inline'
   import GuiColors from './gui-colors'
   import { DEFAULT_COLORS } from '../../../utils/defaultColors'
+  import { deepClone } from '../../../utils/deepClone'
 
   export default {
     name: 'BoardOptions',
@@ -316,23 +325,13 @@
         tabsType: 0, // 0：配置，1：数据，2：交互
         globalSettings: { width: 0, height: 0, backgroundColor: '', gridStep: 1 },
         baseProperty: { width: 0, height: 0, x: 0, y: 0 }, // 配置-基础属性,
+        chartType: '',
         collapseActive: '',
         selfConfig: {},
         apiData: {},
         apis: {},
         predefineColors: DEFAULT_COLORS,
-        dataSource: '',
-        legendPosOptions: [
-          { value: 'top-center', label: 'top' },
-          { value: 'bottom-center', label: 'bottom' }
-        ],
-        legendIconOptions: [
-          { value: '', label: '默认' },
-          { value: 'circle', label: '圆形' },
-          { value: 'rect', label: '矩形' },
-          { value: 'roundRect', label: '圆角矩形' },
-          { value: 'diamond', label: '菱形' }
-        ]
+        dataSource: ''
       }
     },
     methods: {
@@ -397,13 +396,14 @@
     },
     watch: {
       currentSelected: {
-        handler (val) {
-          if (val && val.packageJson) {
+        handler (val, oldVal) {
+          if (val && val !== oldVal) {
             this.baseProperty = { ...val.packageJson.view }
-            this.selfConfig = Object.assign(this.selfConfig, val.packageJson.config)
-            this.apiData = Object.assign(this.apiData, val.packageJson.api_data)
-            this.apis = Object.assign(this.apis, val.packageJson.apis)
+            this.selfConfig = deepClone(val.packageJson.config)
+            this.apiData = deepClone(val.packageJson.api_data)
+            this.apis = deepClone(val.packageJson.apis)
             this.dataSource = JSON.stringify(this.apiData.source)
+            this.chartType = val.packageJson.name
           }
         },
         deep: true
