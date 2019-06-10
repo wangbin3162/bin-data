@@ -13,7 +13,7 @@ const database = {
       packageJson: {
         title: '折线图',
         name: 've-line',
-        icon: 'ios-leaf',
+        icon: 'ios-trending-up',
         api_data: {
           source: [
             { x: '1/1', y: 375 },
@@ -107,7 +107,7 @@ const database = {
       packageJson: {
         title: '柱状图',
         name: 've-histogram',
-        icon: 'ios-leaf',
+        icon: 'ios-podium',
         api_data: {
           source: [
             { x: '1/1', y: 375, s: '系列1' },
@@ -208,7 +208,7 @@ const database = {
       packageJson: {
         title: '条形图',
         name: 've-bar',
-        icon: 'ios-leaf',
+        icon: 'md-list',
         api_data: {
           source: [
             { x: '1/1', y: 375, s: '系列1' },
@@ -309,7 +309,7 @@ const database = {
       packageJson: {
         title: '饼图',
         name: 've-pie',
-        icon: 'ios-leaf',
+        icon: 'ios-pie',
         api_data: {
           source: [
             { x: '1/1', y: 1393, s: '系列1' },
@@ -392,7 +392,6 @@ const database = {
               fontSize: 12,
               position: 'outside' // 可选inside
             },
-            barWidth: 'auto', // 柱状图可选
             roseType: false, // 饼图可选玫瑰图
             center: ['50%', '50%'], // 饼图可选
             radius: ['0', '70%']// 饼图可选
@@ -400,6 +399,122 @@ const database = {
           color: DEFAULT_COLORS
         },
         view: { width: 400, height: 400, x: 100, y: 450 }
+      }
+    },
+    {
+      id: 'v-radar',
+      packageJson: {
+        title: '雷达图',
+        name: 've-radar',
+        icon: 'ios-cellular',
+        api_data: {
+          source: [
+            { x: '1/1', y: 1393, s: '指标1' },
+            { x: '1/2', y: 3530, s: '指标1' },
+            { x: '1/3', y: 2923, s: '指标1' },
+            { x: '1/4', y: 1723, s: '指标1' },
+            { x: '1/5', y: 3792, s: '指标1' },
+            { x: '1/6', y: 4593, s: '指标1' },
+
+            { x: '1/1', y: 1093, s: '指标2' },
+            { x: '1/2', y: 3230, s: '指标2' },
+            { x: '1/3', y: 2323, s: '指标2' },
+            { x: '1/4', y: 1212, s: '指标2' },
+            { x: '1/5', y: 5643, s: '指标2' },
+            { x: '1/6', y: 872, s: '指标2' },
+
+            { x: '1/1', y: 1232, s: '指标3' },
+            { x: '1/2', y: 1452, s: '指标3' },
+            { x: '1/3', y: 3532, s: '指标3' },
+            { x: '1/4', y: 2234, s: '指标3' },
+            { x: '1/5', y: 2345, s: '指标3' },
+            { x: '1/6', y: 1111, s: '指标3' }
+          ]
+        },
+        apis: {
+          labelMap: {
+            'x': '类目',
+            'y': '值',
+            's': '系列1'
+          }
+        },
+        config: {
+          title: {
+            content: '雷达图',
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 20
+            }
+          },
+          grid: { left: 20, top: 60, right: 20, bottom: 30 },
+          legend: {
+            show: true,
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            itemGap: 12,
+            icon: '',
+            position: 'top-center'
+          },
+          radar: { // 雷达图可选
+            shape: 'circle', // polygon
+            center: ['50%', '60%'],
+            radius: '75%'
+          },
+          xAxis: {
+            show: false,
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12,
+              rotate: 0
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            }
+          },
+          yAxis: {
+            show: false,
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            }
+          },
+          series: {
+            label: {
+              show: false,
+              color: '',
+              fontSize: 12,
+              position: 'inside' // 可选inside
+            },
+            areaStyle: { // 可选的
+              opacity: 0
+            }
+          },
+          color: DEFAULT_COLORS
+        },
+        view: { width: 400, height: 400, x: 700, y: 450 }
       }
     }
   ]

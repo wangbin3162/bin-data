@@ -13,7 +13,7 @@
              @click.stop.prevent="handleSelected(transform)"
              @mouseenter="handleHover(transform)"
              @mouseleave="handleNoHover()">
-          <b-icon v-if="transform.icon" :name="transform.icon"></b-icon>
+          <b-icon v-if="transform.packageJson.icon" :name="transform.packageJson.icon"></b-icon>
           <!---->
           <span v-if="transform.packageJson.config&&transform.packageJson.config.title.content">
             {{ transform.packageJson.config.title.content}}

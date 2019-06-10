@@ -152,6 +152,31 @@
                   </gui-wrap>
                 </b-collapse-panel>
               </template>
+              <!--雷达图独有-->
+              <template v-if="isRadar">
+                <b-collapse-panel title="极轴" name="radar">
+                  <gui-field label="中心坐标">
+                    <gui-inline label="offsetX">
+                      <b-input v-model="selfConfig.radar.center[0]" size="mini"
+                               placeholder="支持百分比或像素" @on-change="setBaseProperty"></b-input>
+                    </gui-inline>
+                    <gui-inline label="offsetY">
+                      <b-input v-model="selfConfig.radar.center[1]" size="mini"
+                               placeholder="支持百分比或像素" @on-change="setBaseProperty"></b-input>
+                    </gui-inline>
+                  </gui-field>
+                  <gui-field label="雷达图半径">
+                    <b-input v-model="selfConfig.radar.radius" size="mini" @on-change="setBaseProperty"></b-input>
+                  </gui-field>
+                  <gui-field label="雷达图类型">
+                    <el-select v-model="selfConfig.radar.shape" size="mini" style="width:80%;"
+                               @change="setBaseProperty" :value="selfConfig.radar.shape">
+                      <el-option label="circle" value="circle"></el-option>
+                      <el-option label="polygon" value="polygon"></el-option>
+                    </el-select>
+                  </gui-field>
+                </b-collapse-panel>
+              </template>
               <!--x轴-->
               <template v-if="showXAxis">
                 <b-collapse-panel title="x轴" name="xAxis">
@@ -266,24 +291,24 @@
                     </gui-field>
                     <gui-field label="中心坐标">
                       <gui-inline label="offsetX">
-                        <b-input v-model="selfConfig.series.center[0]" size="small"
+                        <b-input v-model="selfConfig.series.center[0]" size="mini"
                                  placeholder="默认50%"
                                  @on-change="setBaseProperty"></b-input>
                       </gui-inline>
                       <gui-inline label="offsetY">
-                        <b-input v-model="selfConfig.series.center[1]" size="small"
+                        <b-input v-model="selfConfig.series.center[1]" size="mini"
                                  placeholder="默认50%"
                                  @on-change="setBaseProperty"></b-input>
                       </gui-inline>
                     </gui-field>
                     <gui-field label="饼图半径">
                       <gui-inline label="内半径">
-                        <b-input v-model="selfConfig.series.radius[0]" size="small"
+                        <b-input v-model="selfConfig.series.radius[0]" size="mini"
                                  placeholder="默认0"
                                  @on-change="setBaseProperty"></b-input>
                       </gui-inline>
                       <gui-inline label="外半径">
-                        <b-input v-model="selfConfig.series.radius[1]" size="small"
+                        <b-input v-model="selfConfig.series.radius[1]" size="mini"
                                  placeholder="默认50%"
                                  @on-change="setBaseProperty"></b-input>
                       </gui-inline>
@@ -466,14 +491,17 @@
       isPie () {
         return this.chartType === 've-pie'
       },
+      isRadar () {
+        return this.chartType === 've-radar'
+      },
       showGrid () {
-        return !this.isPie && this.selfConfig.grid
+        return this.selfConfig.grid && (this.isLine || this.isHistogram)
       },
       showXAxis () {
-        return !this.isPie && this.selfConfig.xAxis
+        return this.selfConfig.xAxis && (this.isLine || this.isHistogram)
       },
       showYAxis () {
-        return !this.isPie && this.selfConfig.yAxis
+        return this.selfConfig.yAxis && (this.isLine || this.isHistogram)
       }
     },
     components: { GuiGroup, GuiField, GuiInline, GuiColors, GuiWrap }

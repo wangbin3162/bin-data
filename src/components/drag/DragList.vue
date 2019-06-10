@@ -20,8 +20,11 @@
             draggable="true"
             @dragstart="handleDragStart(component, $event)"
           >
-            <b-icon :name="component.icon"></b-icon>
-            <span> {{ component.title }}</span>
+            <div class="img" :class="component.name"></div>
+            <div class="front">
+              <b-icon :name="component.icon"></b-icon>
+              <span> {{ component.title }}</span>
+            </div>
           </div>
         </div>
       </div>
