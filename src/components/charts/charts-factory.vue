@@ -5,7 +5,7 @@
     </div>
     <component v-bind:is="typeName"
                :data="chartData" :width="width" :height="height" ref="chart"
-               :legend-visible="legendVisible" :colors="colors"
+               :legend-visible="legendVisible" log
                :extend="chartExtend" :options="chartOptions" :settings="chartSettings"></component>
   </div>
 </template>
@@ -59,7 +59,7 @@
             // 图例
             this.legendVisible = val.legend.show
             this.chartExtend = { ...val }
-            this.colors = [...val.colors]
+            // this.colors = [...val.colors]
             // this.$log.primary('========>chartExtend')
             // this.$print(this.chartExtend)
           }

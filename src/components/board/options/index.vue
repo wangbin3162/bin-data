@@ -74,7 +74,7 @@
             </gui-group>
             <b-collapse v-model="collapseActive" simple accordion>
               <!--grid-->
-              <template v-if="selfConfig.grid">
+              <template v-if="showGrid">
                 <b-collapse-panel title="全局样式" name="grid">
                   <gui-wrap label="边距" :value="true" simple>
                     <gui-field label="顶部">
@@ -153,7 +153,7 @@
                 </b-collapse-panel>
               </template>
               <!--x轴-->
-              <template v-if="selfConfig.xAxis">
+              <template v-if="showXAxis">
                 <b-collapse-panel title="x轴" name="xAxis">
                   <gui-field label="是否显示">
                     <b-switch v-model="selfConfig.xAxis.show" size="small" @on-change="setSelfProperty"></b-switch>
@@ -187,7 +187,7 @@
                 </b-collapse-panel>
               </template>
               <!--y轴-->
-              <template v-if="selfConfig.yAxis">
+              <template v-if="showYAxis">
                 <b-collapse-panel title="y轴" name="yAxis">
                   <gui-field label="是否显示">
                     <b-switch v-model="selfConfig.xAxis.show" size="small" @on-change="setSelfProperty"></b-switch>
@@ -234,8 +234,14 @@
                     <gui-field label="指标位置">
                       <el-select v-model="selfConfig.series.label.position" size="mini" style="width:80%;"
                                  @change="setSelfProperty" :value="selfConfig.series.label.position">
-                        <el-option label="top" value="top"></el-option>
                         <el-option label="inside" value="inside"></el-option>
+                        <!--饼图-->
+                        <template v-if="isPie">
+                          <el-option label="outside" value="outside"></el-option>
+                        </template>
+                        <template v-else>
+                          <el-option label="top" value="top"></el-option>
+                        </template>
                       </el-select>
                     </gui-field>
                   </gui-wrap>
@@ -245,21 +251,52 @@
                                       :max="1" :step="0.1" @on-change="setSelfProperty"></b-input-number>
                     </gui-field>
                   </gui-wrap>
-                  <gui-field label="近似曲线" v-if="chartType==='ve-line'">
+                  <gui-field label="近似曲线" v-if="isLine">
                     <b-switch v-model="selfConfig.series.smooth" size="small" @on-change="setSelfProperty"></b-switch>
                   </gui-field>
-                  <gui-field label="柱条宽度" v-if="chartType==='ve-histogram'">
+                  <gui-field label="柱条宽度" v-if="isHistogram">
                     <b-input style="width: 80%;" size="small" @on-change="setSelfProperty"
                              v-model="selfConfig.series.barWidth" clearable></b-input>
                   </gui-field>
+                  <!--饼图独有-->
+                  <template v-if="isPie">
+                    <gui-field label="玫瑰图">
+                      <b-switch v-model="selfConfig.series.roseType" size="small"
+                                @on-change="setSelfProperty"></b-switch>
+                    </gui-field>
+                    <gui-field label="中心坐标">
+                      <gui-inline label="offsetX">
+                        <b-input v-model="selfConfig.series.center[0]" size="small"
+                                 placeholder="默认50%"
+                                 @on-change="setBaseProperty"></b-input>
+                      </gui-inline>
+                      <gui-inline label="offsetY">
+                        <b-input v-model="selfConfig.series.center[1]" size="small"
+                                 placeholder="默认50%"
+                                 @on-change="setBaseProperty"></b-input>
+                      </gui-inline>
+                    </gui-field>
+                    <gui-field label="饼图半径">
+                      <gui-inline label="内半径">
+                        <b-input v-model="selfConfig.series.radius[0]" size="small"
+                                 placeholder="默认0"
+                                 @on-change="setBaseProperty"></b-input>
+                      </gui-inline>
+                      <gui-inline label="外半径">
+                        <b-input v-model="selfConfig.series.radius[1]" size="small"
+                                 placeholder="默认50%"
+                                 @on-change="setBaseProperty"></b-input>
+                      </gui-inline>
+                    </gui-field>
+                  </template>
                 </b-collapse-panel>
               </template>
               <!--颜色数组-->
-              <template v-if="selfConfig.colors">
+              <template v-if="selfConfig.color">
                 <b-collapse-panel title="颜色数组" name="colors">
                   <div style="padding: 5px 13px;">
-                    <gui-colors v-for="(c,index) of selfConfig.colors" :key="index+c">
-                      <el-color-picker v-model="selfConfig.colors[index]" :predefine="predefineColors"
+                    <gui-colors v-for="(c,index) of selfConfig.color" :key="index+c">
+                      <el-color-picker v-model="selfConfig.color[index]" :predefine="predefineColors"
                                        @change="setSelfProperty"></el-color-picker>
                     </gui-colors>
                   </div>
@@ -325,7 +362,6 @@
         tabsType: 0, // 0：配置，1：数据，2：交互
         globalSettings: { width: 0, height: 0, backgroundColor: '', gridStep: 1 },
         baseProperty: { width: 0, height: 0, x: 0, y: 0 }, // 配置-基础属性,
-        chartType: '',
         collapseActive: '',
         selfConfig: {},
         apiData: {},
@@ -403,7 +439,6 @@
             this.apiData = deepClone(val.packageJson.api_data)
             this.apis = deepClone(val.packageJson.apis)
             this.dataSource = JSON.stringify(this.apiData.source)
-            this.chartType = val.packageJson.name
           }
         },
         deep: true
@@ -418,7 +453,28 @@
       }
     },
     computed: {
-      ...mapGetters(['pageSettings', 'canvasRange', 'optionsExpand', 'currentSelected'])
+      ...mapGetters(['pageSettings', 'canvasRange', 'optionsExpand', 'currentSelected']),
+      chartType () {
+        return this.currentSelected ? this.currentSelected.packageJson.name : ''
+      },
+      isLine () {
+        return this.chartType === 've-line'
+      },
+      isHistogram () {
+        return this.chartType === 've-histogram'
+      },
+      isPie () {
+        return this.chartType === 've-pie'
+      },
+      showGrid () {
+        return !this.isPie && this.selfConfig.grid
+      },
+      showXAxis () {
+        return !this.isPie && this.selfConfig.xAxis
+      },
+      showYAxis () {
+        return !this.isPie && this.selfConfig.yAxis
+      }
     },
     components: { GuiGroup, GuiField, GuiInline, GuiColors, GuiWrap }
   }

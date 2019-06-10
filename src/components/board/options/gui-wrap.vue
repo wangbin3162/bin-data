@@ -18,15 +18,16 @@
 </template>
 
 <script>
+
   import CollapseTransition from 'bin-ui/src/components/base/collapse-transition'
 
   export default {
+    components: { CollapseTransition },
     props: {
       label: String,
       value: Boolean,
       simple: Boolean
     },
-    components: { CollapseTransition },
     data () {
       return {
         visible: false
@@ -49,6 +50,9 @@
       visible () {
         this.$emit('input', this.visible)
         this.$emit('on-change', this.visible)
+      },
+      value () {
+        this.visible = this.value
       }
     }
   }
