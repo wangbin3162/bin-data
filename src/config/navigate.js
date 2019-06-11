@@ -26,6 +26,7 @@ const list = [
         config: {
           title: {
             content: '折线图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -40,7 +41,10 @@ const list = [
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           xAxis: {
             show: true,
@@ -127,6 +131,7 @@ const list = [
         config: {
           title: {
             content: '柱状图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -141,7 +146,10 @@ const list = [
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           xAxis: {
             show: true,
@@ -225,6 +233,7 @@ const list = [
         config: {
           title: {
             content: '条形图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -239,7 +248,10 @@ const list = [
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           xAxis: {
             show: true,
@@ -317,6 +329,7 @@ const list = [
         config: {
           title: {
             content: '饼图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -331,7 +344,10 @@ const list = [
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           xAxis: {
             show: false,
@@ -425,6 +441,7 @@ const list = [
         config: {
           title: {
             content: '雷达图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -439,7 +456,10 @@ const list = [
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           radar: { // 雷达图可选
             shape: 'circle', // polygon
@@ -499,6 +519,165 @@ const list = [
           color: DEFAULT_COLORS
         },
         view: { width: 400, height: 400, x: 760, y: 340 }
+      },
+      {
+        title: '地图',
+        name: 've-map',
+        icon: 'ios-map',
+        api_data: {
+          source: [
+            { x: '吉林', y: 178 },
+            { x: '北京', y: 23 },
+            { x: '上海', y: 122 },
+            { x: '徐州', y: 98 },
+            { x: '南京', y: 188 },
+            { x: '兰州', y: 31 },
+            { x: '乌鲁木齐', y: 122 },
+            { x: '马鞍山', y: 32 },
+            { x: '张家界', y: 55 },
+            { x: '三门峡', y: 100 }
+          ]
+        },
+        apis: {
+          position: 'china',
+          labelMap: {
+            'x': '位置',
+            'y': '人口',
+            's': '系列1'
+          }
+        },
+        config: {
+          title: {
+            content: '地图',
+            textAlign: 'left',
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 20
+            }
+          },
+          grid: { left: 20, top: 60, right: 20, bottom: 30 },
+          legend: {
+            show: true,
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            itemGap: 12,
+            icon: '',
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
+          },
+          visualMap: {
+            show: false,
+            type: 'piecewise',
+            min: 0,
+            max: 200,
+            inRange: {
+              color: ['#50a3ba', '#eac736', '#d94e5d'],
+              symbolSize: [10, 16]
+            },
+            textStyle: {
+              color: '#fff',
+              fontSize: 12
+            }
+          },
+          xAxis: {
+            show: false,
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12,
+              rotate: 0
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            }
+          },
+          yAxis: {
+            show: false,
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            }
+          },
+          // 地图独有的
+          geo: {
+            map: 'china',
+            zoom: 1.2,
+            label: {
+              normal: {
+                show: false,
+                color: '#fff',
+                fontSize: 12
+              },
+              emphasis: {
+                show: false,
+                color: '#fff',
+                fontSize: 12
+              }
+            },
+            itemStyle: {
+              normal: {
+                areaColor: '#282c3c',
+                borderColor: '#1f9bff'
+              },
+              emphasis: {
+                areaColor: '#1d2131',
+                borderColor: '#1f9bff'
+              }
+            }
+          },
+          series: {
+            type: 'scatter', // scatter,effectScatter
+            coordinateSystem: 'geo',
+            symbolSize: 10,
+            aspectScale: 0.75,
+            hoverAnimation: true,
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke',
+              scale: 3
+            },
+            label: {
+              show: false,
+              formatter: '{b}',
+              color: '',
+              fontSize: 12,
+              position: 'inside' // 可选inside
+            },
+            itemStyle: {
+              emphasis: {
+                borderColor: '#fff',
+                borderWidth: 1
+              }
+            },
+            zlevel: 1
+          },
+          color: DEFAULT_COLORS
+        },
+        view: { width: 500, height: 500, x: 710, y: 290 }
       }
     ]
   }

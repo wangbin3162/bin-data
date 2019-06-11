@@ -107,7 +107,7 @@
   .gui-field {
     display: flex;
     justify-content: space-between;
-    padding: 6px 10px 6px 13px;
+    padding: 6px 13px;
     min-height: 24px;
     color: $color-text-info;
     font-size: 12px;
@@ -123,9 +123,8 @@
       align-items: center;
       .gui-inline {
         display: inline-block;
-        width: 50%;
+        width: 85px;
         .label {
-          padding-left: 5px;
           color: #647279;
           white-space: nowrap;
           overflow: hidden;
@@ -134,8 +133,8 @@
           line-height: 18px;
           text-align: left;
         }
-        &:last-child {
-          padding-left: 7px;
+        &:first-child {
+          margin-right: 5px;
         }
       }
     }
@@ -251,6 +250,9 @@
   border-top: none;
 }
 // 数字输入框样式覆盖
+.options-body .bin-input-number {
+  width: 85px;
+}
 .options-body .bin-input-number-input {
   background-color: $color-admin-options-dark;
   color: $color-text-info;
@@ -284,6 +286,14 @@
   .el-input__inner {
     color: $color-text-info;
     background-color: $color-admin-options-dark;
+  }
+  .el-select {
+    .el-input__suffix {
+      right: 0
+    }
+    .el-input__inner {
+      padding: 0 15px;
+    }
   }
 }
 

@@ -112,6 +112,14 @@
                                        @change="setSelfProperty"></el-color-picker>
                     </gui-inline>
                   </gui-field>
+                  <gui-field label="对齐方式">
+                    <el-select v-model="selfConfig.title.textAlign" size="mini"
+                               @change="setSelfProperty">
+                      <el-option label="left" value="left"></el-option>
+                      <el-option label="center" value="center"></el-option>
+                      <el-option label="right" value="right"></el-option>
+                    </el-select>
+                  </gui-field>
                 </b-collapse-panel>
               </template>
               <!--图例-->
@@ -128,26 +136,61 @@
                                          @change="setSelfProperty"></el-color-picker>
                       </gui-inline>
                     </gui-field>
-                    <gui-field label="间距">
-                      <b-input-number v-model="selfConfig.legend.itemGap" size="small"
-                                      :min="0" :max="50" @on-change="setSelfProperty"></b-input-number>
-                    </gui-field>
-                    <gui-field label="位置">
-                      <el-select v-model="selfConfig.legend.position" size="mini" style="width:80%;"
-                                 @change="legendPosChange" :value="selfConfig.legend.position">
-                        <el-option label="top" value="top-center"></el-option>
-                        <el-option label="bottom" value="bottom-center"></el-option>
-                      </el-select>
-                    </gui-field>
                     <gui-field label="样式">
-                      <el-select v-model="selfConfig.legend.icon" size="mini" style="width:80%;"
-                                 @change="setSelfProperty" :value="selfConfig.legend.icon">
-                        <el-option label="normal" value=""></el-option>
-                        <el-option label="circle" value="circle"></el-option>
-                        <el-option label="rect" value="rect"></el-option>
-                        <el-option label="roundRect" value="roundRect"></el-option>
-                        <el-option label="diamond" value="diamond"></el-option>
-                      </el-select>
+                      <gui-inline label="图例间隔">
+                        <b-input-number v-model="selfConfig.legend.itemGap" size="small"
+                                        :min="0" :max="50" @on-change="setSelfProperty"></b-input-number>
+                      </gui-inline>
+                      <gui-inline label="图标">
+                        <el-select v-model="selfConfig.legend.icon" size="mini"
+                                   @change="setSelfProperty" :value="selfConfig.legend.icon">
+                          <el-option label="normal" value=""></el-option>
+                          <el-option label="circle" value="circle"></el-option>
+                          <el-option label="rect" value="rect"></el-option>
+                          <el-option label="roundRect" value="roundRect"></el-option>
+                          <el-option label="diamond" value="diamond"></el-option>
+                        </el-select>
+                      </gui-inline>
+                    </gui-field>
+                    <gui-field label="上下位置">
+                      <gui-inline label="top">
+                        <el-select v-model="selfConfig.legend.top" size="mini"
+                                   @change="setSelfProperty" :value="selfConfig.legend.top">
+                          <el-option label="auto" value="auto"></el-option>
+                          <el-option label="top" value="top"></el-option>
+                          <el-option label="middle" value="middle"></el-option>
+                          <el-option label="bottom" value="bottom"></el-option>
+                        </el-select>
+                      </gui-inline>
+                      <gui-inline label="bottom">
+                        <el-select v-model="selfConfig.legend.bottom" size="mini"
+                                   @change="setSelfProperty" :value="selfConfig.legend.bottom">
+                          <el-option label="auto" value="auto"></el-option>
+                          <el-option label="top" value="top"></el-option>
+                          <el-option label="middle" value="middle"></el-option>
+                          <el-option label="bottom" value="bottom"></el-option>
+                        </el-select>
+                      </gui-inline>
+                    </gui-field>
+                    <gui-field label="左右位置">
+                      <gui-inline label="left">
+                        <el-select v-model="selfConfig.legend.left" size="mini"
+                                   @change="setSelfProperty" :value="selfConfig.legend.left">
+                          <el-option label="auto" value="auto"></el-option>
+                          <el-option label="left" value="left"></el-option>
+                          <el-option label="center" value="center"></el-option>
+                          <el-option label="right" value="right"></el-option>
+                        </el-select>
+                      </gui-inline>
+                      <gui-inline label="right">
+                        <el-select v-model="selfConfig.legend.right" size="mini"
+                                   @change="setSelfProperty" :value="selfConfig.legend.right">
+                          <el-option label="auto" value="auto"></el-option>
+                          <el-option label="left" value="left"></el-option>
+                          <el-option label="center" value="center"></el-option>
+                          <el-option label="right" value="right"></el-option>
+                        </el-select>
+                      </gui-inline>
                     </gui-field>
                   </gui-wrap>
                 </b-collapse-panel>
@@ -169,7 +212,7 @@
                     <b-input v-model="selfConfig.radar.radius" size="mini" @on-change="setBaseProperty"></b-input>
                   </gui-field>
                   <gui-field label="雷达图类型">
-                    <el-select v-model="selfConfig.radar.shape" size="mini" style="width:80%;"
+                    <el-select v-model="selfConfig.radar.shape" size="mini"
                                @change="setBaseProperty" :value="selfConfig.radar.shape">
                       <el-option label="circle" value="circle"></el-option>
                       <el-option label="polygon" value="polygon"></el-option>
@@ -241,6 +284,109 @@
                   </gui-wrap>
                 </b-collapse-panel>
               </template>
+              <!--地图独有-->
+              <template v-if="isMap">
+                <b-collapse-panel title="视觉映射" name="map">
+                  <gui-field label="是否显示">
+                    <b-switch v-model="selfConfig.visualMap.show" size="small" @on-change="setSelfProperty"></b-switch>
+                  </gui-field>
+                  <gui-field label="类型">
+                    <el-select v-model="selfConfig.visualMap.type" size="mini"
+                               @change="setSelfProperty" :value="selfConfig.visualMap.type">
+                      <el-option label="分段型" value="piecewise"></el-option>
+                      <el-option label="连续型" value="continuous"></el-option>
+                    </el-select>
+                  </gui-field>
+                  <gui-field label="极值">
+                    <gui-inline label="最小值">
+                      <b-input-number v-model="selfConfig.visualMap.min" size="small" :min="0"
+                                      @on-change="setSelfProperty"></b-input-number>
+                    </gui-inline>
+                    <gui-inline label="最大值">
+                      <b-input-number v-model="selfConfig.visualMap.max" size="small" :min="0"
+                                      @on-change="setSelfProperty"></b-input-number>
+                    </gui-inline>
+                  </gui-field>
+                  <gui-field label="文本">
+                    <gui-inline label="字号">
+                      <b-input-number v-model="selfConfig.visualMap.textStyle.fontSize" size="small"
+                                      :min="12" :max="40" @on-change="setSelfProperty"></b-input-number>
+                    </gui-inline>
+                    <gui-inline label="颜色">
+                      <el-color-picker v-model="selfConfig.visualMap.textStyle.color"
+                                       @change="setSelfProperty"></el-color-picker>
+                    </gui-inline>
+                  </gui-field>
+                  <gui-field label="图元大小">
+                    <gui-inline label="最小值">
+                      <b-input-number v-model="selfConfig.visualMap.inRange.symbolSize[0]" size="small" :min="0"
+                                      @on-change="setSelfProperty"></b-input-number>
+                    </gui-inline>
+                    <gui-inline label="最大值">
+                      <b-input-number v-model="selfConfig.visualMap.inRange.symbolSize[1]" size="small" :min="0"
+                                      @on-change="setSelfProperty"></b-input-number>
+                    </gui-inline>
+                  </gui-field>
+                  <gui-field label="图元颜色">
+                    <div>
+                      <gui-colors v-for="(c,index) of selfConfig.visualMap.inRange.color" :key="index+c">
+                        <el-color-picker v-model="selfConfig.visualMap.inRange.color[index]"
+                                         :predefine="predefineColors" @change="setSelfProperty"></el-color-picker>
+                      </gui-colors>
+                    </div>
+                  </gui-field>
+                </b-collapse-panel>
+                <b-collapse-panel title="地理坐标系" name="geo">
+                  <gui-field label="视角缩放">
+                    <b-input-number v-model="selfConfig.geo.zoom" size="small" :min="0" :step="0.1"
+                                    @on-change="setSelfProperty"></b-input-number>
+                  </gui-field>
+                  <gui-wrap label="文本" v-model="selfConfig.geo.label.normal.show" @on-change="setSelfProperty">
+                    <gui-field label="文本">
+                      <gui-inline label="字号">
+                        <b-input-number v-model="selfConfig.geo.label.normal.fontSize" size="small"
+                                        :min="12" :max="40" @on-change="setSelfProperty"></b-input-number>
+                      </gui-inline>
+                      <gui-inline label="颜色">
+                        <el-color-picker v-model="selfConfig.geo.label.normal.color"
+                                         @change="setSelfProperty"></el-color-picker>
+                      </gui-inline>
+                    </gui-field>
+                  </gui-wrap>
+                  <gui-wrap label="文本悬停" v-model="selfConfig.geo.label.emphasis.show" @on-change="setSelfProperty">
+                    <gui-field label="文本">
+                      <gui-inline label="字号">
+                        <b-input-number v-model="selfConfig.geo.label.emphasis.fontSize" size="small"
+                                        :min="12" :max="40" @on-change="setSelfProperty"></b-input-number>
+                      </gui-inline>
+                      <gui-inline label="颜色">
+                        <el-color-picker v-model="selfConfig.geo.label.emphasis.color"
+                                         @change="setSelfProperty"></el-color-picker>
+                      </gui-inline>
+                    </gui-field>
+                  </gui-wrap>
+                  <gui-field label="多边形">
+                    <gui-inline label="区域" style="width:auto;">
+                      <el-color-picker v-model="selfConfig.geo.itemStyle.normal.areaColor"
+                                       @change="setSelfProperty"></el-color-picker>
+                    </gui-inline>
+                    <gui-inline label="边框" style="width:auto;">
+                      <el-color-picker v-model="selfConfig.geo.itemStyle.normal.borderColor"
+                                       @change="setSelfProperty"></el-color-picker>
+                    </gui-inline>
+                  </gui-field>
+                  <gui-field label="多边形悬停">
+                    <gui-inline label="区域" style="width:auto;">
+                      <el-color-picker v-model="selfConfig.geo.itemStyle.emphasis.areaColor"
+                                       @change="setSelfProperty"></el-color-picker>
+                    </gui-inline>
+                    <gui-inline label="边框" style="width:auto;">
+                      <el-color-picker v-model="selfConfig.geo.itemStyle.emphasis.borderColor"
+                                       @change="setSelfProperty"></el-color-picker>
+                    </gui-inline>
+                  </gui-field>
+                </b-collapse-panel>
+              </template>
               <!--数据系列-->
               <template v-if="selfConfig.series">
                 <b-collapse-panel title="数据系列" name="series">
@@ -257,7 +403,7 @@
                       </gui-inline>
                     </gui-field>
                     <gui-field label="指标位置">
-                      <el-select v-model="selfConfig.series.label.position" size="mini" style="width:80%;"
+                      <el-select v-model="selfConfig.series.label.position" size="mini"
                                  @change="setSelfProperty" :value="selfConfig.series.label.position">
                         <el-option label="inside" value="inside"></el-option>
                         <!--饼图-->
@@ -270,7 +416,7 @@
                       </el-select>
                     </gui-field>
                   </gui-wrap>
-                  <gui-wrap label="区域渐变" :value="true" simple v-if="selfConfig.series.areaStyle">
+                  <gui-wrap label="区域渐变" :value="true" simple v-if="isLine">
                     <gui-field label="区域透明度">
                       <b-input-number v-model="selfConfig.series.areaStyle.opacity" size="small"
                                       :max="1" :step="0.1" @on-change="setSelfProperty"></b-input-number>
@@ -280,7 +426,7 @@
                     <b-switch v-model="selfConfig.series.smooth" size="small" @on-change="setSelfProperty"></b-switch>
                   </gui-field>
                   <gui-field label="柱条宽度" v-if="isHistogram">
-                    <b-input style="width: 80%;" size="small" @on-change="setSelfProperty"
+                    <b-input size="small" @on-change="setSelfProperty"
                              v-model="selfConfig.series.barWidth" clearable></b-input>
                   </gui-field>
                   <!--饼图独有-->
@@ -311,6 +457,39 @@
                         <b-input v-model="selfConfig.series.radius[1]" size="mini"
                                  placeholder="默认50%"
                                  @on-change="setBaseProperty"></b-input>
+                      </gui-inline>
+                    </gui-field>
+                  </template>
+                  <!--地图独有-->
+                  <template v-if="isMap">
+                    <gui-field label="类型">
+                      <el-select v-model="selfConfig.series.type" size="mini"
+                                 @change="setSelfProperty" :value="selfConfig.series.type">
+                        <el-option label="散点/气泡" value="scatter"></el-option>
+                        <el-option label="动画气泡" value="effectScatter"></el-option>
+                      </el-select>
+                    </gui-field>
+                    <gui-field label="涟漪动画" v-if="selfConfig.series.type==='effectScatter'">
+                      <gui-inline label="最大缩放比">
+                        <b-input-number v-model="selfConfig.series.rippleEffect.scale" size="small"
+                                        :step="0.5" @on-change="setSelfProperty"></b-input-number>
+                      </gui-inline>
+                      <gui-inline label="波纹方式">
+                        <el-select v-model="selfConfig.series.rippleEffect.brushType" size="mini"
+                                   @change="setSelfProperty" :value="selfConfig.series.rippleEffect.brushType">
+                          <el-option label="stroke" value="stroke"></el-option>
+                          <el-option label="fill" value="fill"></el-option>
+                        </el-select>
+                      </gui-inline>
+                    </gui-field>
+                    <gui-field label="气泡悬停">
+                      <gui-inline label="边框宽度">
+                        <b-input-number v-model="selfConfig.series.itemStyle.emphasis.borderWidth" size="small"
+                                        :min="0" :max="2" @on-change="setSelfProperty"></b-input-number>
+                      </gui-inline>
+                      <gui-inline label="边框颜色" style="width:auto;">
+                        <el-color-picker v-model="selfConfig.series.itemStyle.emphasis.borderColor"
+                                         @change="setSelfProperty"></el-color-picker>
                       </gui-inline>
                     </gui-field>
                   </template>
@@ -428,20 +607,6 @@
           this.$loading.done()
         })
       },
-      // 图例位置改变事件
-      legendPosChange (val) {
-        this.selfConfig.legend.top = 'auto'
-        this.selfConfig.legend.bottom = 'auto'
-        switch (val) {
-          case 'top-center':
-            this.selfConfig.legend.top = 0
-            break
-          case 'bottom-center':
-            this.selfConfig.legend.bottom = 0
-            break
-        }
-        this.setSelfProperty()
-      },
       // 数据源改变事件
       dataSourceChange () {
         try {
@@ -457,8 +622,8 @@
     },
     watch: {
       currentSelected: {
-        handler (val, oldVal) {
-          if (val && val !== oldVal) {
+        handler (val) {
+          if (val) {
             this.baseProperty = { ...val.packageJson.view }
             this.selfConfig = deepClone(val.packageJson.config)
             this.apiData = deepClone(val.packageJson.api_data)
@@ -474,7 +639,8 @@
             this.globalSettings = { ...val }
           }
         },
-        deep: true
+        deep: true,
+        immediate: true
       }
     },
     computed: {
@@ -493,6 +659,9 @@
       },
       isRadar () {
         return this.chartType === 've-radar'
+      },
+      isMap () {
+        return this.chartType === 've-map'
       },
       showGrid () {
         return this.selfConfig.grid && (this.isLine || this.isHistogram)

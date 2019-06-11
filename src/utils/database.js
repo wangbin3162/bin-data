@@ -9,6 +9,111 @@ const database = {
   },
   canvasMaps: [
     {
+      id: 'v-histogram',
+      packageJson: {
+        title: '柱状图',
+        name: 've-histogram',
+        icon: 'ios-podium',
+        api_data: {
+          source: [
+            { x: '1/1', y: 375, s: '系列1' },
+            { x: '1/2', y: 200, s: '系列1' },
+            { x: '1/3', y: 25, s: '系列1' },
+            { x: '1/4', y: 190, s: '系列1' },
+            { x: '1/5', y: 90, s: '系列1' },
+            { x: '1/6', y: 277, s: '系列1' },
+            { x: '1/1', y: 123, s: '系列2' },
+            { x: '1/2', y: 41, s: '系列2' },
+            { x: '1/3', y: 112, s: '系列2' },
+            { x: '1/4', y: 56, s: '系列2' },
+            { x: '1/5', y: 122, s: '系列2' },
+            { x: '1/6', y: 323, s: '系列2' }
+          ]
+        },
+        apis: {
+          labelMap: {
+            'x': '类目',
+            'y': '值',
+            's': '系列1'
+          }
+        },
+        config: {
+          title: {
+            content: '柱状图',
+            textAlign: 'left',
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 20
+            }
+          },
+          grid: { left: 20, top: 60, right: 20, bottom: 30 },
+          legend: {
+            show: true,
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            itemGap: 12,
+            icon: '',
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
+          },
+          xAxis: {
+            show: true,
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12,
+              rotate: 0
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#fff'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#fff'
+              }
+            }
+          },
+          yAxis: {
+            show: true,
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#fff'
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: '#fff'
+              }
+            }
+          },
+          series: {
+            label: {
+              show: false,
+              color: '#fff',
+              fontSize: 12,
+              position: 'top'
+            },
+            barWidth: 'auto' // 可选
+          },
+          color: DEFAULT_COLORS
+        },
+        view: { width: 500, height: 400, x: 80, y: 580 }
+      }
+    },
+    {
       id: 'v-line',
       packageJson: {
         title: '折线图',
@@ -30,6 +135,7 @@ const database = {
         config: {
           title: {
             content: '折线图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -44,7 +150,10 @@ const database = {
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           xAxis: {
             show: true,
@@ -99,108 +208,7 @@ const database = {
           },
           color: DEFAULT_COLORS
         },
-        view: { width: 500, height: 400, x: 40, y: 40 } // 计算中间值(1920-500)*0.5,(1080-400)*0.5
-      }
-    },
-    {
-      id: 'v-histogram',
-      packageJson: {
-        title: '柱状图',
-        name: 've-histogram',
-        icon: 'ios-podium',
-        api_data: {
-          source: [
-            { x: '1/1', y: 375, s: '系列1' },
-            { x: '1/2', y: 200, s: '系列1' },
-            { x: '1/3', y: 25, s: '系列1' },
-            { x: '1/4', y: 190, s: '系列1' },
-            { x: '1/5', y: 90, s: '系列1' },
-            { x: '1/6', y: 277, s: '系列1' },
-            { x: '1/1', y: 123, s: '系列2' },
-            { x: '1/2', y: 41, s: '系列2' },
-            { x: '1/3', y: 112, s: '系列2' },
-            { x: '1/4', y: 56, s: '系列2' },
-            { x: '1/5', y: 122, s: '系列2' },
-            { x: '1/6', y: 323, s: '系列2' }
-          ]
-        },
-        apis: {
-          labelMap: {
-            'x': '类目',
-            'y': '值',
-            's': '系列1'
-          }
-        },
-        config: {
-          title: {
-            content: '柱状图',
-            textStyle: {
-              color: '#ffffff',
-              fontSize: 20
-            }
-          },
-          grid: { left: 20, top: 60, right: 20, bottom: 30 },
-          legend: {
-            show: true,
-            textStyle: {
-              color: '#ffffff',
-              fontSize: 12
-            },
-            itemGap: 12,
-            icon: '',
-            position: 'top-center'
-          },
-          xAxis: {
-            show: true,
-            axisLabel: {
-              color: '#ffffff',
-              fontSize: 12,
-              rotate: 0
-            },
-            axisLine: {
-              show: false,
-              lineStyle: {
-                color: '#fff'
-              }
-            },
-            splitLine: {
-              show: false,
-              lineStyle: {
-                color: '#fff'
-              }
-            }
-          },
-          yAxis: {
-            show: true,
-            axisLabel: {
-              color: '#ffffff',
-              fontSize: 12
-            },
-            axisLine: {
-              show: false,
-              lineStyle: {
-                color: '#fff'
-              }
-            },
-            splitLine: {
-              show: true,
-              lineStyle: {
-                color: '#fff'
-              }
-            }
-          },
-          series: {
-            label: {
-              show: false,
-              color: '#fff',
-              fontSize: 12,
-              position: 'top'
-            },
-            barWidth: 'auto' // 可选
-          },
-          color: DEFAULT_COLORS
-        },
-        view: { width: 500, height: 400, x: 540, y: 40 }
+        view: { width: 500, height: 400, x: 710, y: 580 } // 计算中间值(1920-500)*0.5,(1080-400)*0.5
       }
     },
     {
@@ -235,6 +243,7 @@ const database = {
         config: {
           title: {
             content: '条形图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -249,7 +258,10 @@ const database = {
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           xAxis: {
             show: true,
@@ -301,7 +313,7 @@ const database = {
           },
           color: DEFAULT_COLORS
         },
-        view: { width: 500, height: 400, x: 1040, y: 40 }
+        view: { width: 500, height: 400, x: 1300, y: 580 }
       }
     },
     {
@@ -330,6 +342,7 @@ const database = {
         config: {
           title: {
             content: '饼图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -344,7 +357,10 @@ const database = {
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           xAxis: {
             show: false,
@@ -398,7 +414,169 @@ const database = {
           },
           color: DEFAULT_COLORS
         },
-        view: { width: 400, height: 400, x: 100, y: 450 }
+        view: { width: 400, height: 400, x: 136, y: 34 }
+      }
+    },
+    {
+      id: 'v-map',
+      packageJson: {
+        title: '地图',
+        name: 've-map',
+        icon: 'ios-map',
+        api_data: {
+          source: [
+            { x: '吉林', y: 178 },
+            { x: '北京', y: 23 },
+            { x: '上海', y: 122 },
+            { x: '徐州', y: 98 },
+            { x: '南京', y: 188 },
+            { x: '兰州', y: 31 },
+            { x: '乌鲁木齐', y: 122 },
+            { x: '马鞍山', y: 32 },
+            { x: '张家界', y: 55 },
+            { x: '三门峡', y: 100 }
+          ]
+        },
+        apis: {
+          position: 'china',
+          labelMap: {
+            'x': '位置',
+            'y': '人口',
+            's': '系列1'
+          }
+        },
+        config: {
+          title: {
+            content: '地图',
+            textAlign: 'left',
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 20
+            }
+          },
+          grid: { left: 20, top: 60, right: 20, bottom: 30 },
+          legend: {
+            show: true,
+            textStyle: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            itemGap: 12,
+            icon: '',
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
+          },
+          visualMap: {
+            show: false,
+            type: 'piecewise',
+            min: 0,
+            max: 200,
+            inRange: {
+              color: ['#50a3ba', '#eac736', '#d94e5d'],
+              symbolSize: [10, 16]
+            },
+            textStyle: {
+              color: '#fff',
+              fontSize: 12
+            }
+          },
+          xAxis: {
+            show: false,
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12,
+              rotate: 0
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            }
+          },
+          yAxis: {
+            show: false,
+            axisLabel: {
+              color: '#ffffff',
+              fontSize: 12
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: '#cccccc'
+              }
+            }
+          },
+          // 地图独有的
+          geo: {
+            map: 'china',
+            zoom: 1.2,
+            label: {
+              normal: {
+                show: false,
+                color: '#fff',
+                fontSize: 12
+              },
+              emphasis: {
+                show: false,
+                color: '#fff',
+                fontSize: 12
+              }
+            },
+            itemStyle: {
+              normal: {
+                areaColor: '#282c3c',
+                borderColor: '#1f9bff'
+              },
+              emphasis: {
+                areaColor: '#1d2131',
+                borderColor: '#1f9bff'
+              }
+            }
+          },
+          series: {
+            type: 'scatter', // scatter,effectScatter
+            coordinateSystem: 'geo',
+            symbolSize: 10,
+            aspectScale: 0.75,
+            hoverAnimation: true,
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke',
+              scale: 3
+            },
+            label: {
+              show: false,
+              formatter: '{b}',
+              color: '',
+              fontSize: 12,
+              position: 'inside' // 可选inside
+            },
+            itemStyle: {
+              emphasis: {
+                borderColor: '#fff',
+                borderWidth: 1
+              }
+            },
+            zlevel: 1
+          },
+          color: DEFAULT_COLORS
+        },
+        view: { width: 500, height: 500, x: 710, y: 34 }
       }
     },
     {
@@ -441,6 +619,7 @@ const database = {
         config: {
           title: {
             content: '雷达图',
+            textAlign: 'left',
             textStyle: {
               color: '#ffffff',
               fontSize: 20
@@ -455,7 +634,10 @@ const database = {
             },
             itemGap: 12,
             icon: '',
-            position: 'top-center'
+            left: 'center',
+            top: 'auto',
+            right: 'auto',
+            bottom: 'auto'
           },
           radar: { // 雷达图可选
             shape: 'circle', // polygon
@@ -514,7 +696,7 @@ const database = {
           },
           color: DEFAULT_COLORS
         },
-        view: { width: 400, height: 400, x: 700, y: 450 }
+        view: { width: 400, height: 400, x: 1364, y: 34 }
       }
     }
   ]

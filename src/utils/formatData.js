@@ -1,4 +1,6 @@
 // 处理图表数据源，换算为v-charts数据结构
+import { geoCoordMap } from './geoCoordMap'
+
 export function formatData (source) {
   const apiData = {
     columns: [],
@@ -31,4 +33,19 @@ export function formatData (source) {
   })
   apiData.rows = [...map.values()]
   return apiData
+}
+
+export function convertData (data) {
+  let res = []
+  for (let i = 0; i < data.length; i++) {
+    let geoCoord = geoCoordMap[data[i].name]
+    if (geoCoord) {
+      res.push({
+        name: data[i].name,
+        value: geoCoord.concat(data[i].value),
+        selected: false
+      })
+    }
+  }
+  return res
 }
