@@ -201,19 +201,19 @@
                   <gui-field label="中心坐标">
                     <gui-inline label="offsetX">
                       <b-input v-model="selfConfig.radar.center[0]" size="mini"
-                               placeholder="支持百分比或像素" @on-change="setBaseProperty"></b-input>
+                               placeholder="支持百分比或像素" @on-change="setSelfProperty"></b-input>
                     </gui-inline>
                     <gui-inline label="offsetY">
                       <b-input v-model="selfConfig.radar.center[1]" size="mini"
-                               placeholder="支持百分比或像素" @on-change="setBaseProperty"></b-input>
+                               placeholder="支持百分比或像素" @on-change="setSelfProperty"></b-input>
                     </gui-inline>
                   </gui-field>
                   <gui-field label="雷达图半径">
-                    <b-input v-model="selfConfig.radar.radius" size="mini" @on-change="setBaseProperty"></b-input>
+                    <b-input v-model="selfConfig.radar.radius" size="mini" @on-change="setSelfProperty"></b-input>
                   </gui-field>
                   <gui-field label="雷达图类型">
                     <el-select v-model="selfConfig.radar.shape" size="mini"
-                               @change="setBaseProperty" :value="selfConfig.radar.shape">
+                               @change="setSelfProperty" :value="selfConfig.radar.shape">
                       <el-option label="circle" value="circle"></el-option>
                       <el-option label="polygon" value="polygon"></el-option>
                     </el-select>
@@ -439,24 +439,24 @@
                       <gui-inline label="offsetX">
                         <b-input v-model="selfConfig.series.center[0]" size="mini"
                                  placeholder="默认50%"
-                                 @on-change="setBaseProperty"></b-input>
+                                 @on-change="setSelfProperty"></b-input>
                       </gui-inline>
                       <gui-inline label="offsetY">
                         <b-input v-model="selfConfig.series.center[1]" size="mini"
                                  placeholder="默认50%"
-                                 @on-change="setBaseProperty"></b-input>
+                                 @on-change="setSelfProperty"></b-input>
                       </gui-inline>
                     </gui-field>
                     <gui-field label="饼图半径">
                       <gui-inline label="内半径">
                         <b-input v-model="selfConfig.series.radius[0]" size="mini"
                                  placeholder="默认0"
-                                 @on-change="setBaseProperty"></b-input>
+                                 @on-change="setSelfProperty"></b-input>
                       </gui-inline>
                       <gui-inline label="外半径">
                         <b-input v-model="selfConfig.series.radius[1]" size="mini"
                                  placeholder="默认50%"
-                                 @on-change="setBaseProperty"></b-input>
+                                 @on-change="setSelfProperty"></b-input>
                       </gui-inline>
                     </gui-field>
                   </template>
