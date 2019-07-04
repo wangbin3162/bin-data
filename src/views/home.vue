@@ -27,12 +27,15 @@
     },
     methods: {
       openAdmin () {
-        let url = `${this.$base}/admin/${this.userId}`
-        this.$util.open(url)
+        // let url = `${this.$base}/admin/${this.userId}`
+        // this.$util.open(url)
+        this.$router.push({ name: 'admin', params: { id: this.userId } })
       },
       openScreen () {
-        let url = `${this.$base}/screen/${this.userId}`
-        this.$util.open(url)
+        // let url = `${this.$base}/screen/${this.userId}`
+        // this.$util.open(url)
+
+        this.$router.push({ name: 'screen', params: { id: this.userId } })
       },
       resetLocalData () {
         initLocalData().then(res => {

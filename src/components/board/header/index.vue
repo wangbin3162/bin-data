@@ -38,8 +38,10 @@
     },
     methods: {
       openScreen () {
-        let url = `${this.$base}/screen/${this.$route.params.id}`
-        this.$util.open(url)
+        // let url = `${this.$base}/screen/${this.$route.params.id}`
+        // this.$util.open(url)
+
+        this.$router.push({ name: 'screen', params: { id: this.userId } })
       }
     }
   }
