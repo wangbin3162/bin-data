@@ -27,11 +27,11 @@
     },
     methods: {
       openAdmin () {
-        let url = `http://${window.location.host}/admin/${this.userId}`
+        let url = `${this.$base}/admin/${this.userId}`
         this.$util.open(url)
       },
       openScreen () {
-        let url = `http://${window.location.host}/screen/${this.userId}`
+        let url = `${this.$base}/screen/${this.userId}`
         this.$util.open(url)
       },
       resetLocalData () {

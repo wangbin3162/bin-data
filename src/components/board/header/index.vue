@@ -38,8 +38,7 @@
     },
     methods: {
       openScreen () {
-        let url = `http://${window.location.host}/screen/${this.$route.params.id}`
-        this.$message(url)
+        let url = `${this.$base}/screen/${this.$route.params.id}`
         this.$util.open(url)
       }
     }
