@@ -1,9 +1,3 @@
-# bin-data
-
-[文档](https://wangbin3162.github.io/docs/bin-data/)
-
-[预览](https://wangbin3162.github.io/preview/bin-data/)
-
 # 入门
 
 本项目是基于 Vue2.6，配合使用 [bin-ui](https://github.com/wangbin3162/bin-ui/) 作为组件库来进行搭建,
