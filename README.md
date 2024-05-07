@@ -1,6 +1,6 @@
 # bin-data
 
-[预览](https://wangbin3162.gitee.io/bin-data/)
+[预览](https://wangbin3162.github.io/bin-data/)
 
 # 入门
 
